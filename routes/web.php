@@ -6,6 +6,7 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\QuoteController;
 
 use App\Http\Controllers\LandMeasurementController;
+use App\Http\Controllers\PaymentController;
 
 Route::post('/land-area', [LandMeasurementController::class, 'getLandArea']);
 
@@ -19,6 +20,8 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
 Route::post('/calculate-cost', [QuoteController::class, 'calculateCost'])->name('calculate-cost');
+Route::post('/checkout/pay', [PaymentController::class, 'pay']);
+Route::post('/api/payments/tilopay/webhook', [PaymentController::class, 'webhook']);
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

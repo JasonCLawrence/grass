@@ -612,6 +612,14 @@
       </div>
      </div>
     </section> -->
+<form action="/checkout/pay" method="POST">
+    @csrf
+    <input type="text" name="first_name" placeholder="First name">
+    <input type="text" name="last_name" placeholder="Last name">
+    <input type="email" name="email" placeholder="Email">
+    <input type="number" step="0.01" name="amount" placeholder="Amount (JMD)">
+    <button type="submit">Pay Now</button>
+</form>
 
             <div class="map-above" style="min-height: 600px;">
 
@@ -755,6 +763,7 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        
                                     </form>
 
                                     <!-- Load Google Maps API -->
