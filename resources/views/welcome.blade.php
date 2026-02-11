@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Demo Grass Roots | Porto - Multipurpose Website Template</title>
+    <title>Grass Roots |</title>
 
     <meta name="keywords" content="WebSite Template" />
     <meta name="description" content="Porto - Multipurpose Website Template">
@@ -111,17 +111,24 @@
                Blog
               </a>
              </li> -->
-                                                <li>
-                                                    <a class="nav-link" href="#googlemaps" data-hash>
-                                                        Contact Us
-                                                    </a>
-                                                </li>
+                                                @if (Route::has('login'))
+                                                    <li>
+                                                        <a class="nav-link" href="#googlemaps" data-hash>
+                                                            Book Now
+                                                        </a>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <a class="nav-link" href="#googlemaps" data-hash>
+                                                            Contact Us
+                                                        </a>
+                                                    </li>
+                                                @endif
                                                 @if (Route::has('login'))
 
                                                     @auth
                                                         <li>
-                                                            <a href="{{ url('/dashboard') }}"
-                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                            <a href="{{ url('/dashboard') }}" class="nav-link">
                                                                 Dashboard
                                                             </a>
                                                         </li>
@@ -247,7 +254,7 @@
                                 </div>
                             </div>
 
-                            <!-- Carousel Slide 2 -->
+                            {{-- <!-- Carousel Slide 2 -->
                             <div class="owl-item position-relative"
                                 style="background-image: url(img/demos/one-page-agency/slides/slide-2.jpg); background-size: cover; background-position: center;">
                                 <div class="container position-relative z-index-3 h-100">
@@ -282,7 +289,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                         </div>
                     </div>
@@ -331,13 +338,13 @@
                         </div>
                         <div class="col-5 col-sm-7 col-md-12 col-lg-6 text-center">
                             <div class="position-relative d-inline-flex">
-                                <img src="img/demos/one-page-agency/generic/generic-2-small.jpg"
+                                <img src="img/gallery/Capture.PNG"
                                     class="img-fluid rounded-circle box-shadow-5 position-absolute top-50pct transform3dy-n50 z-index-3"
                                     alt="" style="right: 75%;" />
-                                <img src="img/demos/one-page-agency/generic/generic-3-small.jpg"
+                                <img src="img/gallery/lawn-treatments-square-1024x1024.jpg"
                                     class="img-fluid rounded-circle box-shadow-5 z-index-2" width="260"
                                     alt="" />
-                                <img src="img/demos/one-page-agency/generic/generic-1-small.jpg"
+                                <img src="img/gallery/Capture1.PNG"
                                     class="img-fluid rounded-circle box-shadow-5 position-absolute top-50pct transform3dy-n50 z-index-1"
                                     alt="" style="left: 75%;" />
                             </div>
@@ -475,11 +482,11 @@
                             <div class="position-relative">
                                 <div class="position-absolute top-50pct transform3dy-n50 z-index-1"
                                     style="right: 80%;">
-                                    <img src="img/demos/one-page-agency/mobile-ss.jpg"
+                                    <img src="/img/gallery/Capture1.PNG"
                                         class="box-shadow-5 appear-animation" data-appear-animation="fadeInUpShorter"
                                         data-appear-animation-delay="300" alt="" />
                                 </div>
-                                <img src="img/demos/one-page-agency/desktop-ss.jpg"
+                                <img src="img/gallery/wefjpewfjowf0392.jpg"
                                     class="img-fluid box-shadow-5 appear-animation"
                                     data-appear-animation="fadeInUpShorter" alt="" />
                             </div>
@@ -612,14 +619,6 @@
       </div>
      </div>
     </section> -->
-<form action="/checkout/pay" method="POST">
-    @csrf
-    <input type="text" name="first_name" placeholder="First name">
-    <input type="text" name="last_name" placeholder="Last name">
-    <input type="email" name="email" placeholder="Email">
-    <input type="number" step="0.01" name="amount" placeholder="Amount (JMD)">
-    <button type="submit">Pay Now</button>
-</form>
 
             <div class="map-above" style="min-height: 600px;">
 
@@ -632,7 +631,7 @@
                         <div class="row">
                             <div class="col-md-8 col-lg-6">
                                 <div class="bg-dark p-5">
-                                    <div class="d-flex mt-4 mb-4">
+                                    {{-- <div class="d-flex mt-4 mb-4">
                                         <img width="40" height="40"
                                             src="img/demos/one-page-agency/icons/location.svg" alt=""
                                             data-icon
@@ -651,9 +650,9 @@
                                         <a href="tel:1234657890"
                                             class="d-inline-block text-color-light font-weight-bold text-decoration-none text-4 opacity-hover-9 ms-2">(876)
                                             419-8266</a>
-                                    </div>
+                                    </div> --}}
                                     <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
-                                        action="{{ route('calculate-cost') }}" method="POST" id="service-form">
+                                        action="{{ route('stripe-checkout') }}" method="POST" id="service-form">
                                         @csrf
                                         <div class="contact-form-success alert alert-success d-none mt-4">
                                             <strong>Success!</strong> Your quote has been calculated.
@@ -668,13 +667,13 @@
                                         <div class="row">
                                             <div class="form-group col">
                                                 <label for="total-cost">Customer Name:</label>
-                                                <input type="text" class="form-control" id="customer-name"
-                                                    name="customer-name">
+                                                <input type="text" class="form-control" id="customer_name"
+                                                    name="customer_name">
                                             </div>
                                             <div class="form-group col">
                                                 <label for="total-cost">Customer Email:</label>
-                                                <input type="email" class="form-control" id="customer-email"
-                                                    name="customer-email">
+                                                <input type="email" class="form-control" id="customer_email"
+                                                    name="customer_email">
                                             </div>
                                         </div>
 
@@ -690,12 +689,12 @@
                                                 <label for="services">Select Services:</label>
                                                 <select style="height: 100%" name="services[]" id="services"
                                                     class="form-control" multiple required>
-                                                    <option class="optionspd" value="cutting-line-trimmers">🌱 Lawn
-                                                        Cutting with Line Trimmers</option>
-                                                    <option class="optionspd" value="cutting-bagging">🌱 Cutting and
-                                                        Bagging</option>
-                                                    <option class="optionspd" value="cutting-bagging-disposal">🌱
-                                                        Cutting, Bagging, and Disposal</option>
+                                                    <option disabled class="optionspd" value="cutting-line-trimmers">🌱 Lawn
+                                                        Cutting with Line Trimmers <strong>(Coming Soon)</strong></option>
+                                                    <option disabled class="optionspd" value="cutting-bagging">🌱 Cutting and
+                                                        Bagging <strong>(Coming Soon)</strong></option>
+                                                    <option disabled class="optionspd" value="cutting-bagging-disposal">🌱
+                                                        Cutting, Bagging, and Disposal <strong>(Coming Soon)</strong></option>
                                                     <option class="optionspd" value="bagging-disposal">🌱 Bagging and
                                                         Disposal of Grass Cuttings</option>
                                                 </select>
@@ -715,14 +714,6 @@
 
                                         <!-- Calculated Total Cost -->
                                         <br>
-                                        <div class="row">
-                                            <div class="form-group col">
-                                                <label for="total-cost">Estimated Cost:</label>
-                                                <input type="text" class="form-control" id="total-cost"
-                                                    name="total_cost" readonly>
-                                            </div>
-                                        </div>
-
                                         <div class="row mt-3">
                                             <div class="col">
                                                 <label class="form-label d-block">Service Type:</label>
@@ -745,13 +736,24 @@
                                             </div>
                                         </div>
 
+                                        <div class="row">
 
-										<div class="row mt-3">
-											<div class="form-group col">
-												<label for="job_date">Preferred Job Date:</label>
-												<input type="date" class="form-control" id="job_date" name="job_date" placeholder="Select a date">
-											</div>
-										</div>
+                                        </div>
+
+
+
+                                        <div class="row mt-3">
+                                            <div class="form-group col">
+                                                <label for="total-cost">Estimated Cost:</label>
+                                                <input type="text" class="form-control" id="total-cost"
+                                                    name="total_cost" readonly>
+                                            </div>
+                                            <div class="form-group col">
+                                                <label for="job_date">Preferred Job Date:</label>
+                                                <input type="date" class="form-control" id="job_date"
+                                                    name="job_date" placeholder="Select a date">
+                                            </div>
+                                        </div>
 
 
                                         <div class="row">
@@ -759,11 +761,11 @@
                                                 <button type="submit"
                                                     class="btn btn-gradient custom-border-radius-1 font-weight-semibold box-shadow-4 text-3-5 btn-px-5 btn-py-3"
                                                     data-loading-text="Loading...">
-                                                    <span class="px-3">GET ESTIMATE</span>
+                                                    <span class="px-3">BOOK NOW</span>
                                                 </button>
                                             </div>
                                         </div>
-                                        
+
                                     </form>
 
                                     <!-- Load Google Maps API -->
@@ -897,11 +899,6 @@
         }
 
         // Trigger form submit
-        document.getElementById('service-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Here you can send the data to the server for processing
-            alert('Estimate sent!');
-        });
     </script>
     <!-- Vendor -->
     <script src="vendor/plugins/js/plugins.min.js"></script>
@@ -924,11 +921,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-    			Map Markers:
-    			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-    			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-    			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-    			*/
+            			Map Markers:
+            			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+            			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+            			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+            			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1029,26 +1026,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                            <a
-                                href="{{ url('/dashboard') }}"
-                                class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                            >
-                                Dashboard
-                            </a>
+                                    <a
+                                        href="{{ url('/dashboard') }}"
+                                        class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                    >
+                                        Dashboard
+                                    </a>
 @else
     <a
-                                href="{{ route('login') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                            >
-                                Log in
-                            </a>
+                                        href="{{ route('login') }}"
+                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                    >
+                                        Log in
+                                    </a>
 
-                            @if (Route::has('register'))
+                                    @if (Route::has('register'))
     <a
-                                    href="{{ route('register') }}"
-                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                    Register
-                                </a>
+                                            href="{{ route('register') }}"
+                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                            Register
+                                        </a>
     @endif
                     @endauth
                 </nav>

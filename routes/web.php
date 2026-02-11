@@ -7,8 +7,17 @@ use App\Http\Controllers\QuoteController;
 
 use App\Http\Controllers\LandMeasurementController;
 use App\Http\Controllers\PaymentController;
+use Laravel\Cashier\Http\Controllers\WebhookController;
+
+
+Route::middleware('auth')->group(function () {
+    Route::any('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('stripe-checkout');
+    Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/cancel/{booking}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+});
 
 Route::post('/land-area', [LandMeasurementController::class, 'getLandArea']);
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
 
 Route::get('/', function () {
