@@ -7,6 +7,7 @@ use App\Http\Controllers\QuoteController;
 
 use App\Http\Controllers\LandMeasurementController;
 use App\Http\Controllers\PaymentController;
+use App\Models\Booking;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 
 
@@ -24,9 +25,16 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route::view('dashboard', 'dashboard')
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');
+
+    
+Route::get('dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('dashboard');
+
+
 
 Route::post('/calculate-cost', [QuoteController::class, 'calculateCost'])->name('calculate-cost');
 Route::post('/checkout/pay', [PaymentController::class, 'pay']);

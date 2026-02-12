@@ -10,7 +10,7 @@ use App\Models\Booking;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentSuccessMail;
 use App\Mail\PaymentCancelledMail;
-
+use Illuminate\Validation\Rule;
 
 class PaymentController extends Controller
 {
@@ -19,6 +19,19 @@ class PaymentController extends Controller
 
     public function oneTimeCheckout(Request $request)
     {
+
+      $validated = $request->validate([
+        'customer_name'   => ['required', 'string', 'max:255'],
+        'customer_email'  => ['required', 'email', 'max:255'],
+        'services'        => ['required', 'array', 'min:1'],
+        'services.*'      => ['in:bagging-disposal'], // only enabled service
+        'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
+        'job_date'        => ['required', 'date', 'after_or_equal:today'],
+    ], [
+        'services.required' => 'Please select at least one service.',
+        'job_date.after_or_equal' => 'Job date must be today or a future date.',
+    ]);
+
         $user = $request->user();
         // $user = [];
 
@@ -61,17 +74,19 @@ class PaymentController extends Controller
             $priceId => 1
             ],
             [
-                'success_url' => route('payment.success', ['booking' => $booking->id]),
-                'cancel_url'  => route('payment.cancel', ['booking' => $booking->id]),
+                'success_url' => route('payment.success', ['booking' => $booking->id,]),
+                'cancel_url'  => route('payment.cancel', ['booking' => $booking->id,]),
             ]
         );
     }
     public function paymentSuccess(Booking $booking)
     {
+
+    // return $booking
         if($booking->payment_status == 'paid'){
-            return redirect('/');
+            // return redirect('/');
         }
-        Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking));
+        // Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking));
 
         $booking->update([
             'payment_status' => 'paid',
