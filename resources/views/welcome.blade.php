@@ -621,8 +621,9 @@
             <div class="map-above" style="min-height: 600px;">
 
                 <!-- Google Maps - Go to the bottom of the page to change settings and map location. -->
-                <div id="googlemaps" class="map-above-map google-map m-0" style="min-height: 600px;"
-                    data-spy-offset="20"></div>
+                <iframe  id="googlemaps" class="map-above-map google-map m-0" src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d7590.834480210372!2d-76.9357434114028!3d17.959314882114576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sphoenixx%20park%20village%201!5e0!3m2!1sen!2sus!4v1771029700183!5m2!1sen!2sus" width="100%" min-height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                {{-- <div id="googlemaps" class="map-above-map google-map m-0" style="min-height: 600px;"
+                    data-spy-offset="20"></div> --}}
 
                 <section class="map-above-content section border-0 m-0 p-0">
                     <div class="container pt-3 pt-sm-5 pt-md-0">
@@ -802,9 +803,9 @@
 
                                     </form>
 
-                                    <!-- Load Google Maps API -->
+                                    {{-- <!-- Load Google Maps API -->
                                     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"
-                                        async defer></script>
+                                        async defer></script> --}}
 
                                 </div>
                             </div>
