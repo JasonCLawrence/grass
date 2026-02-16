@@ -127,7 +127,7 @@
                                                 @if (Route::has('login'))
                                                     @auth
                                                         <li>
-                                                            <a href="{{ url('/dashboard') }}" class="nav-link">
+                                                            <a href="{{ url('#contact-form') }}" class="nav-link">
                                                                 Dashboard
                                                             </a>
                                                         </li>
@@ -161,8 +161,7 @@
                                         src="img/demos/one-page-agency/icons/phone.svg" alt="" data-icon
                                         data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-light me-1'}" />
                                     <a href="tel:1234567890"
-                                        class="text-color-light font-weight-semibold opacity-hover-9 text-decoration-none">(800)
-                                        123-4567</a>
+                                        class="text-color-light font-weight-semibold opacity-hover-9 text-decoration-none">(876)419-8266</a>
                                 </div>
                                 <button class="btn header-btn-collapse-nav btn-gradient" data-bs-toggle="collapse"
                                     data-bs-target=".header-nav-main nav">
@@ -625,7 +624,7 @@
                 {{-- <div id="googlemaps" class="map-above-map google-map m-0" style="min-height: 600px;"
                     data-spy-offset="20"></div> --}}
 
-                <section class="map-above-content section border-0 m-0 p-0">
+                <section  id="contact-form" class="map-above-content section border-0 m-0 p-0">
                     <div class="container pt-3 pt-sm-5 pt-md-0">
                         <div class="row">
                             <div class="col-md-8 col-lg-6">

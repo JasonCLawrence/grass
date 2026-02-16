@@ -8,6 +8,7 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\LandMeasurementController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Booking;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 
 
@@ -31,6 +32,14 @@ Route::get('/', function () {
 
     
 Route::get('dashboard', function () {
+
+// Short Term Permission Fix
+// only admin has access to dashboard
+$user = Auth::getUser();
+if(!$user->email == 'test@gmail.com'){;
+    // return view('welcome');
+     return redirect('/#contact-form');
+}
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
