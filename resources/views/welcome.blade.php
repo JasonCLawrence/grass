@@ -28,22 +28,7 @@
     <meta name="twitter:description" content="Professional grass cutting and yard maintenance services in Jamaica.">
     <meta name="twitter:image" content="https://grassrootsjm.com/images/social-preview.jpg">
     <link rel="canonical" href="https://grassrootsjm.com">
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Grass Roots Limited",
-  "image": "https://grassrootsjm.com/images/logo.png",
-  "url": "https://grassrootsjm.com",
-  "telephone": "+1-876-XXX-XXXX",
-  "address": {
-    "@type": "PostalAddress",
-    "addressCountry": "JM"
-  },
-  "areaServed": "Jamaica",
-  "description": "Professional lawn cutting, grass trimming, yard clean-up, and scheduled monthly lawn maintenance services in Jamaica."
-}
-</script>
+
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="geo.region" content="JM-KIN">
     <meta name="geo.placename" content="Kingston">
@@ -1024,7 +1009,22 @@
 
     <!-- Theme Initialization Files -->
     <script src="js/theme.init.js"></script>
-
+    {{-- <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Grass Roots Limited",
+  "image": "https://grassrootsjm.com/images/logo.png",
+  "url": "https://grassrootsjm.com",
+  "telephone": "+1-876-XXX-XXXX",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "JM"
+  },
+  "areaServed": "Jamaica",
+  "description": "Professional lawn cutting, grass trimming, yard clean-up, and scheduled monthly lawn maintenance services in Jamaica."
+}
+</script> --}}
     <!-- Google Maps -->
     <script>
         /* 
