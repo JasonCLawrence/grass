@@ -22,11 +22,11 @@
         content="Reliable lawn cutting, yard maintenance, and scheduled monthly lawn care services across Jamaica.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://grassrootsjm.com">
-    <meta property="og:image" content="https://grassrootsjm.com/images/social-preview.jpg">
+    <meta property="og:image" content="images/social-preview.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Grass Roots Limited | Lawn Care in Jamaica">
     <meta name="twitter:description" content="Professional grass cutting and yard maintenance services in Jamaica.">
-    <meta name="twitter:image" content="https://grassrootsjm.com/images/social-preview.jpg">
+    <meta name="twitter:image" content="images/social-preview.jpg">
     <link rel="canonical" href="https://grassrootsjm.com">
 
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
@@ -45,28 +45,28 @@
         rel="stylesheet" type="text/css">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="vendor/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="vendor/animate/animate.compat.css">
-    <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.min.css">
-    <link rel="stylesheet" href="vendor/owl.carousel/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="vendor/owl.carousel/assets/owl.theme.default.min.css">
-    <link rel="stylesheet" href="vendor/magnific-popup/magnific-popup.min.css">
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/animate/animate.compat.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/simple-line-icons/css/simple-line-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/owl.carousel/assets/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/owl.carousel/assets/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/magnific-popup/magnific-popup.min.css') }}">
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/theme-elements.css">
-    <link rel="stylesheet" href="css/theme-blog.css">
-    <link rel="stylesheet" href="css/theme-shop.css">
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/theme-elements.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/theme-blog.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/theme-shop.css') }}">
 
     <!-- Demo CSS -->
-    <link rel="stylesheet" href="css/demos/demo-one-page-agency.css">
+    <link rel="stylesheet" href="{{ asset('css/demos/demo-one-page-agency.css') }}">
 
     <!-- Skin CSS -->
-    <link id="skinCSS" rel="stylesheet" href="css/skins/skin-one-page-agency.css">
+    <link id="skinCSS" rel="stylesheet" href="{{ asset('css/skins/skin-one-page-agency.css') }}">
 
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
 </head>
 
@@ -1028,11 +1028,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                                                    			Map Markers:
-                                                                    			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                                                    			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                                                    			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                                                    			*/
+                                                                        			Map Markers:
+                                                                        			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                                        			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                                        			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                                        			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1133,26 +1133,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                            <a
-                                                                                                href="{{ url('/dashboard') }}"
-                                                                                                class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                            >
-                                                                                                Dashboard
-                                                                                            </a>
+                                                                                                <a
+                                                                                                    href="{{ url('/dashboard') }}"
+                                                                                                    class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                >
+                                                                                                    Dashboard
+                                                                                                </a>
 @else
     <a
-                                                                                                href="{{ route('login') }}"
-                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                            >
-                                                                                                Log in
-                                                                                            </a>
-
-                                                                                            @if (Route::has('register'))
-    <a
-                                                                                                    href="{{ route('register') }}"
-                                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                    Register
+                                                                                                    href="{{ route('login') }}"
+                                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                >
+                                                                                                    Log in
                                                                                                 </a>
+
+                                                                                                @if (Route::has('register'))
+    <a
+                                                                                                        href="{{ route('register') }}"
+                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                        Register
+                                                                                                    </a>
     @endif
                     @endauth
                 </nav>
