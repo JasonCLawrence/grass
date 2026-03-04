@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HouseController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
@@ -11,7 +12,37 @@ use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 
+use App\Models\House;
 
+Route::get('/api/houses', function () {
+    return [
+        'type' => 'FeatureCollection',
+        'features' => House::all()->map(function ($house) {
+            return [
+                'type' => 'Feature',
+                'geometry' => $house->geometry,
+                'properties' => [
+                    'id' => $house->id,
+                    'house_number' => $house->house_number,
+                    'status' => $house->status
+                ]
+            ];
+        })
+    ];
+});
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/houses', [HouseController::class, 'index']);
+    Route::post('/admin/houses/upload', [HouseController::class, 'uploadGeoJson']);
+});
+
+
+Route::get('/select-house', function () {
+    return view('select-house');
+});
+
+Route::post('/save-house-selection', [HouseController::class, 'store']);
 Route::middleware('auth')->group(function () {
     Route::any('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('stripe-checkout');
     Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');

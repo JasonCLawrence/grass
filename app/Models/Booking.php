@@ -22,5 +22,7 @@ class Booking extends Model
     protected $casts = [
         'job_date' => 'datetime',
         'paid_at'  => 'datetime',
+        'property_images' => 'array',
+        'total_cost' => 'decimal:2',
     ];
 }

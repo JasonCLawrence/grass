@@ -1,0 +1,15 @@
+{
+    "agents": [
+        "codex"
+    ],
+    "packages": [
+        "laravel/fortify"
+    ],
+    "skills": [
+        "fluxui-development",
+        "volt-development",
+        "tailwindcss-development",
+        "developing-with-fortify",
+        "laravel-specialist"
+    ]
+}

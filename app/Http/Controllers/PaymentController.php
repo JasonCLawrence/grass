@@ -20,28 +20,38 @@ class PaymentController extends Controller
     public function oneTimeCheckout(Request $request)
     {
 
-      $validated = $request->validate([
-        'customer_name'   => ['required', 'string', 'max:255'],
-        'customer_email'  => ['required', 'email', 'max:255'],
-        'services'        => ['required', 'array', 'min:1'],
-        'services.*'      => ['in:bagging-disposal'], // only enabled service
-        'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
-        'job_date'        => ['required', 'date', 'after_or_equal:today'],
-    ], [
-        'services.required' => 'Please select at least one service.',
-        'job_date.after_or_equal' => 'Job date must be today or a future date.',
-    ]);
+
+        // return $request;
+        $validated = $request->validate([
+            'customer_name'   => ['required', 'string', 'max:255'],
+            'customer_email'  => ['required', 'email', 'max:255'],
+            'services'        => ['required', 'array', 'min:1'],
+            'services.*'      => ['in:bagging-disposal'], // only enabled service
+            'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
+            'job_date'        => ['required', 'date', 'after_or_equal:today'],
+        ], [
+            'total_cost' => 'required|numeric|min:0',
+            'services.required' => 'Please select at least one service.',
+            'job_date.after_or_equal' => 'Job date must be today or a future date.',
+            // Images
+            'property_images'     => 'nullable|array|max:10',
+            'property_images.*'   => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
 
         $user = $request->user();
         // $user = [];
 
         // return $request;
 
+
+
         $customer_name  = $request->customer_name;
         $customer_email = $request->customer_email;
         $service        = $request->services[0];
         $frequency      = $request->service_type;
         $job_date       = $request->job_date;
+        $total_cost     = str_replace("$", '', $request->total_cost);
+
 
         $servicePricing = config('stripe_services');
 
@@ -56,6 +66,14 @@ class PaymentController extends Controller
 
         // return $priceId;
 
+        $imagePaths = [];
+
+        if ($request->hasFile('property_images')) {
+            foreach ($request->file('property_images') as $image) {
+                $path = $image->store('property-images', 'public');
+                $imagePaths[] = $path;
+            }
+        }
         // Create booking (PENDING)
         $booking = Booking::create([
             'user_id'          => optional($user)->id,
@@ -66,12 +84,15 @@ class PaymentController extends Controller
             'job_date'         => $job_date,
             'stripe_price_id'  => $priceId,
             'payment_status'   => 'pending',
+            'total_cost'      => $total_cost,
+            'property_images' => $imagePaths,
         ]);
 
-    
 
-        return $user->checkout([
-            $priceId => 1
+
+        return $user->checkout(
+            [
+                $priceId => 1
             ],
             [
                 'success_url' => route('payment.success', ['booking' => $booking->id,]),
@@ -82,8 +103,8 @@ class PaymentController extends Controller
     public function paymentSuccess(Booking $booking)
     {
 
-    // return $booking
-        if($booking->payment_status == 'paid'){
+        // return $booking
+        if ($booking->payment_status == 'paid') {
             // return redirect('/');
         }
         // Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking));

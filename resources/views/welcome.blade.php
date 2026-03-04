@@ -7,11 +7,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Grass Roots |</title>
+    <title>Grass Roots Limited | Professional Lawn Care & Yard Maintenance in Jamaica</title>
 
-    <meta name="keywords" content="WebSite Template" />
-    <meta name="description" content="Porto - Multipurpose Website Template">
-    <meta name="author" content="okler.net">
+    <meta name="keywords"
+        content="lawn care Jamaica, grass cutting services Jamaica, yard maintenance Jamaica, lawn mowing Kingston, landscaping Jamaica, monthly lawn service Jamaica, grass trimming, yard clean up, residential lawn care, commercial lawn care Jamaica">
+
+    <meta name="description"
+        content="Grass Roots Limited provides reliable lawn cutting, yard maintenance, grass trimming, and scheduled monthly lawn care services across Jamaica. Affordable, professional, and hassle-free recurring service for homes and businesses.">
+
+    <meta name="author" content="Grass Roots Limited">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
@@ -620,11 +624,14 @@
             <div class="map-above" style="min-height: 600px;">
 
                 <!-- Google Maps - Go to the bottom of the page to change settings and map location. -->
-                <iframe  id="googlemaps" class="map-above-map google-map m-0" src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d7590.834480210372!2d-76.9357434114028!3d17.959314882114576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sphoenixx%20park%20village%201!5e0!3m2!1sen!2sus!4v1771029700183!5m2!1sen!2sus" width="100%" min-height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe id="googlemaps" class="map-above-map google-map m-0"
+                    src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d7590.834480210372!2d-76.9357434114028!3d17.959314882114576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sphoenixx%20park%20village%201!5e0!3m2!1sen!2sus!4v1771029700183!5m2!1sen!2sus"
+                    width="100%" min-height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
                 {{-- <div id="googlemaps" class="map-above-map google-map m-0" style="min-height: 600px;"
                     data-spy-offset="20"></div> --}}
 
-                <section  id="contact-form" class="map-above-content section border-0 m-0 p-0">
+                <section id="contact-form" class="map-above-content section border-0 m-0 p-0">
                     <div class="container pt-3 pt-sm-5 pt-md-0">
                         <div class="row">
                             <div class="col-md-8 col-lg-6">
@@ -650,7 +657,9 @@
                                             419-8266</a>
                                     </div> --}}
                                     <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
-                                        action="{{ route('stripe-checkout') }}" method="POST" id="service-form">
+                                        action="{{ route('stripe-checkout') }}" method="POST" id="service-form"
+                                        enctype="multipart/form-data">
+
                                         @csrf
                                         @if ($errors->any())
                                             <div class="alert alert-danger mt-3">
@@ -709,7 +718,7 @@
                                         </style>
                                         <div class="row">
                                             <div class="form-group col">
-                                                <label for="services">Select Services:</label>
+                                                <label for="services">Select a Service</label>
                                                 <select name="services[]" id="services"
                                                     class="form-control @error('services') is-invalid @enderror"
                                                     multiple required>
@@ -767,6 +776,39 @@
                                         <div class="row">
 
                                         </div>
+                                        <style>
+                                            .form-control:not(.form-control-sm):not(.form-control-lg) {
+                                                /* font-size: 13.6px; */
+                                                /* font-size: 0.85rem; */
+                                                line-height: 3.85 !important;
+                                            }
+                                        </style>
+                                        <!-- Property Images -->
+                                        <br>
+                                        <div class="row">
+                                            <div class="form-group col">
+                                                <label for="property_images">
+                                                    Upload Property Images <small class="text-muted">(Multiple
+                                                        allowed)</small>
+                                                </label>
+
+                                                <input type="file" name="property_images[]" id="property_images"
+                                                    class="form-control @error('property_images.*') is-invalid @enderror"
+                                                    accept="image/*" multiple>
+
+                                                @error('property_images')
+                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                @enderror
+
+                                                @error('property_images.*')
+                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                @enderror
+
+                                                <small class="text-muted">
+                                                    JPG, PNG, WEBP. Max 2MB per image.
+                                                </small>
+                                            </div>
+                                        </div>
 
 
 
@@ -780,7 +822,8 @@
                                                 <label for="job_date">Preferred Job Date:</label>
                                                 <input type="date"
                                                     class="form-control @error('job_date') is-invalid @enderror"
-                                                    id="job_date" name="job_date" min="{{ date('Y-m-d') }}" value="{{ old('job_date') }}">
+                                                    id="job_date" name="job_date" min="{{ date('Y-m-d') }}"
+                                                    value="{{ old('job_date') }}">
 
                                                 @error('job_date')
                                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -955,11 +998,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                        			Map Markers:
-                                        			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                        			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                        			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                        			*/
+                                                        			Map Markers:
+                                                        			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                        			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                        			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                        			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1060,26 +1103,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                <a
-                                                                    href="{{ url('/dashboard') }}"
-                                                                    class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                >
-                                                                    Dashboard
-                                                                </a>
+                                                                                <a
+                                                                                    href="{{ url('/dashboard') }}"
+                                                                                    class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                >
+                                                                                    Dashboard
+                                                                                </a>
 @else
     <a
-                                                                    href="{{ route('login') }}"
-                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                >
-                                                                    Log in
-                                                                </a>
+                                                                                    href="{{ route('login') }}"
+                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                >
+                                                                                    Log in
+                                                                                </a>
 
-                                                                @if (Route::has('register'))
+                                                                                @if (Route::has('register'))
     <a
-                                                                        href="{{ route('register') }}"
-                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                        Register
-                                                                    </a>
+                                                                                        href="{{ route('register') }}"
+                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                        Register
+                                                                                    </a>
     @endif
                     @endauth
                 </nav>
