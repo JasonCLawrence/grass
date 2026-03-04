@@ -45,28 +45,28 @@
         rel="stylesheet" type="text/css">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="css/animate/animate.compat.css">
-    <link rel="stylesheet" href="css/simple-line-icons/css/simple-line-icons.min.css">
-    <link rel="stylesheet" href="css/owl.carousel/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.carousel/assets/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/magnific-popup/magnific-popup.min.css">
+    <link rel="stylesheet" href="/css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/animate/animate.compat.css">
+    <link rel="stylesheet" href="/css/simple-line-icons/css/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup/magnific-popup.min.css">
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/theme-elements.css">
-    <link rel="stylesheet" href="css/theme-blog.css">
-    <link rel="stylesheet" href="css/theme-shop.css">
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/theme-elements.css">
+    <link rel="stylesheet" href="/css/theme-blog.css">
+    <link rel="stylesheet" href="/css/theme-shop.css">
 
     <!-- Demo CSS -->
-    <link rel="stylesheet" href="css/demos/demo-one-page-agency.css">
+    <link rel="stylesheet" href="/css/demos/demo-one-page-agency.css">
 
     <!-- Skin CSS -->
     <link id="skinCSS" rel="stylesheet" href="css/skins/skin-one-page-agency.css">
 
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="/css/custom.css">
 
 </head>
 
