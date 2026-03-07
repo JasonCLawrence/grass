@@ -367,8 +367,8 @@
                     </div>
                 </div>
             </section>
-
-            {{-- <section class="section section-height-3 bg-gradient border-0 m-0 appear-animation"
+{{-- 
+            <section class="section section-height-3 bg-gradient border-0 m-0 appear-animation"
                 data-appear-animation="fadeIn">
                 <div class="container py-3">
                     <div class="row counters text-center">
@@ -428,7 +428,7 @@
                 </div>
             </section> --}}
 
-            {{-- <section id="what-we-do" class="section bg-transparent overflow-hidden border-0 m-0 pb-0">
+             <section id="what-we-do" class="section bg-transparent overflow-hidden border-0 m-0 pb-0">
                 <div class="container pt-5 mt-2">
                     <div class="row justify-content-center">
                         <div class="col-lg-7 col-xl-5 pe-lg-5 pe-xl-0 pb-lg-5 mb-5 mb-xl-0">
@@ -509,6 +509,7 @@
                     </div>
                 </div>
             </section>
+            {{--
 
             <section class="section border-0 m-0">
                 <div class="container py-3">
