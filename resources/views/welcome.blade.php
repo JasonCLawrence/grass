@@ -7,8 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Grass Roots Limited | Professional Lawn Care & Yard Maintenance in Jamaica</title>
-
+    <title>{{ $title ?? config('app.name') }}</title>
     <meta name="keywords"
         content="lawn care Jamaica, grass cutting services Jamaica, yard maintenance Jamaica, lawn mowing Kingston, landscaping Jamaica, monthly lawn service Jamaica, grass trimming, yard clean up, residential lawn care, commercial lawn care Jamaica">
 
@@ -82,7 +81,7 @@
                             <div class="header-row">
                                 <div class="header-logo px-4">
                                     <a href="demo-one-page-agency.html">
-                                        <img alt="Porto Grass Roots" src="img/demos/one-page-agency/logo.png">
+                                        <img alt="Grass Roots" src="img/demos/one-page-agency/logo.png">
                                     </a>
                                 </div>
                             </div>
