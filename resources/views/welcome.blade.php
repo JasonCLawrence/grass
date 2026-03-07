@@ -2,12 +2,12 @@
 <html lang="en">
 
 <head>
-
     <!-- Basic -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ $title ?? config('app.name') }}</title>
+
     <meta name="keywords"
         content="lawn care Jamaica, grass cutting services Jamaica, yard maintenance Jamaica, lawn mowing Kingston, landscaping Jamaica, monthly lawn service Jamaica, grass trimming, yard clean up, residential lawn care, commercial lawn care Jamaica">
 
@@ -16,22 +16,28 @@
 
     <meta name="author" content="Grass Roots Limited">
 
+    <!-- Open Graph -->
     <meta property="og:title" content="Grass Roots Limited | Professional Lawn Care in Jamaica">
     <meta property="og:description"
         content="Reliable lawn cutting, yard maintenance, and scheduled monthly lawn care services across Jamaica.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://grassrootsjm.com">
-    <meta property="og:image" content="images/social-preview.jpg">
+    <meta property="og:url" content="https://grassrootsjm.com/">
+    <meta property="og:image" content="https://grassrootsjm.com/images/social-preview.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Grass Roots Limited | Lawn Care in Jamaica">
     <meta name="twitter:description" content="Professional grass cutting and yard maintenance services in Jamaica.">
-    <meta name="twitter:image" content="images/social-preview.jpg">
-    <link rel="canonical" href="https://grassrootsjm.com">
+    <meta name="twitter:image" content="https://grassrootsjm.com/images/social-preview.jpg">
+
+    <link rel="canonical" href="https://grassrootsjm.com/">
 
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
     <meta name="geo.region" content="JM-KIN">
     <meta name="geo.placename" content="Kingston">
-    <!-- Favicon -->
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 
@@ -367,7 +373,7 @@
                     </div>
                 </div>
             </section>
-{{-- 
+            {{-- 
             <section class="section section-height-3 bg-gradient border-0 m-0 appear-animation"
                 data-appear-animation="fadeIn">
                 <div class="container py-3">
@@ -428,7 +434,7 @@
                 </div>
             </section> --}}
 
-             <section id="what-we-do" class="section bg-transparent overflow-hidden border-0 m-0 pb-0">
+            <section id="what-we-do" class="section bg-transparent overflow-hidden border-0 m-0 pb-0">
                 <div class="container pt-5 mt-2">
                     <div class="row justify-content-center">
                         <div class="col-lg-7 col-xl-5 pe-lg-5 pe-xl-0 pb-lg-5 mb-5 mb-xl-0">
@@ -1028,11 +1034,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                                                    			Map Markers:
-                                                                    			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                                                    			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                                                    			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                                                    			*/
+                                                                        			Map Markers:
+                                                                        			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                                        			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                                        			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                                        			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1133,26 +1139,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                            <a
-                                                                                                href="{{ url('/dashboard') }}"
-                                                                                                class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                            >
-                                                                                                Dashboard
-                                                                                            </a>
+                                                                                                <a
+                                                                                                    href="{{ url('/dashboard') }}"
+                                                                                                    class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                >
+                                                                                                    Dashboard
+                                                                                                </a>
 @else
     <a
-                                                                                                href="{{ route('login') }}"
-                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                            >
-                                                                                                Log in
-                                                                                            </a>
-
-                                                                                            @if (Route::has('register'))
-    <a
-                                                                                                    href="{{ route('register') }}"
-                                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                    Register
+                                                                                                    href="{{ route('login') }}"
+                                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                >
+                                                                                                    Log in
                                                                                                 </a>
+
+                                                                                                @if (Route::has('register'))
+    <a
+                                                                                                        href="{{ route('register') }}"
+                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                        Register
+                                                                                                    </a>
     @endif
                     @endauth
                 </nav>
