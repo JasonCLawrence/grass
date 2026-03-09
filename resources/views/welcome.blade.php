@@ -69,7 +69,7 @@
 
     <!-- Skin CSS -->
     <link id="skinCSS" rel="stylesheet" href="css/skins/skin-one-page-agency.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Theme Custom CSS -->
     <link rel="stylesheet" href="/css/custom.css">
 
@@ -963,15 +963,15 @@
                                         <div class="row">
                                             <div class="col">
                                                 <label class="form-label d-block">Service Type:</label>
-                                                <div class="form-check form-check-inline">
+                                                {{-- <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio"
                                                         name="service_type" id="monthly" value="monthly">
                                                     <label class="form-check-label" for="monthly">Monthly
                                                         Subscription</label>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio"
-                                                        name="service_type" id="one_time" value="one_time">
+                                                        name="service_type" id="one_time" value="one_time" checked>
                                                     <label class="form-check-label" for="one_time">One Time
                                                         Job</label>
                                                 </div>
@@ -984,7 +984,7 @@
                                         <!-- Total cost and job date -->
                                         <div class="row mt-3">
                                             <div class="form-group col">
-                                                <label for="total-cost">Estimated Cost:</label>
+                                                <label for="total-cost">Estimated Cost (USD) :</label>
                                                 <input type="number" class="form-control" id="total-cost"
                                                     name="total_cost" readonly>
                                             </div>
@@ -1025,10 +1025,18 @@
                                         // Prevent default form submit
                                         document.getElementById('service-form').addEventListener('submit', function(e) {
                                             e.preventDefault();
-                                            createPayPalOrder();
+
+                                            const submitBtn = this.querySelector('button[type="submit"]');
+
+                                            // Disable the button and show temporary text
+                                            submitBtn.disabled = true;
+                                            const originalText = submitBtn.innerHTML;
+                                            submitBtn.innerHTML = 'Creating your booking...';
+
+                                            createPayPalOrder(submitBtn, originalText);
                                         });
 
-                                        function createPayPalOrder() {
+                                        function createPayPalOrder(submitBtn, originalText) {
                                             const form = document.getElementById('service-form');
                                             const selectedServices = Array.from(form.querySelectorAll('.service-checkbox:checked'))
                                                 .map(input => input.value);
@@ -1051,8 +1059,32 @@
                                                     body: JSON.stringify(data)
                                                 })
                                                 .then(res => res.json())
-                                                .then(handlePayPalButtons)
-                                                .catch(err => console.error(err));
+                                                .then(response => {
+                                                    if (response.orderID) {
+                                                        handlePayPalButtons(response);
+                                                    } else {
+                                                        // Booking failed → re-enable button
+                                                        submitBtn.disabled = false;
+                                                        submitBtn.innerHTML = originalText;
+
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Booking Failed',
+                                                            text: 'Unable to create your booking. Please try again.'
+                                                        });
+                                                    }
+                                                })
+                                                .catch(err => {
+                                                    submitBtn.disabled = false;
+                                                    submitBtn.innerHTML = originalText;
+
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Booking Failed',
+                                                        text: 'Network error or server error. Please try again.'
+                                                    });
+                                                    console.error(err);
+                                                });
                                         }
 
                                         function handlePayPalButtons(response) {
@@ -1076,16 +1108,33 @@
                                                             .then(res => res.json())
                                                             .then(res => {
                                                                 if (res.status === 'success') {
-                                                                    alert('Payment completed! Booking ID: ' + res.booking_id);
-                                                                    location.reload(); // Or redirect to a confirmation page
+                                                                    Swal.fire({
+                                                                        icon: 'success',
+                                                                        title: 'Payment Completed',
+                                                                        text: 'Your booking (ID: ' + res.booking_id +
+                                                                            ') is confirmed!',
+                                                                        confirmButtonText: 'OK'
+                                                                    }).then(() => {
+                                                                        location.reload(); // Or redirect to confirmation page
+                                                                    });
                                                                 } else {
-                                                                    alert('Payment failed.');
+                                                                    Swal.fire({
+                                                                        icon: 'error',
+                                                                        title: 'Payment Failed',
+                                                                        text: 'Something went wrong. Please try again later.',
+                                                                    }).then(() => {
+                                                                        location.reload(); // Or redirect to confirmation page
+                                                                    });
                                                                 }
                                                             });
                                                     }
                                                 }).render('#paypal-button-container');
                                             } else {
-                                                alert('Unable to create PayPal order.');
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Order Creation Failed',
+                                                    text: 'Unable to create PayPal order. Please try again later.'
+                                                });
                                             }
                                         }
                                     </script>
@@ -1228,38 +1277,46 @@
             };
 
             function calculateTotalCost() {
-
                 let totalCost = 0;
                 let selectedNames = [];
 
                 document.querySelectorAll(".service-checkbox:checked").forEach(cb => {
-
                     const value = cb.value;
                     const label = cb.nextElementSibling.innerText;
 
-                    if (prices[value]) {
-                        totalCost += prices[value];
-                    }
-
                     selectedNames.push(label);
 
+                    if (value === "bagging-disposal") {
+                        totalCost = 50; // Fixed cost
+                    } else {
+                        // Random number between 80 and 95 for all other services
+                        totalCost = Math.floor(Math.random() * (95 - 80 + 1)) + 80;
+                    }
                 });
 
-                // Apply your pricing formula
-                totalCost = (totalCost / 0.25) * 150;
+                // If no checkbox selected, default to 0
+                if (selectedNames.length === 0) totalCost = 0;
 
-                //               costField.value = "$" + totalCost.toFixed(2);
+                // Update cost field
+                const costField = document.getElementById('total-cost');
                 costField.value = totalCost.toFixed(2);
 
-                // Update dropdown text
+                // Update dropdown button text
+                const dropdownButton = document.getElementById('servicesDropdown');
                 if (selectedNames.length > 0) {
                     dropdownButton.innerText = selectedNames.join(", ");
                 } else {
                     dropdownButton.innerText = "Choose Services";
                 }
-
             }
 
+            // Add event listeners to checkboxes
+            document.querySelectorAll(".service-checkbox").forEach(cb => {
+                cb.addEventListener('change', calculateTotalCost);
+            });
+
+            // Initial calculation
+            // calculateTotalCost();
             checkboxes.forEach(cb => {
                 cb.addEventListener("change", calculateTotalCost);
             });
@@ -1302,11 +1359,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                                                                                                        			Map Markers:
-                                                                                                                        			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                                                                                                        			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                                                                                                        			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                                                                                                        			*/
+                                                                                                                                                			Map Markers:
+                                                                                                                                                			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                                                                                                                			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                                                                                                                			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                                                                                                                			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1407,26 +1464,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                                                                                <a
-                                                                                                                                                    href="{{ url('/dashboard') }}"
-                                                                                                                                                    class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                                                                                >
-                                                                                                                                                    Dashboard
-                                                                                                                                                </a>
+                                                                                                                                                                        <a
+                                                                                                                                                                            href="{{ url('/dashboard') }}"
+                                                                                                                                                                            class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                                                                                        >
+                                                                                                                                                                            Dashboard
+                                                                                                                                                                        </a>
 @else
     <a
-                                                                                                                                                    href="{{ route('login') }}"
-                                                                                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                                                                                >
-                                                                                                                                                    Log in
-                                                                                                                                                </a>
+                                                                                                                                                                            href="{{ route('login') }}"
+                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                                                                                        >
+                                                                                                                                                                            Log in
+                                                                                                                                                                        </a>
 
-                                                                                                                                                @if (Route::has('register'))
+                                                                                                                                                                        @if (Route::has('register'))
     <a
-                                                                                                                                                        href="{{ route('register') }}"
-                                                                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                                                                        Register
-                                                                                                                                                    </a>
+                                                                                                                                                                                href="{{ route('register') }}"
+                                                                                                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                                                                                                Register
+                                                                                                                                                                            </a>
     @endif
                     @endauth
                 </nav>

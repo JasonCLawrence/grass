@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Mail\PaymentSuccessMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -91,6 +93,8 @@ class CheckoutController extends Controller
             $booking->payment_status = 'paid';
             $booking->save();
 
+            Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking));
+            
             return response()->json([
                 'status' => 'success',
                 'booking_id' => $booking->id
