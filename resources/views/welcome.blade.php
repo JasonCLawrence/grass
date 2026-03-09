@@ -1081,7 +1081,7 @@
                                                     Swal.fire({
                                                         icon: 'error',
                                                         title: 'Booking Failed',
-                                                        text: 'Network error or server error. Please try again.'
+                                                        text: 'Network error or server error. Please complete all required fields and try again.'
                                                     });
                                                     console.error(err);
                                                 });
