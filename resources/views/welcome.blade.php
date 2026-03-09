@@ -697,10 +697,10 @@
                                             <strong>Success!</strong> Your quote has been calculated.
                                         </div>
 
-                                        <div class="contact-form-error alert ale<rt-danger d-none mt-4">
+                                        {{-- <div class="contact-form-error alert alert-danger d-none mt-4">
                                             <strong>Error!</strong> There was an error calculating the cost.
                                             <span class="mail-error-message text-1 d-block"></span>
-                                        </div>
+                                        </div> --}}
                                         <!-- Customer KYC -->
                                         <br>
                                         <div class="row">
@@ -737,7 +737,7 @@
                                                 padding: 15px;
                                             }
                                         </style>
-                                        <div class="row">
+                                        {{-- <div class="row">
                                             <div class="form-group col">
                                                 <label for="services">Select a Service</label>
                                                 <select name="services[]" id="services"
@@ -763,12 +763,77 @@
                                                 @enderror
 
                                             </div>
+                                        </div> --}}
+
+                                        <div class="row">
+                                            <div class="form-group col">
+                                                <label for="services">Select a Service</label>
+
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-outline-secondary dropdown-toggle w-100 text-start"
+                                                        type="button" id="servicesDropdown"
+                                                        data-bs-toggle="dropdown">
+                                                        Choose Services
+                                                    </button>
+
+                                                    <ul class="dropdown-menu w-100 p-3"
+                                                        aria-labelledby="servicesDropdown">
+
+                                                        <li class="text-muted">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    disabled>
+                                                                <label class="form-check-label">
+                                                                    🌱 Lawn Cutting with Line Trimmers <strong>(Coming
+                                                                        Soon)</strong>
+                                                                </label>
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="text-muted">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    disabled>
+                                                                <label class="form-check-label">
+                                                                    🌱 Cutting and Bagging <strong>(Coming
+                                                                        Soon)</strong>
+                                                                </label>
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="text-muted">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    disabled>
+                                                                <label class="form-check-label">
+                                                                    🌱 Cutting, Bagging, and Disposal <strong>(Coming
+                                                                        Soon)</strong>
+                                                                </label>
+                                                            </div>
+                                                        </li>
+
+                                                        <li>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input service-checkbox"
+                                                                    type="checkbox" name="services[]"
+                                                                    value="bagging-disposal" id="service1">
+                                                                <label class="form-check-label" for="service1">
+                                                                    🌱 Bagging and Disposal of Grass Cuttings
+                                                                </label>
+                                                            </div>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+                                                @error('services')
+                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         </div>
-
-
                                         <!-- Calculated Total Cost -->
-                                        <br>
-                                        <div class="row mt-3">
+                                        <div class="row">
                                             <div class="col">
                                                 <label class="form-label d-block">Service Type:</label>
 
@@ -804,39 +869,10 @@
                                                 line-height: 3.85 !important;
                                             }
                                         </style>
-                                        <!-- Property Images -->
-                                        <br>
-                                        <div class="row">
-                                            <div class="form-group col">
-                                                <label for="property_images">
-                                                    Upload Property Images <small class="text-muted">(Multiple
-                                                        allowed)</small>
-                                                </label>
-
-                                                <input type="file" name="property_images[]" id="property_images"
-                                                    class="form-control @error('property_images.*') is-invalid @enderror"
-                                                    accept="image/*" multiple>
-
-                                                @error('property_images')
-                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                                @enderror
-
-                                                @error('property_images.*')
-                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                                @enderror
-
-                                                <small class="text-muted">
-                                                    JPG, PNG, WEBP. Max 2MB per image.
-                                                </small>
-                                            </div>
-                                        </div>
-
-
-
                                         <div class="row mt-3">
                                             <div class="form-group col">
                                                 <label for="total-cost">Estimated Cost:</label>
-                                                <input type="text" class="form-control" id="total-cost"
+                                                <input type="number" class="form-control" id="total-cost"
                                                     name="total_cost" readonly>
                                             </div>
                                             <div class="form-group col">
@@ -852,7 +888,6 @@
 
                                             </div>
                                         </div>
-
 
                                         <div class="row">
                                             <div class="col">
@@ -921,6 +956,23 @@
     </footer>
     <!-- <Formify -->
     <script>
+        document.querySelectorAll('.service-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+
+                let selected = [];
+                document.querySelectorAll('.service-checkbox:checked').forEach(function(c) {
+                    selected.push(c.nextElementSibling.innerText);
+                });
+
+                let button = document.getElementById('servicesDropdown');
+
+                button.innerText = selected.length ?
+                    selected.join(', ') :
+                    'Choose required service...';
+            });
+        });
+    </script>
+    <script>
         let map;
         let geocoder;
         let marker;
@@ -974,29 +1026,60 @@
             });
         }
 
-        // Service selection handling and cost calculation
-        document.getElementById('services').addEventListener('change', function() {
-            selectedServices = Array.from(this.selectedOptions).map(option => option.value);
-            calculateTotalCost();
-        });
-
-        function calculateTotalCost() {
-            let baseCost = industryStandardRate; // Base cost for 5000 sq ft
-            let totalCost = 0;
-
-            // Calculate cost based on selected services
-            if (selectedServices.includes('cutting-line-trimmers')) totalCost += 20; // Example pricing
-            if (selectedServices.includes('cutting-bagging')) totalCost += 25;
-            if (selectedServices.includes('cutting-bagging-disposal')) totalCost += 60;
-            if (selectedServices.includes('bagging-disposal')) totalCost += 30;
-
-            // Apply discount (half of the industry standard)
-            totalCost = totalCost / '0.25';
-
-            document.getElementById('total-cost').value = `$${totalCost.toFixed(2) * 150}`;
-        }
-
         // Trigger form submit
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const checkboxes = document.querySelectorAll(".service-checkbox");
+            const costField = document.getElementById("total-cost");
+            const dropdownButton = document.getElementById("servicesDropdown");
+
+            const prices = {
+                "cutting-line-trimmers": 20,
+                "cutting-bagging": 25,
+                "cutting-bagging-disposal": 60,
+                "bagging-disposal": 10
+            };
+
+            function calculateTotalCost() {
+
+                let totalCost = 0;
+                let selectedNames = [];
+
+                document.querySelectorAll(".service-checkbox:checked").forEach(cb => {
+
+                    const value = cb.value;
+                    const label = cb.nextElementSibling.innerText;
+
+                    if (prices[value]) {
+                        totalCost += prices[value];
+                    }
+
+                    selectedNames.push(label);
+
+                });
+
+                // Apply your pricing formula
+                totalCost = (totalCost / 0.25) * 150;
+
+ //               costField.value = "$" + totalCost.toFixed(2);
+                costField.value = totalCost.toFixed(2);
+
+                // Update dropdown text
+                if (selectedNames.length > 0) {
+                    dropdownButton.innerText = selectedNames.join(", ");
+                } else {
+                    dropdownButton.innerText = "Choose Services";
+                }
+
+            }
+
+            checkboxes.forEach(cb => {
+                cb.addEventListener("change", calculateTotalCost);
+            });
+
+        });
     </script>
     <!-- Vendor -->
     <script src="vendor/plugins/js/plugins.min.js"></script>
@@ -1034,11 +1117,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                                                        			Map Markers:
-                                                                        			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                                                        			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                                                        			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                                                        			*/
+                                                                                                			Map Markers:
+                                                                                                			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                                                                			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                                                                			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                                                                			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1139,26 +1222,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                                <a
-                                                                                                    href="{{ url('/dashboard') }}"
-                                                                                                    class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                                >
-                                                                                                    Dashboard
-                                                                                                </a>
+                                                                                                                        <a
+                                                                                                                            href="{{ url('/dashboard') }}"
+                                                                                                                            class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                                        >
+                                                                                                                            Dashboard
+                                                                                                                        </a>
 @else
     <a
-                                                                                                    href="{{ route('login') }}"
-                                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                                >
-                                                                                                    Log in
-                                                                                                </a>
+                                                                                                                            href="{{ route('login') }}"
+                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                                        >
+                                                                                                                            Log in
+                                                                                                                        </a>
 
-                                                                                                @if (Route::has('register'))
+                                                                                                                        @if (Route::has('register'))
     <a
-                                                                                                        href="{{ route('register') }}"
-                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                        Register
-                                                                                                    </a>
+                                                                                                                                href="{{ route('register') }}"
+                                                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                                                Register
+                                                                                                                            </a>
     @endif
                     @endauth
                 </nav>

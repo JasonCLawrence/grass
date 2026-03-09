@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentSuccessMail;
 use App\Mail\PaymentCancelledMail;
 use Illuminate\Validation\Rule;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Mail\NewCustomerAccountMail;
 
 class PaymentController extends Controller
 {
@@ -20,63 +24,71 @@ class PaymentController extends Controller
     public function oneTimeCheckout(Request $request)
     {
 
-
+        // return Auth::user();
         // return $request;
         $validated = $request->validate([
             'customer_name'   => ['required', 'string', 'max:255'],
             'customer_email'  => ['required', 'email', 'max:255'],
-            'services'        => ['required', 'array', 'min:1'],
-            'services.*'      => ['in:bagging-disposal'], // only enabled service
             'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
             'job_date'        => ['required', 'date', 'after_or_equal:today'],
-        ], [
             'total_cost' => 'required|numeric|min:0',
             'services.required' => 'Please select at least one service.',
             'job_date.after_or_equal' => 'Job date must be today or a future date.',
             // Images
-            'property_images'     => 'nullable|array|max:10',
-            'property_images.*'   => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            // 'property_images'     => 'nullable|array|max:10',
+            // 'property_images.*'   => 'image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
-
-        $user = $request->user();
-        // $user = [];
-
-        // return $request;
-
 
 
         $customer_name  = $request->customer_name;
-        $customer_email = $request->customer_email;
+        $customer_email = strtolower(trim($request->customer_email));
         $service        = $request->services[0];
         $frequency      = $request->service_type;
         $job_date       = $request->job_date;
         $total_cost     = str_replace("$", '', $request->total_cost);
 
 
+        // return $service;
         $servicePricing = config('stripe_services');
+    
 
-        if (
-            !isset($servicePricing[$service]) ||
-            !isset($servicePricing[$service][$frequency])
-        ) {
-            abort(400, 'Invalid service or frequency selected.');
+
+        $user = Auth::user();
+        
+        if (!$user) {
+
+
+            $user = User::where('email', $customer_email)->first();
+
+            if (!$user) {
+
+                // Generate random password
+                $plainPassword = Str::random(10);
+
+                $user = User::create([
+                    'name' => $customer_name,
+                    'email' => $customer_email,
+                    'password' => Hash::make($plainPassword),
+                ]);
+
+                // Send welcome email with password
+                Mail::to($user->email)->send(
+                    new NewCustomerAccountMail($user, $plainPassword)
+                );
+            }
+
+            // Log the user in
+            Auth::login($user);
         }
+
+  
+
 
         $priceId = $servicePricing[$service][$frequency];
 
-        // return $priceId;
-
-        $imagePaths = [];
-
-        if ($request->hasFile('property_images')) {
-            foreach ($request->file('property_images') as $image) {
-                $path = $image->store('property-images', 'public');
-                $imagePaths[] = $path;
-            }
-        }
-        // Create booking (PENDING)
+          // Create booking (PENDING)
         $booking = Booking::create([
-            'user_id'          => optional($user)->id,
+            'user_id' => $user->id,
             'customer_name'    => $customer_name,
             'customer_email'   => $customer_email,
             'service'          => $service,
@@ -85,7 +97,7 @@ class PaymentController extends Controller
             'stripe_price_id'  => $priceId,
             'payment_status'   => 'pending',
             'total_cost'      => $total_cost,
-            'property_images' => $imagePaths,
+            'property_images' => "",
         ]);
 
 

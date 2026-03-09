@@ -43,10 +43,13 @@ Route::get('/select-house', function () {
 });
 
 Route::post('/save-house-selection', [HouseController::class, 'store']);
+Route::any('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('stripe-checkout');
+Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/cancel/{booking}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 Route::middleware('auth')->group(function () {
-    Route::any('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('stripe-checkout');
-    Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
-    Route::get('/payment/cancel/{booking}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+    // Route::any('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('stripe-checkout');
+    // Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    // Route::get('/payment/cancel/{booking}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 });
 
 Route::post('/land-area', [LandMeasurementController::class, 'getLandArea']);
@@ -61,16 +64,16 @@ Route::get('/', function () {
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
 
-    
+
 Route::get('dashboard', function () {
 
-// Short Term Permission Fix
-// only admin has access to dashboard
-$user = Auth::getUser();
-if(!$user->email == 'test@gmail.com'){;
-    // return view('welcome');
-     return redirect('/#contact-form');
-}
+    // Short Term Permission Fix
+    // only admin has access to dashboard
+    $user = Auth::getUser();
+    if (!$user->email == 'test@gmail.com') {;
+        // return view('welcome');
+        return redirect('/#contact-form');
+    }
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
