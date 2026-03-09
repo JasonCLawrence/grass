@@ -43,11 +43,11 @@ Route::get('/select-house', function () {
 });
 
 Route::post('/save-house-selection', [HouseController::class, 'store']);
-Route::any('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('stripe-checkout');
+Route::post('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('paypal-checkout');
 Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
 Route::get('/payment/cancel/{booking}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 Route::middleware('auth')->group(function () {
-    // Route::any('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('stripe-checkout');
+    // Route::any('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('paypal-checkout');
     // Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
     // Route::get('/payment/cancel/{booking}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 });

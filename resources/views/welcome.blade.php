@@ -678,7 +678,7 @@
                                             419-8266</a>
                                     </div> --}}
                                     <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
-                                        action="{{ route('stripe-checkout') }}" method="POST" id="service-form"
+                                        action="{{ route('paypal-checkout') }}" method="POST" id="service-form"
                                         enctype="multipart/form-data">
 
                                         @csrf
