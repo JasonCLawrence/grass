@@ -17,6 +17,9 @@ class Booking extends Model
         'stripe_session_id',
         'payment_status',
         'paid_at',
+        'latitude',
+        'longitude',
+        'lot_number',
     ];
 
     protected $casts = [

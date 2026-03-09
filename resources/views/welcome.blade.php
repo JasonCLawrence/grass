@@ -72,6 +72,48 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Theme Custom CSS -->
     <link rel="stylesheet" href="/css/custom.css">
+    <style>
+        #map-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        #fullscreenMap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+            display: none;
+            background: white;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 
 </head>
 
@@ -655,6 +697,21 @@
                         <div class="row">
                             <div class="col-md-8 col-lg-6">
                                 <div class="bg-dark p-5">
+
+
+                                    <div id="map-container">
+                                        <div id="map"></div>
+                                    </div>
+
+                                    <div id="fullscreenMap">
+                                        <div id="fullMap" style="height:100%; width:100%;"></div>
+                                    </div>
+                                    <a href="#booking" id="selectLocationBtn"
+                                        class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none custom-link-effect-1 appear-animation"
+                                        data-hash data-hash-offset="0" data-hash-offset-lg="32"
+                                        data-appear-animation="fadeInUpShorter" data-appear-animation-delay="800">
+                                        Choose Your Location
+                                    </a>
                                     <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
                                         action="{{ route('paypal-checkout') }}" method="POST" id="service-form"
                                         enctype="multipart/form-data">
@@ -704,13 +761,45 @@
                                             </div>
                                         </div>
 
+                                        <div class="row">
+                                            <div class="form-group col">
+                                                <label for="total-cost">Lot Number:</label>
+                                                <input type="number"
+                                                    class="form-control @error('lot_number') is-invalid @enderror"
+                                                    id="lot_number" name="lot_number"
+                                                    value="{{ old('lot_number') }}">
+
+                                                @error('lot_number')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+
+                                            </div>
+                                            <div class="col">
+                                                <label class="form-label d-block">Service Type:</label>
+                                                {{-- <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio"
+                                                        name="service_type" id="monthly" value="monthly">
+                                                    <label class="form-check-label" for="monthly">Monthly
+                                                        Subscription</label>
+                                                </div> --}}
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio"
+                                                        name="service_type" id="one_time" value="one_time" checked>
+                                                    <label class="form-check-label" for="one_time">One Time
+                                                        Job</label>
+                                                </div>
+                                                @error('service_type')
+                                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                         <!-- Service Options -->
                                         <div class="row">
                                             <div class="form-group col">
                                                 <label for="services">Select a Service</label>
                                                 <div class="dropdown">
                                                     <button
-                                                        class="btn btn-outline-secondary dropdown-toggle w-100 text-start"
+                                                        class="btn btn-gradient custom-btn-effect-1 custom-border-radius-1 dropdown-toggle w-100 text-start"
                                                         type="button" id="servicesDropdown"
                                                         data-bs-toggle="dropdown">
                                                         Choose Services
@@ -746,27 +835,13 @@
                                             </div>
                                         </div>
 
-                                        <!-- Service Type -->
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="form-label d-block">Service Type:</label>
-                                                {{-- <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="service_type" id="monthly" value="monthly">
-                                                    <label class="form-check-label" for="monthly">Monthly
-                                                        Subscription</label>
-                                                </div> --}}
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="service_type" id="one_time" value="one_time" checked>
-                                                    <label class="form-check-label" for="one_time">One Time
-                                                        Job</label>
-                                                </div>
-                                                @error('service_type')
-                                                    <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        {{-- <label for="latitude">Latitude:</label> --}}
+                                        <input type="hidden" id="latitude" name="latitude" readonly>
+
+
+                                        {{-- <label for="longitude">Longitude:</label> --}}
+                                        <input type="hidden" id="longitude" name="longitude" readonly>
+
 
                                         <!-- Total cost and job date -->
                                         <div class="row mt-3">
@@ -832,6 +907,9 @@
                                                 customer_name: form.customer_name.value,
                                                 customer_email: form.customer_email.value,
                                                 services: selectedServices,
+                                                latitude: form.latitude.value,
+                                                longitude: form.longitude.value,
+                                                lot_number: form.lot_number.value,
                                                 service_type: form.service_type.value,
                                                 job_date: form.job_date.value,
                                                 total_cost: form.total_cost.value
@@ -953,12 +1031,8 @@
                                     Book now to take advantage of our current bagging and disposal service and secure
                                     your spot!
                                 </p>
-                                <a href="#booking"
-                                    class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none custom-link-effect-1 appear-animation"
-                                    data-hash data-hash-offset="0" data-hash-offset-lg="32"
-                                    data-appear-animation="fadeInUpShorter" data-appear-animation-delay="800">
-                                    Book Now
-                                       </a>
+
+
                             </div>
                         </div>
                     </div>
@@ -1025,62 +1099,8 @@
             });
         });
     </script>
-    <script>
-        let map;
-        let geocoder;
-        let marker;
-        let selectedServices = [];
-        const industryStandardRate = 100; // Assume industry standard is $100 for 5000 sq ft
 
-        // Initialize the Google Maps API with autocomplete for the location input field
-        function initMap() {
-            geocoder = new google.maps.Geocoder();
 
-            // Set default map position
-            const mapOptions = {
-                center: {
-                    lat: 37.7749,
-                    lng: -122.4194
-                }, // Default: San Francisco
-                zoom: 12,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-            // Initialize autocomplete
-            const input = document.getElementById('location');
-            const autocomplete = new google.maps.places.Autocomplete(input);
-            autocomplete.bindTo('bounds', map);
-
-            autocomplete.addListener('place_changed', function() {
-                const place = autocomplete.getPlace();
-                if (place.geometry) {
-                    const lat = place.geometry.location.lat();
-                    const lng = place.geometry.location.lng();
-                    document.getElementById('latitude').value = lat;
-                    document.getElementById('longitude').value = lng;
-
-                    map.setCenter(place.geometry.location);
-                    marker.setPosition(place.geometry.location);
-                }
-            });
-
-            // Allow user to place a marker on the map
-            marker = new google.maps.Marker({
-                map: map,
-                draggable: true,
-                position: map.getCenter()
-            });
-
-            marker.addListener('dragend', function() {
-                const position = marker.getPosition();
-                document.getElementById('latitude').value = position.lat();
-                document.getElementById('longitude').value = position.lng();
-            });
-        }
-
-        // Trigger form submit
-    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
@@ -1178,11 +1198,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                                                                                                                                                			Map Markers:
-                                                                                                                                                                			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                                                                                                                                                			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                                                                                                                                                			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                                                                                                                                                			*/
+                                                                                                                                                                                                                                        			Map Markers:
+                                                                                                                                                                                                                                        			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                                                                                                                                                                                                        			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                                                                                                                                                                                                        			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                                                                                                                                                                                                        			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1276,33 +1296,113 @@
 
         initMap();
     </script>
+    <script>
+        const phoenixParkBoundary = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [-76.945056, 17.967626],
+                        [-76.926934, 17.949319],
+                        [-76.923110, 17.952443],
+                        [-76.929931, 17.960676],
+                        [-76.933247, 17.963792],
+                        [-76.936359, 17.965895],
+                        [-76.940372, 17.969867],
+                        [-76.942173, 17.969050],
+                        [-76.945056, 17.967626]
+                    ]
+                ]
+            }
+        };
 
+        // Initialize small map
+        const map = L.map('map').setView([17.959, -76.936], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        L.geoJSON(phoenixParkBoundary, {
+            style: {
+                color: 'orange',
+                fillColor: '#eaeb0b',
+                fillOpacity: 0.4
+            }
+        }).addTo(map);
+
+        let marker;
+
+        // Fullscreen map setup
+        const fullscreenMapDiv = document.getElementById('fullscreenMap');
+        let fullMap;
+
+        // Button to open full screen
+        document.getElementById('selectLocationBtn').addEventListener('click', () => {
+            fullscreenMapDiv.style.display = 'block';
+
+            // Initialize fullscreen map only once
+            if (!fullMap) {
+                fullMap = L.map('fullMap').setView([17.959, -76.936], 16);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(fullMap);
+                L.geoJSON(phoenixParkBoundary, {
+                    style: {
+                        color: 'orange',
+                        fillColor: '#eaeb0b',
+                        fillOpacity: 0.4
+                    }
+                }).addTo(fullMap);
+
+                // Click handler
+                fullMap.on('click', function(e) {
+                    const latlng = e.latlng;
+                    if (turf.booleanPointInPolygon([latlng.lng, latlng.lat], phoenixParkBoundary)) {
+                        if (marker) marker.setLatLng(latlng);
+                        else marker = L.marker(latlng).addTo(map); // marker stays synced to small map
+
+                        // Update form fields
+                        document.getElementById('latitude').value = latlng.lat.toFixed(6);
+                        document.getElementById('longitude').value = latlng.lng.toFixed(6);
+
+                        // Sync small map marker
+                        if (map.hasLayer(marker)) marker.setLatLng(latlng);
+                        else marker.addTo(map);
+
+                        fullscreenMapDiv.style.display = 'none'; // close fullscreen after selection
+                    } else {
+                        alert("Please select a location within our service zone!");
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 <!-- <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
         <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                                                                                                                        <a
-                                                                                                                                                                                            href="{{ url('/dashboard') }}"
-                                                                                                                                                                                            class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                        >
-                                                                                                                                                                                            Dashboard
-                                                                                                                                                                                        </a>
+                                                                                                                                                                                                                                                                <a
+                                                                                                                                                                                                                                                                    href="{{ url('/dashboard') }}"
+                                                                                                                                                                                                                                                                    class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                >
+                                                                                                                                                                                                                                                                    Dashboard
+                                                                                                                                                                                                                                                                </a>
 @else
     <a
-                                                                                                                                                                                            href="{{ route('login') }}"
-                                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                        >
-                                                                                                                                                                                            Log in
-                                                                                                                                                                                        </a>
+                                                                                                                                                                                                                                                                    href="{{ route('login') }}"
+                                                                                                                                                                                                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                >
+                                                                                                                                                                                                                                                                    Log in
+                                                                                                                                                                                                                                                                </a>
 
-                                                                                                                                                                                        @if (Route::has('register'))
+                                                                                                                                                                                                                                                                @if (Route::has('register'))
     <a
-                                                                                                                                                                                                href="{{ route('register') }}"
-                                                                                                                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                                                                                                                Register
-                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                                        href="{{ route('register') }}"
+                                                                                                                                                                                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                                                                                                                                                                                        Register
+                                                                                                                                                                                                                                                                    </a>
     @endif
                     @endauth
                 </nav>

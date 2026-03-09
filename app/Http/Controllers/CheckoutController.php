@@ -37,6 +37,9 @@ class CheckoutController extends Controller
             'user_id' => $user->id,
             'customer_name' => $data['customer_name'],
             'customer_email' => $data['customer_email'],
+            'latitude' => $data['latitude'],
+            'longitude' => $data['longitude'],
+            'lot_number' => $data['lot_number'],
             'service' => $data['services'][0],
             'frequency' => $data['service_type'],
             'job_date' => $data['job_date'],
@@ -94,7 +97,7 @@ class CheckoutController extends Controller
             $booking->save();
 
             Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking));
-            
+
             return response()->json([
                 'status' => 'success',
                 'booking_id' => $booking->id

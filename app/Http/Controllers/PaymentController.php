@@ -40,6 +40,9 @@ class PaymentController extends Controller
             'customer_name' => $data['customer_name'],
             'customer_email' => $data['customer_email'],
             'service' => $data['services'][0],
+            'latitude' => $data['latitude'],
+            'longitude' => $data['longitude'],
+            'lot_number' => $data['lot_number'],
             'frequency' => $data['service_type'],
             'job_date' => $data['job_date'],
             'payment_status' => 'pending',
@@ -58,7 +61,7 @@ class PaymentController extends Controller
             ]]
         ]);
 
-        \Log::info(json_encode($order, JSON_PRETTY_PRINT));
+
 
         if (!isset($order['id'])) {
             // Something went wrong
