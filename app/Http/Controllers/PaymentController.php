@@ -20,94 +20,188 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 class PaymentController extends Controller
 {
 
-public function oneTimeCheckout(Request $request)
-{
 
-    $validated = $request->validate([
-        'customer_name'   => ['required', 'string', 'max:255'],
-        'customer_email'  => ['required', 'email', 'max:255'],
-        'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
-        'job_date'        => ['required', 'date', 'after_or_equal:today'],
-        'total_cost'      => 'required|numeric|min:0',
-    ]);
+    public function createOrder(Request $request)
+    {
+        $data = $request->all();
 
-    $customer_name  = $request->customer_name;
-    $customer_email = strtolower(trim($request->customer_email));
-    $service        = $request->services[0];
-    $frequency      = $request->service_type;
-    $job_date       = $request->job_date;
-    $total_cost     = str_replace("$", '', $request->total_cost);
+        // Create or fetch user
+        $user = User::firstOrCreate(
+            ['email' => strtolower($data['customer_email'])],
+            [
+                'name' => $data['customer_name'],
+                'password' => Hash::make(Str::random(10))
+            ]
+        );
 
-    $user = Auth::user();
+        // Create pending booking
+        $booking = Booking::create([
+            'user_id' => $user->id,
+            'customer_name' => $data['customer_name'],
+            'customer_email' => $data['customer_email'],
+            'service' => $data['services'][0],
+            'frequency' => $data['service_type'],
+            'job_date' => $data['job_date'],
+            'payment_status' => 'pending',
+            'total_cost' => $data['total_cost'],
+        ]);
 
-    if (!$user) {
+        $provider = new PayPalClient;
+        $provider->getAccessToken(); // must succeed
+        $order = $provider->createOrder([
+            "intent" => "CAPTURE",
+            "purchase_units" => [[
+                "amount" => [
+                    "currency_code" => config('paypal.currency'),
+                    "value" => number_format('50.00', 2, '.', '')
+                ]
+            ]]
+        ]);
 
-        $user = User::where('email', $customer_email)->first();
+        \Log::info(json_encode($order, JSON_PRETTY_PRINT));
+
+        if (!isset($order['id'])) {
+            // Something went wrong
+            return response()->json([
+                'error' => 'PayPal order creation failed',
+                'details' => $order
+            ], 500);
+        }
+
+        $booking->paypal_order_id = $order['id'];
+        $booking->save();
+
+        return response()->json(['orderID' => $order['id'], 'booking_id' => $booking->id]);
+    }
+
+    public function captureOrder(Request $request)
+    {
+        $orderID = $request->orderID;
+
+        $booking = Booking::where('paypal_order_id', $orderID)->firstOrFail();
+
+        $provider = new PayPalClient;
+        $provider->setApiCredentials(config('paypal'));
+        $provider->getAccessToken();
+
+        $response = $provider->capturePaymentOrder($orderID);
+
+        if (isset($response['status']) && $response['status'] === 'COMPLETED') {
+            $booking->payment_status = 'paid';
+            $booking->save();
+            return response()->json(['status' => 'success', 'booking_id' => $booking->id]);
+        }
+
+        return response()->json(['status' => 'failed']);
+    }
+
+    public function oneTimeCheckout(Request $request)
+    {
+
+        $validated = $request->validate([
+            'customer_name'   => ['required', 'string', 'max:255'],
+            'customer_email'  => ['required', 'email', 'max:255'],
+            'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
+            'job_date'        => ['required', 'date', 'after_or_equal:today'],
+            'total_cost'      => 'required|numeric|min:0',
+        ]);
+
+        $customer_name  = $request->customer_name;
+        $customer_email = strtolower(trim($request->customer_email));
+        $service        = $request->services[0];
+        $frequency      = $request->service_type;
+        $job_date       = $request->job_date;
+        $total_cost     = str_replace("$", '', $request->total_cost);
+
+        $user = Auth::user();
 
         if (!$user) {
 
-            $plainPassword = Str::random(10);
+            $user = User::where('email', $customer_email)->first();
 
-            $user = User::create([
-                'name' => $customer_name,
-                'email' => $customer_email,
-                'password' => Hash::make($plainPassword),
-            ]);
+            if (!$user) {
 
-            Mail::to($user->email)->send(
-                new NewCustomerAccountMail($user, $plainPassword)
-            );
+                $plainPassword = Str::random(10);
+
+                $user = User::create([
+                    'name' => $customer_name,
+                    'email' => $customer_email,
+                    'password' => Hash::make($plainPassword),
+                ]);
+
+                Mail::to($user->email)->send(
+                    new NewCustomerAccountMail($user, $plainPassword)
+                );
+            }
+
+            Auth::login($user);
         }
 
-        Auth::login($user);
-    }
+        $booking = Booking::create([
+            'user_id' => $user->id,
+            'customer_name'  => $customer_name,
+            'customer_email' => $customer_email,
+            'service'        => $service,
+            'frequency'      => $frequency,
+            'job_date'       => $job_date,
+            'payment_status' => 'pending',
+            'total_cost'     => $total_cost,
+            'property_images' => "",
+        ]);
 
-    $booking = Booking::create([
-        'user_id' => $user->id,
-        'customer_name'  => $customer_name,
-        'customer_email' => $customer_email,
-        'service'        => $service,
-        'frequency'      => $frequency,
-        'job_date'       => $job_date,
-        'payment_status' => 'pending',
-        'total_cost'     => $total_cost,
-        'property_images'=> "",
-    ]);
+        $provider = new PayPalClient;
+        $provider->setApiCredentials(config('paypal'));
+        $token = $provider->getAccessToken();
 
-    $provider = new PayPalClient;
-    $provider->setApiCredentials(config('paypal'));
-    $token = $provider->getAccessToken();
-
-    $response = $provider->createOrder([
-        "intent" => "CAPTURE",
-        "application_context" => [
-            "return_url" => route('payment.success', ['booking'=>$booking->id]),
-            "cancel_url" => route('payment.cancel', ['booking'=>$booking->id]),
-        ],
-        "purchase_units" => [
-            [
-                "amount" => [
-                    "currency_code" => "USD",
-                    "value" => $total_cost
+        $response = $provider->createOrder([
+            "intent" => "CAPTURE",
+            "application_context" => [
+                "return_url" => route('payment.success', ['booking' => $booking->id]),
+                "cancel_url" => route('payment.cancel', ['booking' => $booking->id]),
+            ],
+            "purchase_units" => [
+                [
+                    "amount" => [
+                        "currency_code" => "USD",
+                        "value" => $total_cost
+                    ]
                 ]
             ]
-        ]
-    ]);
+        ]);
 
-    if (isset($response['links'])) {
+        if (isset($response['links'])) {
 
-        foreach ($response['links'] as $link) {
+            foreach ($response['links'] as $link) {
 
-            if ($link['rel'] == 'approve') {
+                if ($link['rel'] == 'approve') {
 
-                return redirect()->away($link['href']);
+                    return redirect()->away($link['href']);
+                }
             }
         }
+
+        return redirect()->back()->with('error', 'PayPal checkout failed.');
     }
+    public function paymentSuccess(Request $request, $bookingId)
+    {
 
-    return redirect()->back()->with('error','PayPal checkout failed.');
-}
+        $provider = new PayPalClient;
+        $provider->setApiCredentials(config('paypal'));
+        $provider->getAccessToken();
 
+        $response = $provider->capturePaymentOrder($request->token);
+
+        if (isset($response['status']) && $response['status'] == 'COMPLETED') {
+
+            $booking = Booking::findOrFail($bookingId);
+            $booking->payment_status = 'paid';
+            $booking->save();
+
+            return view('payments.success', compact('booking'));
+        }
+
+        return redirect()->route('payment.cancel', $bookingId);
+    }
     // public function oneTimeCheckout(Request $request)
     // {
 
@@ -137,11 +231,11 @@ public function oneTimeCheckout(Request $request)
 
     //     // return $service;
     //     $servicePricing = config('stripe_services');
-    
+
 
 
     //     $user = Auth::user();
-        
+
     //     if (!$user) {
 
 
@@ -168,7 +262,7 @@ public function oneTimeCheckout(Request $request)
     //         Auth::login($user);
     //     }
 
-  
+
 
 
     //     $priceId = $servicePricing[$service][$frequency];
@@ -199,23 +293,23 @@ public function oneTimeCheckout(Request $request)
     //         ]
     //     );
     // }
-    public function paymentSuccess(Booking $booking)
-    {
+    // public function paymentSuccess(Booking $booking)
+    // {
 
-        // return $booking
-        if ($booking->payment_status == 'paid') {
-            // return redirect('/');
-        }
-        // Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking));
+    //     // return $booking
+    //     if ($booking->payment_status == 'paid') {
+    //         // return redirect('/');
+    //     }
+    //     // Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking));
 
-        $booking->update([
-            'payment_status' => 'paid',
-            'paid_at'        => now(),
-        ]);
+    //     $booking->update([
+    //         'payment_status' => 'paid',
+    //         'paid_at'        => now(),
+    //     ]);
 
-        // return "Payment successful! 🎉 Your booking is confirmed.";
-        return view('success_booking')->with('booking', $booking);
-    }
+    //     // return "Payment successful! 🎉 Your booking is confirmed.";
+    //     return view('success_booking')->with('booking', $booking);
+    // }
     public function paymentCancel(Booking $booking)
     {
         $booking->update([

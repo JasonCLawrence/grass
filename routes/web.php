@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HouseController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -43,14 +44,14 @@ Route::get('/select-house', function () {
 });
 
 Route::post('/save-house-selection', [HouseController::class, 'store']);
-Route::post('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])
-    ->name('paypal.checkout');
 
-Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])
-    ->name('payment.success');
-
-Route::get('/payment/cancel/{booking}', [PaymentController::class, 'paymentCancel'])
-    ->name('payment.cancel');
+Route::prefix('checkout')->group(function() {
+    Route::post('/create-order', [CheckoutController::class, 'createOrder'])->name('checkout.create-order');
+    Route::post('/capture-order', [CheckoutController::class, 'captureOrder'])->name('checkout.capture-order');
+});
+Route::post('/checkout/one-time', [PaymentController::class, 'createOrder'])->name('paypal-checkout');
+Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/cancel/{booking}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 Route::middleware('auth')->group(function () {
     // Route::any('/checkout/one-time', [PaymentController::class, 'oneTimeCheckout'])->name('paypal-checkout');
     // Route::get('/payment/success/{booking}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
