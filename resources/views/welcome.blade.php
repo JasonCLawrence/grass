@@ -137,7 +137,7 @@
              </li> -->
                                                 @if (Route::has('login'))
                                                     <li>
-                                                        <a class="nav-link" href="#googlemaps" data-hash>
+                                                        <a class="nav-link" href="#contact-form" data-hash>
                                                             Book Now
                                                         </a>
                                                     </li>
@@ -275,9 +275,10 @@
                                 </div>
                             </div>
 
-                            {{-- <!-- Carousel Slide 2 -->
-                            <div class="owl-item position-relative"
-                                style="background-image: url(img/demos/one-page-agency/slides/slide-2.jpg); background-size: cover; background-position: center;">
+                            <div class="owl-item position-relative" style="background-color: #383f48;">
+                                <div class="background-image-wrapper position-absolute top-0 left-0 right-0 bottom-0 animated kenBurnsToRightTop"
+                                    style="background-image: url(/images/528741.jpg); opacity: 0.3; background-size: cover; background-position: center; animation-duration: 20s;">
+                                </div>
                                 <div class="container position-relative z-index-3 h-100">
                                     <div class="row justify-content-center align-items-center h-100">
                                         <div class="col-lg-7 text-center mb-4 pb-5 pb-lg-0">
@@ -289,12 +290,18 @@
                                             <h1 class="text-color-light font-weight-bold text-11 text-sm-13 text-md-14 line-height-1 position-relative mb-3 pb-1 appear-animation"
                                                 data-appear-animation="fadeInUpShorter"
                                                 data-appear-animation-delay="1200">
-                                                Creative Web Design
+                                                Reliable Lawn Care, Rooted in Quality
                                             </h1>
-                                            <p class="text-4 text-color-grey px-md-5 pb-3 mx-md-5 mb-3 appear-animation"
+                                            <p class="text-4 text-color-light px-md-5 pb-3 mx-md-5 mb-3 appear-animation"
                                                 data-appear-animation="fadeInUpShorter"
-                                                data-appear-animation-delay="1400">Porto is simply the best choice for
-                                                your new website. The most complete package in the world. </p>
+                                                data-appear-animation-delay="1400"><strong>Grass Roots</strong> is a
+                                                professional landscaping and lawn care business dedicated to maintaining
+                                                clean, healthy, and well-presented outdoor spaces. We specialize in
+                                                efficient, reliable grass cutting and disposal services for residential
+                                                and commercial properties.
+
+                                                Built on quality workmanship and attention to detail, Grass Roots
+                                                ensures every lawn is trimmed, cleared, and left looking its best.</p>
                                             <a href="#who-we-are"
                                                 class="btn btn-gradient custom-btn-effect-1 custom-border-radius-1 d-inline-flex align-items-center font-weight-semibold text-3-5 btn-px-5 btn-py-3 appear-animation"
                                                 data-hash data-hash-offset="0" data-hash-offset-lg="32"
@@ -310,7 +317,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
 
                         </div>
                     </div>
@@ -359,13 +366,13 @@
                         </div>
                         <div class="col-5 col-sm-7 col-md-12 col-lg-6 text-center">
                             <div class="position-relative d-inline-flex">
-                                <img src="img/gallery/Capture.PNG"
+                                <img src="img/gallery/Capture.jpg"
                                     class="img-fluid rounded-circle box-shadow-5 position-absolute top-50pct transform3dy-n50 z-index-3"
                                     alt="" style="right: 75%;" />
                                 <img src="img/gallery/lawn-treatments-square-1024x1024.jpg"
                                     class="img-fluid rounded-circle box-shadow-5 z-index-2" width="260"
                                     alt="" />
-                                <img src="img/gallery/Capture1.PNG"
+                                <img src="img/gallery/Capture2.jpeg"
                                     class="img-fluid rounded-circle box-shadow-5 position-absolute top-50pct transform3dy-n50 z-index-1"
                                     alt="" style="left: 75%;" />
                             </div>
@@ -641,233 +648,13 @@
       </div>
      </div>
     </section> -->
+            <div id="contact-form" class="map-above" style="min-height: 600px;">
 
-            <div class="map-above" style="min-height: 600px;">
-
-                <!-- Google Maps - Go to the bottom of the page to change settings and map location. -->
-                <iframe id="googlemaps" class="map-above-map google-map m-0"
-                    src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d7590.834480210372!2d-76.9357434114028!3d17.959314882114576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sphoenixx%20park%20village%201!5e0!3m2!1sen!2sus!4v1771029700183!5m2!1sen!2sus"
-                    width="100%" min-height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
-                {{-- <div id="googlemaps" class="map-above-map google-map m-0" style="min-height: 600px;"
-                    data-spy-offset="20"></div> --}}
-
-                <section id="contact-form" class="map-above-content section border-0 m-0 p-0">
-                    <div class="container pt-3 pt-sm-5 pt-md-0">
+                <section class="map-above-content section border-0 m-0 p-0">
+                    <div class="container-fluid py-4">
                         <div class="row">
                             <div class="col-md-8 col-lg-6">
                                 <div class="bg-dark p-5">
-                                    {{-- <div class="d-flex mt-4 mb-4">
-                                        <img width="40" height="40"
-                                            src="img/demos/one-page-agency/icons/location.svg" alt=""
-                                            data-icon
-                                            data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-light mt-1'}" />
-                                        <p class="text-color-light ms-2 mb-0">
-                                            <strong class="d-block text-5 mb-1">Kingston, Jamaica</strong>
-                                            <a href="#"
-                                                class="d-inline-block text-color-light text-decoration-underline-2 font-weight-semibold text-3-5 opacity-hover-9">GET
-                                                DIRECTIONS</a>
-                                        </p>
-                                    </div>
-                                    <div class="d-flex align-items-center pb-2 mb-4">
-                                        <img width="40" height="40"
-                                            src="img/demos/one-page-agency/icons/phone.svg" alt="" data-icon
-                                            data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-light'}" />
-                                        <a href="tel:1234657890"
-                                            class="d-inline-block text-color-light font-weight-bold text-decoration-none text-4 opacity-hover-9 ms-2">(876)
-                                            419-8266</a>
-                                    </div> --}}
-                                    {{-- <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
-                                        action="{{ route('paypal-checkout') }}" method="POST" id="service-form"
-                                        enctype="multipart/form-data">
-
-                                        @csrf
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger mt-3">
-                                                <strong>Please fix the following errors:</strong>
-                                                <ul class="mb-0 mt-2">
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
-
-                                        <div class="contact-form-success alert alert-success d-none mt-4">
-                                            <strong>Success!</strong> Your quote has been calculated.
-                                        </div>
-
-
-                                        <br>
-                                        <div class="row">
-                                            <div class="form-group col">
-                                                <label for="total-cost">Customer Name:</label>
-                                                <input type="text"
-                                                    class="form-control @error('customer_name') is-invalid @enderror"
-                                                    id="customer_name" name="customer_name"
-                                                    value="{{ old('customer_name') }}">
-
-                                                @error('customer_name')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                            <div class="form-group col">
-                                                <label for="total-cost">Customer Email:</label>
-                                                <input type="email"
-                                                    class="form-control @error('customer_email') is-invalid @enderror"
-                                                    id="customer_email" name="customer_email"
-                                                    value="{{ old('customer_email') }}">
-
-                                                @error('customer_email')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                        </div>
-
-
-                                        <!-- Service Options -->
-                                        <style>
-                                            .optionspd {
-                                                padding: 15px;
-                                            }
-                                        </style>
-                                        <div class="row">
-                                            <div class="form-group col">
-                                                <label for="services">Select a Service</label>
-
-                                                <div class="dropdown">
-                                                    <button
-                                                        class="btn btn-outline-secondary dropdown-toggle w-100 text-start"
-                                                        type="button" id="servicesDropdown"
-                                                        data-bs-toggle="dropdown">
-                                                        Choose Services
-                                                    </button>
-
-                                                    <ul class="dropdown-menu w-100 p-3"
-                                                        aria-labelledby="servicesDropdown">
-
-                                                        <li class="text-muted">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    disabled>
-                                                                <label class="form-check-label">
-                                                                    🌱 Lawn Cutting with Line Trimmers <strong>(Coming
-                                                                        Soon)</strong>
-                                                                </label>
-                                                            </div>
-                                                        </li>
-
-                                                        <li class="text-muted">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    disabled>
-                                                                <label class="form-check-label">
-                                                                    🌱 Cutting and Bagging <strong>(Coming
-                                                                        Soon)</strong>
-                                                                </label>
-                                                            </div>
-                                                        </li>
-
-                                                        <li class="text-muted">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    disabled>
-                                                                <label class="form-check-label">
-                                                                    🌱 Cutting, Bagging, and Disposal <strong>(Coming
-                                                                        Soon)</strong>
-                                                                </label>
-                                                            </div>
-                                                        </li>
-
-                                                        <li>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input service-checkbox"
-                                                                    type="checkbox" name="services[]"
-                                                                    value="bagging-disposal" id="service1">
-                                                                <label class="form-check-label" for="service1">
-                                                                    🌱 Bagging and Disposal of Grass Cuttings
-                                                                </label>
-                                                            </div>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-
-                                                @error('services')
-                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <!-- Calculated Total Cost -->
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="form-label d-block">Service Type:</label>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="service_type" id="monthly" value="monthly">
-                                                    <label class="form-check-label" for="monthly">
-                                                        Monthly Subscription
-                                                    </label>
-                                                </div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="service_type" id="one_time" value="one_time">
-                                                    <label class="form-check-label" for="one_time">
-                                                        One Time Job
-                                                    </label>
-                                                </div>
-                                                @error('service_type')
-                                                    <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-
-                                        </div>
-                                        <style>
-                                            .form-control:not(.form-control-sm):not(.form-control-lg) {
-                                                /* font-size: 13.6px; */
-                                                /* font-size: 0.85rem; */
-                                                line-height: 3.85 !important;
-                                            }
-                                        </style>
-                                        <div class="row mt-3">
-                                            <div class="form-group col">
-                                                <label for="total-cost">Estimated Cost:</label>
-                                                <input type="number" class="form-control" id="total-cost"
-                                                    name="total_cost" readonly>
-                                            </div>
-                                            <div class="form-group col">
-                                                <label for="job_date">Preferred Job Date:</label>
-                                                <input type="date"
-                                                    class="form-control @error('job_date') is-invalid @enderror"
-                                                    id="job_date" name="job_date" min="{{ date('Y-m-d') }}"
-                                                    value="{{ old('job_date') }}">
-
-                                                @error('job_date')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <button type="submit"
-                                                    class="btn btn-gradient custom-border-radius-1 font-weight-semibold box-shadow-4 text-3-5 btn-px-5 btn-py-3"
-                                                    data-loading-text="Loading...">
-                                                    <span class="px-3">BOOK NOW</span>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                    </form> --}}
                                     <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
                                         action="{{ route('paypal-checkout') }}" method="POST" id="service-form"
                                         enctype="multipart/form-data">
@@ -1141,6 +928,38 @@
 
                                 </div>
                             </div>
+                            <div class="col-md-4 col-lg-6">
+                                <div class="overflow-hidden">
+                                    <h2 class="text-color-primary font-weight-semibold text-3 line-height-7 positive-ls-2 mb-0 appear-animation"
+                                        data-appear-animation="maskUp">BOOK YOUR LAWN SERVICE TODAY</h2>
+                                </div>
+                                <div class="overflow-hidden mb-3">
+                                    <h3 class="text-color-dark font-weight-bold text-transform-none line-height-1 text-10 mb-0 appear-animation"
+                                        data-appear-animation="maskUp" data-appear-animation-delay="200">Fast,
+                                        Reliable Lawn Care</h3>
+                                </div>
+                                <p class="text-color-dark custom-font-secondary text-5-5 line-height-4 appear-animation"
+                                    data-appear-animation="fadeInUpShorter" data-appear-animation-delay="400">
+                                    Grass Roots is your trusted landscaping partner, offering precision lawn care that
+                                    keeps your yard
+                                    looking its best. We specialize in clean, professional grass bagging and disposal
+                                    services to ensure
+                                    your lawn is pristine and hassle-free.
+                                </p>
+                                <p class="text-3-5 appear-animation" data-appear-animation="fadeInUpShorter"
+                                    data-appear-animation-delay="600">
+                                    More services—including complete lawn cutting, trimming, and other premium
+                                    options—will be rolled out soon.
+                                    Book now to take advantage of our current bagging and disposal service and secure
+                                    your spot!
+                                </p>
+                                <a href="#booking"
+                                    class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none custom-link-effect-1 appear-animation"
+                                    data-hash data-hash-offset="0" data-hash-offset-lg="32"
+                                    data-appear-animation="fadeInUpShorter" data-appear-animation-delay="800">
+                                    Book Now
+                                       </a>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -1359,11 +1178,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                                                                                                                                			Map Markers:
-                                                                                                                                                			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                                                                                                                                			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                                                                                                                                			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                                                                                                                                			*/
+                                                                                                                                                                			Map Markers:
+                                                                                                                                                                			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                                                                                                                                			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                                                                                                                                			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                                                                                                                                			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1464,26 +1283,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                                                                                                        <a
-                                                                                                                                                                            href="{{ url('/dashboard') }}"
-                                                                                                                                                                            class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                                                                                                        >
-                                                                                                                                                                            Dashboard
-                                                                                                                                                                        </a>
+                                                                                                                                                                                        <a
+                                                                                                                                                                                            href="{{ url('/dashboard') }}"
+                                                                                                                                                                                            class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                        >
+                                                                                                                                                                                            Dashboard
+                                                                                                                                                                                        </a>
 @else
     <a
-                                                                                                                                                                            href="{{ route('login') }}"
-                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                                                                                                        >
-                                                                                                                                                                            Log in
-                                                                                                                                                                        </a>
+                                                                                                                                                                                            href="{{ route('login') }}"
+                                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                        >
+                                                                                                                                                                                            Log in
+                                                                                                                                                                                        </a>
 
-                                                                                                                                                                        @if (Route::has('register'))
+                                                                                                                                                                                        @if (Route::has('register'))
     <a
-                                                                                                                                                                                href="{{ route('register') }}"
-                                                                                                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                                                                                                Register
-                                                                                                                                                                            </a>
+                                                                                                                                                                                                href="{{ route('register') }}"
+                                                                                                                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                                                                                                                Register
+                                                                                                                                                                                            </a>
     @endif
                     @endauth
                 </nav>
