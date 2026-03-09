@@ -898,60 +898,80 @@
                                             createPayPalOrder(submitBtn, originalText);
                                         });
 
-                                        function createPayPalOrder(submitBtn, originalText) {
-                                            const form = document.getElementById('service-form');
-                                            const selectedServices = Array.from(form.querySelectorAll('.service-checkbox:checked'))
-                                                .map(input => input.value);
+                     function createPayPalOrder(submitBtn, originalText) {
+    const form = document.getElementById('service-form');
+    const selectedServices = Array.from(form.querySelectorAll('.service-checkbox:checked'))
+        .map(input => input.value);
 
-                                            const data = {
-                                                customer_name: form.customer_name.value,
-                                                customer_email: form.customer_email.value,
-                                                services: selectedServices,
-                                                latitude: form.latitude.value,
-                                                longitude: form.longitude.value,
-                                                lot_number: form.lot_number.value,
-                                                service_type: form.service_type.value,
-                                                job_date: form.job_date.value,
-                                                total_cost: form.total_cost.value
-                                            };
+    const data = {
+        customer_name: form.customer_name.value,
+        customer_email: form.customer_email.value,
+        services: selectedServices,
+        latitude: form.latitude.value,
+        longitude: form.longitude.value,
+        lot_number: form.lot_number.value,
+        service_type: form.service_type.value,
+        job_date: form.job_date.value,
+        total_cost: form.total_cost.value
+    };
 
-                                            fetch('/checkout/create-order', {
-                                                    method: 'POST',
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
-                                                    },
-                                                    body: JSON.stringify(data)
-                                                })
-                                                .then(res => res.json())
-                                                .then(response => {
-                                                    if (response.orderID) {
-                                                        handlePayPalButtons(response);
-                                                    } else {
-                                                        // Booking failed → re-enable button
-                                                        submitBtn.disabled = false;
-                                                        submitBtn.innerHTML = originalText;
+    // Clear previous error messages
+    form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+    form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
 
-                                                        Swal.fire({
-                                                            icon: 'error',
-                                                            title: 'Booking Failed',
-                                                            text: 'Unable to create your booking. Please try again.'
-                                                        });
-                                                    }
-                                                })
-                                                .catch(err => {
-                                                    submitBtn.disabled = false;
-                                                    submitBtn.innerHTML = originalText;
+    fetch('/checkout/create-order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
+        },
+        body: JSON.stringify(data)
+    })
+    .then(async res => {
+        if (res.status === 422) {
+            // Validation errors
+            const json = await res.json();
+            for (const field in json.errors) {
+                const input = form.querySelector(`[name="${field}"]`);
+                if (input) {
+                    input.classList.add('is-invalid');
 
-                                                    Swal.fire({
-                                                        icon: 'error',
-                                                        title: 'Booking Failed',
-                                                        text: 'Network error or server error. Please complete all required fields and try again.'
-                                                    });
-                                                    console.error(err);
-                                                });
-                                        }
-
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'invalid-feedback';
+                    errorDiv.innerText = json.errors[field][0];
+                    input.parentNode.appendChild(errorDiv);
+                }
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        } else {
+            return res.json();
+        }
+    })
+    .then(response => {
+        if (response && response.orderID) {
+            handlePayPalButtons(response);
+        } else if (!response) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            Swal.fire({
+                icon: 'error',
+                title: 'Booking Failed',
+                text: 'Unable to create your booking. Please try again.'
+            });
+        }
+    })
+    .catch(err => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        Swal.fire({
+            icon: 'error',
+            title: 'Booking Failed',
+            text: 'Network error or server error. Please complete all required fields and try again.'
+        });
+        console.error(err);
+    });
+}
                                         function handlePayPalButtons(response) {
                                             if (response.orderID) {
                                                 // Hide original submit button

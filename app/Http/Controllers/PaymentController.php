@@ -15,6 +15,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\NewCustomerAccountMail;
+use Illuminate\Support\Facades\Validator;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaymentController extends Controller
@@ -101,13 +102,23 @@ class PaymentController extends Controller
     public function oneTimeCheckout(Request $request)
     {
 
-        $validated = $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'customer_name'   => ['required', 'string', 'max:255'],
             'customer_email'  => ['required', 'email', 'max:255'],
             'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
             'job_date'        => ['required', 'date', 'after_or_equal:today'],
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'lot_number' => 'required|string|max:5',
             'total_cost'      => 'required|numeric|min:0',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
 
         $customer_name  = $request->customer_name;
         $customer_email = strtolower(trim($request->customer_email));
