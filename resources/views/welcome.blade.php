@@ -678,8 +678,8 @@
                                             419-8266</a>
                                     </div> --}}
                                     <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
-                                        action="{{ route('paypal-checkout') }}" method="POST" id="service-form"
-                                        enctype="multipart/form-data">
+                                        action="{{ route('paypal.checkout') }}" method="POST" id="service-form"
+                                        enctype="multipart/form-data" data-ajax="false">
 
                                         @csrf
                                         @if ($errors->any())
@@ -697,11 +697,7 @@
                                             <strong>Success!</strong> Your quote has been calculated.
                                         </div>
 
-                                        {{-- <div class="contact-form-error alert alert-danger d-none mt-4">
-                                            <strong>Error!</strong> There was an error calculating the cost.
-                                            <span class="mail-error-message text-1 d-block"></span>
-                                        </div> --}}
-                                        <!-- Customer KYC -->
+
                                         <br>
                                         <div class="row">
                                             <div class="form-group col">
@@ -737,35 +733,7 @@
                                                 padding: 15px;
                                             }
                                         </style>
-                                        {{-- <div class="row">
-                                            <div class="form-group col">
-                                                <label for="services">Select a Service</label>
-                                                <select name="services[]" id="services"
-                                                    class="form-control @error('services') is-invalid @enderror"
-                                                    multiple required>
-
-                                                    <option disabled class="optionspd" value="cutting-line-trimmers">
-                                                        🌱 Lawn
-                                                        Cutting with Line Trimmers <strong>(Coming Soon)</strong>
-                                                    </option>
-                                                    <option disabled class="optionspd" value="cutting-bagging">🌱
-                                                        Cutting and
-                                                        Bagging <strong>(Coming Soon)</strong></option>
-                                                    <option disabled class="optionspd"
-                                                        value="cutting-bagging-disposal">🌱
-                                                        Cutting, Bagging, and Disposal <strong>(Coming Soon)</strong>
-                                                    </option>
-                                                    <option class="optionspd" value="bagging-disposal">🌱 Bagging and
-                                                        Disposal of Grass Cuttings</option>
-                                                </select>
-                                                @error('services')
-                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                        </div> --}}
-
-                                        <div class="row">
+                                                <div class="row">
                                             <div class="form-group col">
                                                 <label for="services">Select a Service</label>
 
