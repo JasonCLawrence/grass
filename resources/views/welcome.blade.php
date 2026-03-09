@@ -552,7 +552,7 @@
                             <div class="position-relative">
                                 <div class="position-absolute top-50pct transform3dy-n50 z-index-1"
                                     style="right: 80%;">
-                                    <img src="/img/gallery/Capture1.PNG" class="box-shadow-5 appear-animation"
+                                    <img src="/img/gallery/Capture3.jpeg" class="box-shadow-5 appear-animation"
                                         data-appear-animation="fadeInUpShorter" data-appear-animation-delay="300"
                                         alt="" />
                                 </div>
@@ -898,80 +898,81 @@
                                             createPayPalOrder(submitBtn, originalText);
                                         });
 
-                     function createPayPalOrder(submitBtn, originalText) {
-    const form = document.getElementById('service-form');
-    const selectedServices = Array.from(form.querySelectorAll('.service-checkbox:checked'))
-        .map(input => input.value);
+                                        function createPayPalOrder(submitBtn, originalText) {
+                                            const form = document.getElementById('service-form');
+                                            const selectedServices = Array.from(form.querySelectorAll('.service-checkbox:checked'))
+                                                .map(input => input.value);
 
-    const data = {
-        customer_name: form.customer_name.value,
-        customer_email: form.customer_email.value,
-        services: selectedServices,
-        latitude: form.latitude.value,
-        longitude: form.longitude.value,
-        lot_number: form.lot_number.value,
-        service_type: form.service_type.value,
-        job_date: form.job_date.value,
-        total_cost: form.total_cost.value
-    };
+                                            const data = {
+                                                customer_name: form.customer_name.value,
+                                                customer_email: form.customer_email.value,
+                                                services: selectedServices,
+                                                latitude: form.latitude.value,
+                                                longitude: form.longitude.value,
+                                                lot_number: form.lot_number.value,
+                                                service_type: form.service_type.value,
+                                                job_date: form.job_date.value,
+                                                total_cost: form.total_cost.value
+                                            };
 
-    // Clear previous error messages
-    form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
-    form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+                                            // Clear previous error messages
+                                            form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+                                            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
 
-    fetch('/checkout/create-order', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
-        },
-        body: JSON.stringify(data)
-    })
-    .then(async res => {
-        if (res.status === 422) {
-            // Validation errors
-            const json = await res.json();
-            for (const field in json.errors) {
-                const input = form.querySelector(`[name="${field}"]`);
-                if (input) {
-                    input.classList.add('is-invalid');
+                                            fetch('/checkout/create-order', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
+                                                    },
+                                                    body: JSON.stringify(data)
+                                                })
+                                                .then(async res => {
+                                                    if (res.status === 422) {
+                                                        // Validation errors
+                                                        const json = await res.json();
+                                                        for (const field in json.errors) {
+                                                            const input = form.querySelector(`[name="${field}"]`);
+                                                            if (input) {
+                                                                input.classList.add('is-invalid');
 
-                    const errorDiv = document.createElement('div');
-                    errorDiv.className = 'invalid-feedback';
-                    errorDiv.innerText = json.errors[field][0];
-                    input.parentNode.appendChild(errorDiv);
-                }
-            }
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-        } else {
-            return res.json();
-        }
-    })
-    .then(response => {
-        if (response && response.orderID) {
-            handlePayPalButtons(response);
-        } else if (!response) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-            Swal.fire({
-                icon: 'error',
-                title: 'Booking Failed',
-                text: 'Unable to create your booking. Please try again.'
-            });
-        }
-    })
-    .catch(err => {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-        Swal.fire({
-            icon: 'error',
-            title: 'Booking Failed',
-            text: 'Network error or server error. Please complete all required fields and try again.'
-        });
-        console.error(err);
-    });
-}
+                                                                const errorDiv = document.createElement('div');
+                                                                errorDiv.className = 'invalid-feedback';
+                                                                errorDiv.innerText = json.errors[field][0];
+                                                                input.parentNode.appendChild(errorDiv);
+                                                            }
+                                                        }
+                                                        submitBtn.disabled = false;
+                                                        submitBtn.innerHTML = originalText;
+                                                    } else {
+                                                        return res.json();
+                                                    }
+                                                })
+                                                .then(response => {
+                                                    if (response && response.orderID) {
+                                                        handlePayPalButtons(response);
+                                                    } else if (!response) {
+                                                        submitBtn.disabled = false;
+                                                        submitBtn.innerHTML = originalText;
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Booking Failed',
+                                                            text: 'Unable to create your booking. Please try again.'
+                                                        });
+                                                    }
+                                                })
+                                                .catch(err => {
+                                                    submitBtn.disabled = false;
+                                                    submitBtn.innerHTML = originalText;
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Booking Failed',
+                                                        text: 'Network error or server error. Please complete all required fields and try again.'
+                                                    });
+                                                    console.error(err);
+                                                });
+                                        }
+
                                         function handlePayPalButtons(response) {
                                             if (response.orderID) {
                                                 // Hide original submit button
@@ -1218,11 +1219,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                                                                                                                                                                                                                        			Map Markers:
-                                                                                                                                                                                                                                        			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                                                                                                                                                                                                                        			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                                                                                                                                                                                                                        			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                                                                                                                                                                                                                        			*/
+                                                                                                                                                                                                                                            			Map Markers:
+                                                                                                                                                                                                                                            			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                                                                                                                                                                                                            			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                                                                                                                                                                                                            			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                                                                                                                                                                                                            			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1403,26 +1404,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                                                                                                                                                                                                <a
-                                                                                                                                                                                                                                                                    href="{{ url('/dashboard') }}"
-                                                                                                                                                                                                                                                                    class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                                                                                                >
-                                                                                                                                                                                                                                                                    Dashboard
-                                                                                                                                                                                                                                                                </a>
+                                                                                                                                                                                                                                                                    <a
+                                                                                                                                                                                                                                                                        href="{{ url('/dashboard') }}"
+                                                                                                                                                                                                                                                                        class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                    >
+                                                                                                                                                                                                                                                                        Dashboard
+                                                                                                                                                                                                                                                                    </a>
 @else
     <a
-                                                                                                                                                                                                                                                                    href="{{ route('login') }}"
-                                                                                                                                                                                                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                                                                                                >
-                                                                                                                                                                                                                                                                    Log in
-                                                                                                                                                                                                                                                                </a>
-
-                                                                                                                                                                                                                                                                @if (Route::has('register'))
-    <a
-                                                                                                                                                                                                                                                                        href="{{ route('register') }}"
-                                                                                                                                                                                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                                                                                                                                                                                        Register
+                                                                                                                                                                                                                                                                        href="{{ route('login') }}"
+                                                                                                                                                                                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                    >
+                                                                                                                                                                                                                                                                        Log in
                                                                                                                                                                                                                                                                     </a>
+
+                                                                                                                                                                                                                                                                    @if (Route::has('register'))
+    <a
+                                                                                                                                                                                                                                                                            href="{{ route('register') }}"
+                                                                                                                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                                                                                                                                                                                            Register
+                                                                                                                                                                                                                                                                        </a>
     @endif
                     @endauth
                 </nav>
