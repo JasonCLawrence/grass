@@ -15,103 +15,190 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\NewCustomerAccountMail;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaymentController extends Controller
 {
 
+public function oneTimeCheckout(Request $request)
+{
+
+    $validated = $request->validate([
+        'customer_name'   => ['required', 'string', 'max:255'],
+        'customer_email'  => ['required', 'email', 'max:255'],
+        'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
+        'job_date'        => ['required', 'date', 'after_or_equal:today'],
+        'total_cost'      => 'required|numeric|min:0',
+    ]);
+
+    $customer_name  = $request->customer_name;
+    $customer_email = strtolower(trim($request->customer_email));
+    $service        = $request->services[0];
+    $frequency      = $request->service_type;
+    $job_date       = $request->job_date;
+    $total_cost     = str_replace("$", '', $request->total_cost);
+
+    $user = Auth::user();
+
+    if (!$user) {
+
+        $user = User::where('email', $customer_email)->first();
+
+        if (!$user) {
+
+            $plainPassword = Str::random(10);
+
+            $user = User::create([
+                'name' => $customer_name,
+                'email' => $customer_email,
+                'password' => Hash::make($plainPassword),
+            ]);
+
+            Mail::to($user->email)->send(
+                new NewCustomerAccountMail($user, $plainPassword)
+            );
+        }
+
+        Auth::login($user);
+    }
+
+    $booking = Booking::create([
+        'user_id' => $user->id,
+        'customer_name'  => $customer_name,
+        'customer_email' => $customer_email,
+        'service'        => $service,
+        'frequency'      => $frequency,
+        'job_date'       => $job_date,
+        'payment_status' => 'pending',
+        'total_cost'     => $total_cost,
+        'property_images'=> "",
+    ]);
+
+    $provider = new PayPalClient;
+    $provider->setApiCredentials(config('paypal'));
+    $token = $provider->getAccessToken();
+
+    $response = $provider->createOrder([
+        "intent" => "CAPTURE",
+        "application_context" => [
+            "return_url" => route('payment.success', ['booking'=>$booking->id]),
+            "cancel_url" => route('payment.cancel', ['booking'=>$booking->id]),
+        ],
+        "purchase_units" => [
+            [
+                "amount" => [
+                    "currency_code" => "USD",
+                    "value" => $total_cost
+                ]
+            ]
+        ]
+    ]);
+
+    if (isset($response['links'])) {
+
+        foreach ($response['links'] as $link) {
+
+            if ($link['rel'] == 'approve') {
+
+                return redirect()->away($link['href']);
+            }
+        }
+    }
+
+    return redirect()->back()->with('error','PayPal checkout failed.');
+}
+
+    // public function oneTimeCheckout(Request $request)
+    // {
+
+    //     // return Auth::user();
+    //     // return $request;
+    //     $validated = $request->validate([
+    //         'customer_name'   => ['required', 'string', 'max:255'],
+    //         'customer_email'  => ['required', 'email', 'max:255'],
+    //         'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
+    //         'job_date'        => ['required', 'date', 'after_or_equal:today'],
+    //         'total_cost' => 'required|numeric|min:0',
+    //         'services.required' => 'Please select at least one service.',
+    //         'job_date.after_or_equal' => 'Job date must be today or a future date.',
+    //         // Images
+    //         // 'property_images'     => 'nullable|array|max:10',
+    //         // 'property_images.*'   => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+    //     ]);
 
 
-    public function oneTimeCheckout(Request $request)
-    {
-
-        // return Auth::user();
-        // return $request;
-        $validated = $request->validate([
-            'customer_name'   => ['required', 'string', 'max:255'],
-            'customer_email'  => ['required', 'email', 'max:255'],
-            'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
-            'job_date'        => ['required', 'date', 'after_or_equal:today'],
-            'total_cost' => 'required|numeric|min:0',
-            'services.required' => 'Please select at least one service.',
-            'job_date.after_or_equal' => 'Job date must be today or a future date.',
-            // Images
-            // 'property_images'     => 'nullable|array|max:10',
-            // 'property_images.*'   => 'image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
+    //     $customer_name  = $request->customer_name;
+    //     $customer_email = strtolower(trim($request->customer_email));
+    //     $service        = $request->services[0];
+    //     $frequency      = $request->service_type;
+    //     $job_date       = $request->job_date;
+    //     $total_cost     = str_replace("$", '', $request->total_cost);
 
 
-        $customer_name  = $request->customer_name;
-        $customer_email = strtolower(trim($request->customer_email));
-        $service        = $request->services[0];
-        $frequency      = $request->service_type;
-        $job_date       = $request->job_date;
-        $total_cost     = str_replace("$", '', $request->total_cost);
-
-
-        // return $service;
-        $servicePricing = config('stripe_services');
+    //     // return $service;
+    //     $servicePricing = config('stripe_services');
     
 
 
-        $user = Auth::user();
+    //     $user = Auth::user();
         
-        if (!$user) {
+    //     if (!$user) {
 
 
-            $user = User::where('email', $customer_email)->first();
+    //         $user = User::where('email', $customer_email)->first();
 
-            if (!$user) {
+    //         if (!$user) {
 
-                // Generate random password
-                $plainPassword = Str::random(10);
+    //             // Generate random password
+    //             $plainPassword = Str::random(10);
 
-                $user = User::create([
-                    'name' => $customer_name,
-                    'email' => $customer_email,
-                    'password' => Hash::make($plainPassword),
-                ]);
+    //             $user = User::create([
+    //                 'name' => $customer_name,
+    //                 'email' => $customer_email,
+    //                 'password' => Hash::make($plainPassword),
+    //             ]);
 
-                // Send welcome email with password
-                Mail::to($user->email)->send(
-                    new NewCustomerAccountMail($user, $plainPassword)
-                );
-            }
+    //             // Send welcome email with password
+    //             Mail::to($user->email)->send(
+    //                 new NewCustomerAccountMail($user, $plainPassword)
+    //             );
+    //         }
 
-            // Log the user in
-            Auth::login($user);
-        }
+    //         // Log the user in
+    //         Auth::login($user);
+    //     }
 
   
 
 
-        $priceId = $servicePricing[$service][$frequency];
+    //     $priceId = $servicePricing[$service][$frequency];
 
-          // Create booking (PENDING)
-        $booking = Booking::create([
-            'user_id' => $user->id,
-            'customer_name'    => $customer_name,
-            'customer_email'   => $customer_email,
-            'service'          => $service,
-            'frequency'        => $frequency,
-            'job_date'         => $job_date,
-            'stripe_price_id'  => $priceId,
-            'payment_status'   => 'pending',
-            'total_cost'      => $total_cost,
-            'property_images' => "",
-        ]);
+    //       // Create booking (PENDING)
+    //     $booking = Booking::create([
+    //         'user_id' => $user->id,
+    //         'customer_name'    => $customer_name,
+    //         'customer_email'   => $customer_email,
+    //         'service'          => $service,
+    //         'frequency'        => $frequency,
+    //         'job_date'         => $job_date,
+    //         'stripe_price_id'  => $priceId,
+    //         'payment_status'   => 'pending',
+    //         'total_cost'      => $total_cost,
+    //         'property_images' => "",
+    //     ]);
 
 
 
-        return $user->checkout(
-            [
-                $priceId => 1
-            ],
-            [
-                'success_url' => route('payment.success', ['booking' => $booking->id,]),
-                'cancel_url'  => route('payment.cancel', ['booking' => $booking->id,]),
-            ]
-        );
-    }
+    //     return $user->checkout(
+    //         [
+    //             $priceId => 1
+    //         ],
+    //         [
+    //             'success_url' => route('payment.success', ['booking' => $booking->id,]),
+    //             'cancel_url'  => route('payment.cancel', ['booking' => $booking->id,]),
+    //         ]
+    //     );
+    // }
     public function paymentSuccess(Booking $booking)
     {
 
