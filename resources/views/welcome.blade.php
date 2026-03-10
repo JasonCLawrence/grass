@@ -73,6 +73,12 @@
     <!-- Theme Custom CSS -->
     <link rel="stylesheet" href="/css/custom.css">
     <style>
+        input,
+        textarea,
+        select {
+            font-size: 16px;
+        }
+
         #map-container {
             position: relative;
             height: 200px;
@@ -846,7 +852,7 @@
                                         <!-- Total cost and job date -->
                                         <div class="row mt-3">
                                             <div class="form-group col">
-                                                <label for="total-cost">Estimated Cost (USD) :</label>
+                                                <label for="total-cost">Total (USD) :</label>
                                                 <input type="number" class="form-control" id="total-cost"
                                                     name="total_cost" readonly>
                                             </div>
@@ -1219,11 +1225,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                                                                                                                                                                                                                            			Map Markers:
-                                                                                                                                                                                                                                            			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                                                                                                                                                                                                                            			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                                                                                                                                                                                                                            			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                                                                                                                                                                                                                            			*/
+                                                                                                                                                                                                                                                			Map Markers:
+                                                                                                                                                                                                                                                			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                                                                                                                                                                                                                			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                                                                                                                                                                                                                			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                                                                                                                                                                                                                			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1404,26 +1410,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                                                                                                                                                                                                    <a
-                                                                                                                                                                                                                                                                        href="{{ url('/dashboard') }}"
-                                                                                                                                                                                                                                                                        class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                                                                                                    >
-                                                                                                                                                                                                                                                                        Dashboard
-                                                                                                                                                                                                                                                                    </a>
+                                                                                                                                                                                                                                                                        <a
+                                                                                                                                                                                                                                                                            href="{{ url('/dashboard') }}"
+                                                                                                                                                                                                                                                                            class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                        >
+                                                                                                                                                                                                                                                                            Dashboard
+                                                                                                                                                                                                                                                                        </a>
 @else
     <a
-                                                                                                                                                                                                                                                                        href="{{ route('login') }}"
-                                                                                                                                                                                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                                                                                                    >
-                                                                                                                                                                                                                                                                        Log in
-                                                                                                                                                                                                                                                                    </a>
-
-                                                                                                                                                                                                                                                                    @if (Route::has('register'))
-    <a
-                                                                                                                                                                                                                                                                            href="{{ route('register') }}"
-                                                                                                                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                                                                                                                                                                                            Register
+                                                                                                                                                                                                                                                                            href="{{ route('login') }}"
+                                                                                                                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                        >
+                                                                                                                                                                                                                                                                            Log in
                                                                                                                                                                                                                                                                         </a>
+
+                                                                                                                                                                                                                                                                        @if (Route::has('register'))
+    <a
+                                                                                                                                                                                                                                                                                href="{{ route('register') }}"
+                                                                                                                                                                                                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                                                                                                                                                                                                Register
+                                                                                                                                                                                                                                                                            </a>
     @endif
                     @endauth
                 </nav>
