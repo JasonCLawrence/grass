@@ -899,7 +899,7 @@
 
                                 <!-- PayPal JS SDK -->
                                 <script
-                                    src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
+                                    src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_LIVE_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
                                 </script>
 
                                 <script>
