@@ -75,9 +75,23 @@
     <link rel="stylesheet" href="/css/custom.css">
     <style>
         input,
+        select,
         textarea,
-        select {
+        button {
             font-size: 16px;
+            /* Prevents iOS from zooming */
+        }
+
+        body {
+            -webkit-text-size-adjust: 100%;
+            /* Prevents font auto-resizing */
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 10px;
+                width: 100%;
+            }
         }
 
         #map-container {
@@ -706,331 +720,328 @@
                                 {{-- <div class="bg-dark p-5"> --}}
 
 
-                                    <div id="map-container">
-                                        <div id="map"></div>
+                                <div id="map-container">
+                                    <div id="map"></div>
+                                </div>
+
+                                <div id="fullscreenMap">
+                                    <div id="fullMap" style="height:100%; width:100%;"></div>
+                                </div>
+                                <a href="#booking" id="selectLocationBtn"
+                                    class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none custom-link-effect-1 appear-animation"
+                                    data-hash data-hash-offset="0" data-hash-offset-lg="32"
+                                    data-appear-animation="fadeInUpShorter" data-appear-animation-delay="800">
+                                    Choose Your Location
+                                </a>
+                                <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
+                                    action="{{ route('paypal-checkout') }}" method="POST" id="service-form"
+                                    enctype="multipart/form-data">
+
+                                    @csrf
+
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger mt-3">
+                                            <strong>Please fix the following errors:</strong>
+                                            <ul class="mb-0 mt-2">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+
+                                    <div class="contact-form-success alert alert-success d-none mt-4">
+                                        <strong>Success!</strong> Your quote has been calculated.
                                     </div>
 
-                                    <div id="fullscreenMap">
-                                        <div id="fullMap" style="height:100%; width:100%;"></div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label for="total-cost">Customer Name:</label>
+                                            <input type="text"
+                                                class="form-control @error('customer_name') is-invalid @enderror"
+                                                id="customer_name" name="customer_name"
+                                                value="{{ old('customer_name') }}">
+
+                                            @error('customer_name')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+
+                                        </div>
+                                        <div class="form-group col">
+                                            <label for="total-cost">Customer Email:</label>
+                                            <input type="email"
+                                                class="form-control @error('customer_email') is-invalid @enderror"
+                                                id="customer_email" name="customer_email"
+                                                value="{{ old('customer_email') }}">
+
+                                            @error('customer_email')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+
+                                        </div>
                                     </div>
-                                    <a href="#booking" id="selectLocationBtn"
-                                        class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none custom-link-effect-1 appear-animation"
-                                        data-hash data-hash-offset="0" data-hash-offset-lg="32"
-                                        data-appear-animation="fadeInUpShorter" data-appear-animation-delay="800">
-                                        Choose Your Location
-                                    </a>
-                                    <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
-                                        action="{{ route('paypal-checkout') }}" method="POST" id="service-form"
-                                        enctype="multipart/form-data">
 
-                                        @csrf
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label for="total-cost">Lot Number:</label>
+                                            <input type="number"
+                                                class="form-control @error('lot_number') is-invalid @enderror"
+                                                id="lot_number" name="lot_number" value="{{ old('lot_number') }}">
 
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger mt-3">
-                                                <strong>Please fix the following errors:</strong>
-                                                <ul class="mb-0 mt-2">
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
+                                            @error('lot_number')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
 
-                                        <div class="contact-form-success alert alert-success d-none mt-4">
-                                            <strong>Success!</strong> Your quote has been calculated.
                                         </div>
-
-                                        <br>
-                                        <div class="row">
-                                            <div class="form-group col">
-                                                <label for="total-cost">Customer Name:</label>
-                                                <input type="text"
-                                                    class="form-control @error('customer_name') is-invalid @enderror"
-                                                    id="customer_name" name="customer_name"
-                                                    value="{{ old('customer_name') }}">
-
-                                                @error('customer_name')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                            <div class="form-group col">
-                                                <label for="total-cost">Customer Email:</label>
-                                                <input type="email"
-                                                    class="form-control @error('customer_email') is-invalid @enderror"
-                                                    id="customer_email" name="customer_email"
-                                                    value="{{ old('customer_email') }}">
-
-                                                @error('customer_email')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col">
-                                                <label for="total-cost">Lot Number:</label>
-                                                <input type="number"
-                                                    class="form-control @error('lot_number') is-invalid @enderror"
-                                                    id="lot_number" name="lot_number"
-                                                    value="{{ old('lot_number') }}">
-
-                                                @error('lot_number')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-                                            <div class="col">
-                                                <label class="form-label d-block">Service Type:</label>
-                                                {{-- <div class="form-check form-check-inline">
+                                        <div class="col">
+                                            <label class="form-label d-block">Service Type:</label>
+                                            {{-- <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio"
                                                         name="service_type" id="monthly" value="monthly">
                                                     <label class="form-check-label" for="monthly">Monthly
                                                         Subscription</label>
                                                 </div> --}}
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="service_type" id="one_time" value="one_time" checked>
-                                                    <label class="form-check-label" for="one_time">One Time
-                                                        Job</label>
-                                                </div>
-                                                @error('service_type')
-                                                    <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="service_type"
+                                                    id="one_time" value="one_time" checked>
+                                                <label class="form-check-label" for="one_time">One Time
+                                                    Job</label>
                                             </div>
+                                            @error('service_type')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
-                                        <!-- Service Options -->
-                                        <div class="row">
-                                            <div class="form-group col">
-                                                <label for="services">Select a Service</label>
-                                                <div class="dropdown">
-                                                    <button
-                                                        class="btn btn-gradient custom-btn-effect-1 custom-border-radius-1 dropdown-toggle w-100 text-start"
-                                                        type="button" id="servicesDropdown"
-                                                        data-bs-toggle="dropdown">
-                                                        Choose Services
-                                                    </button>
-                                                    <ul class="dropdown-menu w-100 p-3"
-                                                        aria-labelledby="servicesDropdown">
-                                                        <li class="text-muted">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    disabled>
-                                                                <label class="form-check-label">
-                                                                    🌱 Lawn Cutting with Line Trimmers <strong>(Coming
-                                                                        Soon)</strong>
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input service-checkbox"
-                                                                    type="checkbox" name="services[]"
-                                                                    value="bagging-disposal" id="service1">
-                                                                <label class="form-check-label" for="service1">
-                                                                    🌱 Bagging & Disposal   
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                                @error('services')
-                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        {{-- <label for="latitude">Latitude:</label> --}}
-                                        <input type="hidden" id="latitude" name="latitude" readonly>
-
-
-                                        {{-- <label for="longitude">Longitude:</label> --}}
-                                        <input type="hidden" id="longitude" name="longitude" readonly>
-
-
-                                        <!-- Total cost and job date -->
-                                        <div class="row mt-3">
-                                            <div class="form-group col">
-                                                <label for="total-cost">Total (USD) :</label>
-                                                <input type="number" class="form-control" id="total-cost"
-                                                    name="total_cost" readonly>
-                                            </div>
-                                            <div class="form-group col">
-                                                <label for="job_date">Preferred Job Date:</label>
-                                                <input type="date"
-                                                    class="form-control @error('job_date') is-invalid @enderror"
-                                                    id="job_date" name="job_date" min="{{ date('Y-m-d') }}"
-                                                    value="{{ old('job_date') }}">
-                                                @error('job_date')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <!-- Submit button -->
-                                        <div class="row">
-                                            <div class="col">
-                                                <button type="submit"
-                                                    class="btn btn-gradient custom-border-radius-1 font-weight-semibold box-shadow-4 text-3-5 btn-px-5 btn-py-3"
-                                                    data-loading-text="Loading...">
-                                                    <span class="px-3">BOOK NOW</span>
+                                    </div>
+                                    <!-- Service Options -->
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label for="services">Select a Service</label>
+                                            <div class="dropdown">
+                                                <button
+                                                    class="btn btn-gradient custom-btn-effect-1 custom-border-radius-1 dropdown-toggle w-100 text-start"
+                                                    type="button" id="servicesDropdown" data-bs-toggle="dropdown">
+                                                    Choose Services
                                                 </button>
+                                                <ul class="dropdown-menu w-100 p-3"
+                                                    aria-labelledby="servicesDropdown">
+                                                    <li class="text-muted">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" disabled>
+                                                            <label class="form-check-label">
+                                                                🌱 Lawn Cutting with Line Trimmers <strong>(Coming
+                                                                    Soon)</strong>
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input service-checkbox"
+                                                                type="checkbox" name="services[]"
+                                                                value="bagging-disposal" id="service1">
+                                                            <label class="form-check-label" for="service1">
+                                                                🌱 Bagging & Disposal
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
                                             </div>
+
+                                            @error('services')
+                                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                            @enderror
                                         </div>
+                                    </div>
 
-                                        <!-- PayPal Button container -->
-                                        <div id="paypal-button-container" class="mt-3"></div>
+                                    {{-- <label for="latitude">Latitude:</label> --}}
+                                    <input type="hidden" id="latitude" name="latitude" readonly>
 
-                                    </form>
 
-                                    <!-- PayPal JS SDK -->
-                                    <script
-                                        src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
-                                    </script>
+                                    {{-- <label for="longitude">Longitude:</label> --}}
+                                    <input type="hidden" id="longitude" name="longitude" readonly>
 
-                                    <script>
-                                        // Prevent default form submit
-                                        document.getElementById('service-form').addEventListener('submit', function(e) {
-                                            e.preventDefault();
 
-                                            const submitBtn = this.querySelector('button[type="submit"]');
+                                    <!-- Total cost and job date -->
+                                    <div class="row mt-3">
+                                        <div class="form-group col">
+                                            <label for="total-cost">Total (USD) :</label>
+                                            <input type="number" class="form-control" id="total-cost"
+                                                name="total_cost" readonly>
+                                        </div>
+                                        <div class="form-group col">
+                                            <label for="job_date">Preferred Job Date:</label>
+                                            <input type="date"
+                                                class="form-control @error('job_date') is-invalid @enderror"
+                                                id="job_date" name="job_date" min="{{ date('Y-m-d') }}"
+                                                value="{{ old('job_date') }}">
+                                            @error('job_date')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
 
-                                            // Disable the button and show temporary text
-                                            submitBtn.disabled = true;
-                                            const originalText = submitBtn.innerHTML;
-                                            submitBtn.innerHTML = 'Creating your booking...';
+                                    <!-- Submit button -->
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit"
+                                                class="btn btn-gradient custom-border-radius-1 font-weight-semibold box-shadow-4 text-3-5 btn-px-5 btn-py-3"
+                                                data-loading-text="Loading...">
+                                                <span class="px-3">BOOK NOW</span>
+                                            </button>
+                                        </div>
+                                    </div>
 
-                                            createPayPalOrder(submitBtn, originalText);
-                                        });
+                                    <!-- PayPal Button container -->
+                                    <div id="paypal-button-container" class="mt-3"></div>
 
-                                        function createPayPalOrder(submitBtn, originalText) {
-                                            const form = document.getElementById('service-form');
-                                            const selectedServices = Array.from(form.querySelectorAll('.service-checkbox:checked'))
-                                                .map(input => input.value);
+                                </form>
 
-                                            const data = {
-                                                customer_name: form.customer_name.value,
-                                                customer_email: form.customer_email.value,
-                                                services: selectedServices,
-                                                latitude: form.latitude.value,
-                                                longitude: form.longitude.value,
-                                                lot_number: form.lot_number.value,
-                                                service_type: form.service_type.value,
-                                                job_date: form.job_date.value,
-                                                total_cost: form.total_cost.value
-                                            };
+                                <!-- PayPal JS SDK -->
+                                <script
+                                    src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
+                                </script>
 
-                                            // Clear previous error messages
-                                            form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
-                                            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+                                <script>
+                                    // Prevent default form submit
+                                    document.getElementById('service-form').addEventListener('submit', function(e) {
+                                        e.preventDefault();
 
-                                            fetch('/checkout/create-order', {
-                                                    method: 'POST',
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
-                                                    },
-                                                    body: JSON.stringify(data)
-                                                })
-                                                .then(async res => {
-                                                    if (res.status === 422) {
-                                                        // Validation errors
-                                                        const json = await res.json();
-                                                        for (const field in json.errors) {
-                                                            const input = form.querySelector(`[name="${field}"]`);
-                                                            if (input) {
-                                                                input.classList.add('is-invalid');
+                                        const submitBtn = this.querySelector('button[type="submit"]');
 
-                                                                const errorDiv = document.createElement('div');
-                                                                errorDiv.className = 'invalid-feedback';
-                                                                errorDiv.innerText = json.errors[field][0];
-                                                                input.parentNode.appendChild(errorDiv);
-                                                            }
+                                        // Disable the button and show temporary text
+                                        submitBtn.disabled = true;
+                                        const originalText = submitBtn.innerHTML;
+                                        submitBtn.innerHTML = 'Creating your booking...';
+
+                                        createPayPalOrder(submitBtn, originalText);
+                                    });
+
+                                    function createPayPalOrder(submitBtn, originalText) {
+                                        const form = document.getElementById('service-form');
+                                        const selectedServices = Array.from(form.querySelectorAll('.service-checkbox:checked'))
+                                            .map(input => input.value);
+
+                                        const data = {
+                                            customer_name: form.customer_name.value,
+                                            customer_email: form.customer_email.value,
+                                            services: selectedServices,
+                                            latitude: form.latitude.value,
+                                            longitude: form.longitude.value,
+                                            lot_number: form.lot_number.value,
+                                            service_type: form.service_type.value,
+                                            job_date: form.job_date.value,
+                                            total_cost: form.total_cost.value
+                                        };
+
+                                        // Clear previous error messages
+                                        form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+                                        form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+                                        fetch('/checkout/create-order', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
+                                                },
+                                                body: JSON.stringify(data)
+                                            })
+                                            .then(async res => {
+                                                if (res.status === 422) {
+                                                    // Validation errors
+                                                    const json = await res.json();
+                                                    for (const field in json.errors) {
+                                                        const input = form.querySelector(`[name="${field}"]`);
+                                                        if (input) {
+                                                            input.classList.add('is-invalid');
+
+                                                            const errorDiv = document.createElement('div');
+                                                            errorDiv.className = 'invalid-feedback';
+                                                            errorDiv.innerText = json.errors[field][0];
+                                                            input.parentNode.appendChild(errorDiv);
                                                         }
-                                                        submitBtn.disabled = false;
-                                                        submitBtn.innerHTML = originalText;
-                                                    } else {
-                                                        return res.json();
                                                     }
-                                                })
-                                                .then(response => {
-                                                    if (response && response.orderID) {
-                                                        handlePayPalButtons(response);
-                                                    } else if (!response) {
-                                                        submitBtn.disabled = false;
-                                                        submitBtn.innerHTML = originalText;
-                                                        Swal.fire({
-                                                            icon: 'error',
-                                                            title: 'Booking Failed',
-                                                            text: 'Unable to create your booking. Please try again.'
-                                                        });
-                                                    }
-                                                })
-                                                .catch(err => {
+                                                    submitBtn.disabled = false;
+                                                    submitBtn.innerHTML = originalText;
+                                                } else {
+                                                    return res.json();
+                                                }
+                                            })
+                                            .then(response => {
+                                                if (response && response.orderID) {
+                                                    handlePayPalButtons(response);
+                                                } else if (!response) {
                                                     submitBtn.disabled = false;
                                                     submitBtn.innerHTML = originalText;
                                                     Swal.fire({
                                                         icon: 'error',
                                                         title: 'Booking Failed',
-                                                        text: 'Network error or server error. Please complete all required fields and try again.'
+                                                        text: 'Unable to create your booking. Please try again.'
                                                     });
-                                                    console.error(err);
-                                                });
-                                        }
-
-                                        function handlePayPalButtons(response) {
-                                            if (response.orderID) {
-                                                // Hide original submit button
-                                                document.querySelector('#service-form button[type="submit"]').style.display = 'none';
-
-                                                paypal.Buttons({
-                                                    createOrder: () => response.orderID,
-                                                    onApprove: (details) => {
-                                                        return fetch('/checkout/capture-order', {
-                                                                method: 'POST',
-                                                                headers: {
-                                                                    'Content-Type': 'application/json',
-                                                                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                                                                },
-                                                                body: JSON.stringify({
-                                                                    orderID: response.orderID
-                                                                })
-                                                            })
-                                                            .then(res => res.json())
-                                                            .then(res => {
-                                                                if (res.status === 'success') {
-                                                                    Swal.fire({
-                                                                        icon: 'success',
-                                                                        title: 'Payment Completed',
-                                                                        text: 'Your booking (ID: ' + res.booking_id +
-                                                                            ') is confirmed!',
-                                                                        confirmButtonText: 'OK'
-                                                                    }).then(() => {
-                                                                        location.reload(); // Or redirect to confirmation page
-                                                                    });
-                                                                } else {
-                                                                    Swal.fire({
-                                                                        icon: 'error',
-                                                                        title: 'Payment Failed',
-                                                                        text: 'Something went wrong. Please try again later.',
-                                                                    }).then(() => {
-                                                                        location.reload(); // Or redirect to confirmation page
-                                                                    });
-                                                                }
-                                                            });
-                                                    }
-                                                }).render('#paypal-button-container');
-                                            } else {
+                                                }
+                                            })
+                                            .catch(err => {
+                                                submitBtn.disabled = false;
+                                                submitBtn.innerHTML = originalText;
                                                 Swal.fire({
                                                     icon: 'error',
-                                                    title: 'Order Creation Failed',
-                                                    text: 'Unable to create PayPal order. Please try again later.'
+                                                    title: 'Booking Failed',
+                                                    text: 'Network error or server error. Please complete all required fields and try again.'
                                                 });
-                                            }
+                                                console.error(err);
+                                            });
+                                    }
+
+                                    function handlePayPalButtons(response) {
+                                        if (response.orderID) {
+                                            // Hide original submit button
+                                            document.querySelector('#service-form button[type="submit"]').style.display = 'none';
+
+                                            paypal.Buttons({
+                                                createOrder: () => response.orderID,
+                                                onApprove: (details) => {
+                                                    return fetch('/checkout/capture-order', {
+                                                            method: 'POST',
+                                                            headers: {
+                                                                'Content-Type': 'application/json',
+                                                                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                                                            },
+                                                            body: JSON.stringify({
+                                                                orderID: response.orderID
+                                                            })
+                                                        })
+                                                        .then(res => res.json())
+                                                        .then(res => {
+                                                            if (res.status === 'success') {
+                                                                Swal.fire({
+                                                                    icon: 'success',
+                                                                    title: 'Payment Completed',
+                                                                    text: 'Your booking (ID: ' + res.booking_id +
+                                                                        ') is confirmed!',
+                                                                    confirmButtonText: 'OK'
+                                                                }).then(() => {
+                                                                    location.reload(); // Or redirect to confirmation page
+                                                                });
+                                                            } else {
+                                                                Swal.fire({
+                                                                    icon: 'error',
+                                                                    title: 'Payment Failed',
+                                                                    text: 'Something went wrong. Please try again later.',
+                                                                }).then(() => {
+                                                                    location.reload(); // Or redirect to confirmation page
+                                                                });
+                                                            }
+                                                        });
+                                                }
+                                            }).render('#paypal-button-container');
+                                        } else {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Order Creation Failed',
+                                                text: 'Unable to create PayPal order. Please try again later.'
+                                            });
                                         }
-                                    </script>
+                                    }
+                                </script>
 
                                 {{-- </div> --}}
                             </div>
@@ -1226,11 +1237,11 @@
     <!-- Google Maps -->
     <script>
         /* 
-                                                                                                                                                                                                                                                			Map Markers:
-                                                                                                                                                                                                                                                			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-                                                                                                                                                                                                                                                			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-                                                                                                                                                                                                                                                			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-                                                                                                                                                                                                                                                			*/
+                                                                                                                                                                                                                                                        			Map Markers:
+                                                                                                                                                                                                                                                        			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
+                                                                                                                                                                                                                                                        			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
+                                                                                                                                                                                                                                                        			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
+                                                                                                                                                                                                                                                        			*/
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API",
                 c = "google",
@@ -1411,26 +1422,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                                                                                                                                                                                                        <a
-                                                                                                                                                                                                                                                                            href="{{ url('/dashboard') }}"
-                                                                                                                                                                                                                                                                            class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                                                                                                        >
-                                                                                                                                                                                                                                                                            Dashboard
-                                                                                                                                                                                                                                                                        </a>
+                                                                                                                                                                                                                                                                                <a
+                                                                                                                                                                                                                                                                                    href="{{ url('/dashboard') }}"
+                                                                                                                                                                                                                                                                                    class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                                >
+                                                                                                                                                                                                                                                                                    Dashboard
+                                                                                                                                                                                                                                                                                </a>
 @else
     <a
-                                                                                                                                                                                                                                                                            href="{{ route('login') }}"
-                                                                                                                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                                                                                                        >
-                                                                                                                                                                                                                                                                            Log in
-                                                                                                                                                                                                                                                                        </a>
+                                                                                                                                                                                                                                                                                    href="{{ route('login') }}"
+                                                                                                                                                                                                                                                                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                                >
+                                                                                                                                                                                                                                                                                    Log in
+                                                                                                                                                                                                                                                                                </a>
 
-                                                                                                                                                                                                                                                                        @if (Route::has('register'))
+                                                                                                                                                                                                                                                                                @if (Route::has('register'))
     <a
-                                                                                                                                                                                                                                                                                href="{{ route('register') }}"
-                                                                                                                                                                                                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                                                                                                                                                                                                Register
-                                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                                                        href="{{ route('register') }}"
+                                                                                                                                                                                                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                                                                                                                                                                                                        Register
+                                                                                                                                                                                                                                                                                    </a>
     @endif
                     @endauth
                 </nav>
