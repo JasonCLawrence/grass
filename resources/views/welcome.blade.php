@@ -898,14 +898,14 @@
                                 </form>
 
                                 <!-- PayPal JS SDK -->
-                                <script
-                                    src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_LIVE_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
-                                </script>
+                                {{-- <script
+                                    src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_live_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
+                                </script> --}}
 
-                                {{-- Paypal Dev
+                                {{-- Paypal Dev --}}
                                 <script
                                     src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
-                                </script> --}}
+                                </script>
 
                                 <script>
                                     // Prevent default form submit
