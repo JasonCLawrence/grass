@@ -699,10 +699,10 @@
             <div id="contact-form" class="map-above" style="min-height: 600px;">
 
                 <section class="map-above-content section border-0 m-0 p-0">
-                    <div class="container-fluid py-4">
+                    <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-8 col-lg-6">
-                                <div class="bg-dark p-5">
+                            <div class="bg-dark p-5 col-md-8 col-lg-6">
+                                {{-- <div class="bg-dark p-5"> --}}
 
 
                                     <div id="map-container">
@@ -828,7 +828,7 @@
                                                                     type="checkbox" name="services[]"
                                                                     value="bagging-disposal" id="service1">
                                                                 <label class="form-check-label" for="service1">
-                                                                    🌱 Bagging and Disposal of Grass Cuttings
+                                                                    🌱 Bagging & Disposal   
                                                                 </label>
                                                             </div>
                                                         </li>
@@ -1031,7 +1031,7 @@
                                         }
                                     </script>
 
-                                </div>
+                                {{-- </div> --}}
                             </div>
                             <div class="col-md-4 col-lg-6">
                                 <div class="overflow-hidden">
