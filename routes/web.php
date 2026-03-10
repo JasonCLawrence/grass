@@ -16,20 +16,25 @@ use Laravel\Cashier\Http\Controllers\WebhookController;
 use App\Models\House;
 
 Route::get('/api/houses', function () {
-    return [
-        'type' => 'FeatureCollection',
-        'features' => House::all()->map(function ($house) {
-            return [
-                'type' => 'Feature',
-                'geometry' => $house->geometry,
-                'properties' => [
-                    'id' => $house->id,
-                    'house_number' => $house->house_number,
-                    'status' => $house->status
-                ]
-            ];
-        })
-    ];
+    $orderID = '5X754616U3843204Y';
+    $booking =  Booking::where('paypal_order_id', $orderID)->firstOrFail();
+    $booking->payment_status = 'paid';
+    $booking->save();
+    return $booking;
+    // return [
+    //     'type' => 'FeatureCollection',
+    //     'features' => House::all()->map(function ($house) {
+    //         return [
+    //             'type' => 'Feature',
+    //             'geometry' => $house->geometry,
+    //             'properties' => [
+    //                 'id' => $house->id,
+    //                 'house_number' => $house->house_number,
+    //                 'status' => $house->status
+    //             ]
+    //         ];
+    //     })
+    // ];
 });
 
 
@@ -45,7 +50,7 @@ Route::get('/select-house', function () {
 
 Route::post('/save-house-selection', [HouseController::class, 'store']);
 
-Route::prefix('checkout')->group(function() {
+Route::prefix('checkout')->group(function () {
     Route::post('/create-order', [CheckoutController::class, 'createOrder'])->name('checkout.create-order');
     Route::post('/capture-order', [CheckoutController::class, 'captureOrder'])->name('checkout.capture-order');
 });
