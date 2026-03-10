@@ -77,7 +77,7 @@ class CheckoutController extends Controller
                 'amount' => [
                     'currency_code' => config('paypal.currency'),
                     // 'value' => number_format($booking->total_cost, 2, '.', '')
-                    "value" => number_format('50.00', 2, '.', '')
+                    "value" => number_format('1.00', 2, '.', '')
                 ]
             ]]
         ]);
