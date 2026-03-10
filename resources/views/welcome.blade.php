@@ -3,6 +3,7 @@
 
 <head>
     <!-- Basic -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     {{-- <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
     {{-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> --}}
@@ -897,14 +898,14 @@
                                 </form>
 
                                 <!-- PayPal JS SDK -->
-                                {{-- <script
+                                <script
                                     src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_live_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
-                                </script> --}}
+                                </script>
 
-                                {{-- Paypal Dev --}}
+                                {{-- Paypal Dev
                                 <script
                                     src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
-                                </script>
+                                </script> --}}
 
                                 <script>
                                     // Prevent default form submit
@@ -942,7 +943,7 @@
                                         form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
                                         form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
 
-                                        fetch('/checkout/create-order', {
+                                        fetch("{{ route('checkout.create-order') }}", {
                                                 method: 'POST',
                                                 headers: {
                                                     'Content-Type': 'application/json',
