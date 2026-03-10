@@ -116,7 +116,8 @@ class CheckoutController extends Controller
             $booking->payment_status = 'paid';
             $booking->save();
 
-            Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking));
+            Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking)); //Email confirmation to customer
+            //Email confirmation to admin
 
             return response()->json([
                 'status' => 'success',
