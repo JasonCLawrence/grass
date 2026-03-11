@@ -100,16 +100,37 @@
   "name": "Grass Roots JM Limited",
   "alternateName": "GrassRootsJM",
   "url": "https://grassrootsjm.com",
+   "logo": "https://grassrootsjm.com/assets/logo.png",
+  "image": "https://grassrootsjm.com/assets/hero-image.png",
   "description": "Grass Roots JM Limited provides professional lawn cutting, trimming, bagging, disposal, and yard maintenance services for residential and commercial clients in Phoenix Park Village, Kingston, and St. Andrew, Jamaica.",
   "areaServed": [
     { "@type": "Place", "name": "Phoenix Park Village, Jamaica" },
     { "@type": "Place", "name": "Kingston, Jamaica" },
     { "@type": "Place", "name": "St. Andrew, Jamaica" }
   ],
+    "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Phoenix Park Village",
+    "addressLocality": "St. Catherine",
+    "addressRegion": "St. Catherine",
+    "postalCode": "JMA000",
+    "addressCountry": "JM"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 18.036,
+    "longitude": -76.819
+  },
   "telephone": "+1-876-419-8266",
   "email": "hello@grassrootsjm.com",
   "image": "https://grassrootsjm.com/img/logo.png",
   "priceRange": "$$",
+    "openingHours": "Mo-Sa 07:00-19:00",
+  "sameAs": [
+    "https://www.facebook.com/grassrootsjm",
+    "https://www.instagram.com/grassrootsjm",
+    "https://www.linkedin.com/company/grass-roots-limited"
+  ],
   "makesOffer": [
     {
       "@type": "Offer",

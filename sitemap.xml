@@ -1,0 +1,14 @@
+# robots.txt for Grass Roots Limited - Landing Page Site
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /checkout/
+Disallow: /vendor/
+Disallow: /storage/
+Disallow: /tmp/
+Disallow: /cart/
+Disallow: /wishlist/
+Allow: /
+
+# Sitemap
+Sitemap: https://grassrootsjm.com/sitemap.xml
