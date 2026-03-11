@@ -91,6 +91,7 @@
     <link id="skinCSS" rel="stylesheet" href="css/skins/skin-one-page-agency.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Theme Custom CSS -->
+
     @verbatim
         <script type="application/ld+json">
 {
@@ -105,26 +106,63 @@
     { "@type": "Place", "name": "Kingston, Jamaica" },
     { "@type": "Place", "name": "St. Andrew, Jamaica" }
   ],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Lawn Care Services",
-    "itemListElement": [
-      { "@type": "Service", "name": "Lawn Cutting with Line Trimmers" },
-      { "@type": "Service", "name": "Grass Trimming & Edging" },
-      { "@type": "Service", "name": "Bagging & Disposal of Grass Cuttings" },
-      { "@type": "Service", "name": "Monthly Lawn Maintenance" },
-      { "@type": "Service", "name": "Yard Clean-Up & Debris Removal" },
-      { "@type": "Service", "name": "Seasonal Lawn Care & Fertilization" }
-    ]
-  },
   "telephone": "+1-876-419-8266",
   "email": "hello@grassrootsjm.com",
   "image": "https://grassrootsjm.com/img/logo.png",
-  "priceRange": "$$"
+  "priceRange": "$$",
+  "makesOffer": [
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Lawn Cutting with Line Trimmers",
+        "description": "Precision lawn cutting using professional line trimmers for small yards, edges, and hard-to-reach areas in Phoenix Park Village, Kingston, and St. Andrew."
+      }
+    },
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Grass Trimming & Edging",
+        "description": "Expert grass trimming and edging for residential and commercial properties to keep lawns neat and well-defined."
+      }
+    },
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Bagging & Disposal of Grass Cuttings",
+        "description": "Responsible collection, bagging, and disposal of grass clippings to maintain a clean and tidy property."
+      }
+    },
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Monthly Lawn Maintenance",
+        "description": "Scheduled monthly lawn care services including cutting, trimming, and maintenance to keep lawns healthy year-round."
+      }
+    },
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Yard Clean-Up & Debris Removal",
+        "description": "Removal of leaves, debris, and waste from residential and commercial yards to maintain a tidy landscape."
+      }
+    },
+    {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Seasonal Lawn Care & Fertilization",
+        "description": "Premium lawn services including fertilization and seasonal care to promote lush, healthy grass in Jamaica’s climate."
+      }
+    }
+  ]
 }
 </script>
     @endverbatim
-
 
     <link rel="stylesheet" href="/css/custom.css">
     <style>
