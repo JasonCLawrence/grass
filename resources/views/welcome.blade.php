@@ -11,10 +11,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
 
     <title>{{ $title ?? config('app.name') }}</title>
-
     <meta name="keywords"
-        content="lawn care Jamaica, grass cutting services Jamaica, yard maintenance Jamaica, lawn mowing Kingston, landscaping Jamaica, monthly lawn service Jamaica, grass trimming, yard clean up, residential lawn care, commercial lawn care Jamaica">
-
+        content="
+    Grass Roots JM, Grass Roots Jamaica Limited, GrassRootsJM, GrassRootsJamaica, 
+    lawn care Jamaica, lawn mowing Kingston, yard maintenance Jamaica, grass cutting Phoenix Park Village, 
+    monthly lawn service Jamaica, residential lawn care Kingston, commercial lawn care Jamaica, 
+    grass trimming services Jamaica, yard clean up Phoenix Park Village, landscaping services Kingston, 
+    lawn maintenance Phoenix Park Village, garden care Jamaica, professional lawn care Jamaica,
+    grass cutting services Jamaica, lawn mowing services Kingston, yard maintenance services Jamaica,
+    Phoenix Park Village lawn care, Kingston lawn care services, Jamaica landscaping company, 
+    residential yard care Jamaica, commercial landscaping Kingston, garden maintenance Jamaica,
+    tree trimming services Jamaica, hedge trimming Kingston, grass removal services Jamaica, 
+    Phoenix Park Village yard cleanup, lawn fertilizer services Jamaica, turf care Kingston, 
+    seasonal lawn care Jamaica, grass cutting near me Jamaica, lawn mowing near me Kingston,
+    yard cleanup near me Jamaica, professional landscaping Phoenix Park Village, lawn edging services Jamaica, 
+    small yard maintenance Kingston, organic lawn care Jamaica, lawn aeration services Kingston, 
+    lawn weed control Jamaica, irrigation and watering services Jamaica, front yard care Kingston,
+    backyard lawn service Jamaica, grass roots lawn experts Jamaica, affordable lawn care Kingston, 
+    licensed landscapers Jamaica, local lawn services Phoenix Park Village, dependable yard care Jamaica,
+    top rated lawn care Jamaica, full service landscaping Kingston, quality grass trimming Jamaica, 
+    monthly yard service Phoenix Park Village, Grass Roots JM lawn services
+    ">
     <meta name="description"
         content="Grass Roots Limited provides reliable lawn cutting, yard maintenance, grass trimming, and scheduled monthly lawn care services across Jamaica. Affordable, professional, and hassle-free recurring service for homes and businesses.">
 
@@ -74,31 +91,39 @@
     <link id="skinCSS" rel="stylesheet" href="css/skins/skin-one-page-agency.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Theme Custom CSS -->
- @verbatim
-<script type="application/ld+json">
+    @verbatim
+        <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "LocalBusiness",
- "name": "Grass Roots Limited",
- "url": "https://grassrootsjm.com",
- "description": "Professional lawn cutting and yard maintenance services in Jamaica.",
- "areaServed": {
-   "@type": "Place",
-   "name": "Phoenix Park Village, Jamaica"
- },
- "hasOfferCatalog": {
-   "@type": "OfferCatalog",
-   "name": "Lawn Care Services",
-   "itemListElement": [
-     { "@type": "Service", "name": "Lawn Cutting" },
-     { "@type": "Service", "name": "Grass Raking" },
-     { "@type": "Service", "name": "Trimmings Removal" },
-     { "@type": "Service", "name": "Monthly Lawn Maintenance" }
-   ]
- }
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Grass Roots JM Limited",
+  "alternateName": "GrassRootsJM",
+  "url": "https://grassrootsjm.com",
+  "description": "Grass Roots JM Limited provides professional lawn cutting, trimming, bagging, disposal, and yard maintenance services for residential and commercial clients in Phoenix Park Village, Kingston, and St. Andrew, Jamaica.",
+  "areaServed": [
+    { "@type": "Place", "name": "Phoenix Park Village, Jamaica" },
+    { "@type": "Place", "name": "Kingston, Jamaica" },
+    { "@type": "Place", "name": "St. Andrew, Jamaica" }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Lawn Care Services",
+    "itemListElement": [
+      { "@type": "Service", "name": "Lawn Cutting with Line Trimmers" },
+      { "@type": "Service", "name": "Grass Trimming & Edging" },
+      { "@type": "Service", "name": "Bagging & Disposal of Grass Cuttings" },
+      { "@type": "Service", "name": "Monthly Lawn Maintenance" },
+      { "@type": "Service", "name": "Yard Clean-Up & Debris Removal" },
+      { "@type": "Service", "name": "Seasonal Lawn Care & Fertilization" }
+    ]
+  },
+  "telephone": "+1-876-419-8266",
+  "email": "info@grassrootsjm.com",
+  "image": "https://grassrootsjm.com/img/logo.png",
+  "priceRange": "$$"
 }
 </script>
-@endverbatim
+    @endverbatim
 
 
     <link rel="stylesheet" href="/css/custom.css">
@@ -430,27 +455,34 @@
                         <div class="col-lg-6 pe-lg-5 mb-5 mb-lg-0">
                             <div class="overflow-hidden">
                                 <h2 class="text-color-primary font-weight-semibold text-3 line-height-7 positive-ls-2 mb-0 appear-animation"
-                                    data-appear-animation="maskUp">ABOUT GRASS ROOTS</h2>
+                                    data-appear-animation="maskUp">ABOUT GRASS ROOTS JM LIMITED</h2>
                             </div>
                             <div class="overflow-hidden mb-3">
                                 <h3 class="text-color-dark font-weight-bold text-transform-none line-height-1 text-10 mb-0 appear-animation"
-                                    data-appear-animation="maskUp" data-appear-animation-delay="200">Who We Are</h3>
+                                    data-appear-animation="maskUp" data-appear-animation-delay="200">Who We Are 🌱
+                                </h3>
                             </div>
                             <p class="text-color-dark custom-font-secondary text-5-5 line-height-4 appear-animation"
-                                data-appear-animation="fadeInUpShorter" data-appear-animation-delay="400">Grass Roots
-                                is a landscaping business focused on delivering dependable and affordable lawn care
-                                services. We understand that a well-maintained yard makes a lasting impression, which is
-                                why we take pride in precision cutting, clean finishes, and responsible grass disposal.
+                                data-appear-animation="fadeInUpShorter" data-appear-animation-delay="400">
+                                Grass Roots JM Limited is a trusted landscaping company serving Phoenix Park Village,
+                                Kingston,
+                                St. Andrew, and surrounding areas. We provide professional lawn care services including
+                                precise grass cutting, trimming, bagging, and responsible disposal. Our goal is to keep
+                                residential and commercial lawns healthy, clean, and beautifully maintained.
                             </p>
                             <p class="text-3-5 appear-animation" data-appear-animation="fadeInUpShorter"
-                                data-appear-animation-delay="600">Our services are designed to meet different customer
-                                needs—from basic lawn trimming to complete grass cutting, bagging, and disposal
-                                solutions.</p>
+                                data-appear-animation-delay="600">
+                                Our services are designed for all needs — from regular yard maintenance and small
+                                residential trimming
+                                to full-scale lawn cutting, bagging, and disposal solutions. With GrassRootsJM, you get
+                                reliable,
+                                affordable, and professional lawn care that makes a lasting impression.
+                            </p>
                             <a href="#what-we-do"
                                 class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none custom-link-effect-1 appear-animation"
                                 data-hash data-hash-offset="0" data-hash-offset-lg="32"
                                 data-appear-animation="fadeInUpShorter" data-appear-animation-delay="800">
-                                Find Out More
+                                Explore Our Lawn Services
                                 <img width="15" height="15"
                                     src="img/demos/one-page-agency/icons/arrow-down.svg" alt="" data-icon
                                     data-plugin-options="{'onlySVG': true, 'removeClassAfterInit': 'fadeIn', 'extraClass': 'svg-fill-color-primary ms-2'}" />
@@ -460,13 +492,13 @@
                             <div class="position-relative d-inline-flex">
                                 <img src="img/gallery/Capture.jpg"
                                     class="img-fluid rounded-circle box-shadow-5 position-absolute top-50pct transform3dy-n50 z-index-3"
-                                    alt="" style="right: 75%;" />
+                                    alt="Grass Roots JM team in Phoenix Park Village" style="right: 75%;" />
                                 <img src="img/gallery/lawn-treatments-square-1024x1024.jpg"
                                     class="img-fluid rounded-circle box-shadow-5 z-index-2" width="260"
-                                    alt="" />
+                                    alt="Professional lawn care in Kingston" />
                                 <img src="img/gallery/Capture2.jpeg"
                                     class="img-fluid rounded-circle box-shadow-5 position-absolute top-50pct transform3dy-n50 z-index-1"
-                                    alt="" style="left: 75%;" />
+                                    alt="Residential lawn maintenance St. Andrew" style="left: 75%;" />
                             </div>
                         </div>
                     </div>
@@ -539,65 +571,92 @@
                         <div class="col-lg-7 col-xl-5 pe-lg-5 pe-xl-0 pb-lg-5 mb-5 mb-xl-0">
                             <h2 class="text-color-primary font-weight-semibold text-3 positive-ls-2 mb-0">OUR SERVICES
                             </h2>
-                            <h3 class="text-color-dark font-weight-bold text-transform-none text-10 mb-5">What We Do 🌱
-                            </h3>
+                            <h3 class="text-color-dark font-weight-bold text-transform-none text-10 mb-5">Lawn & Yard
+                                Care 🌱</h3>
                             <div class="pe-5">
+
+                                <!-- Lawn Cutting with Line Trimmers -->
                                 <div class="d-flex">
                                     <img width="65" height="65"
                                         src="img/demos/one-page-agency/icons/seo-edit.svg" alt="" data-icon
                                         data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-primary'}" />
                                     <div class="ms-4">
-                                        <h4 class="font-weight-bold text-5 mb-2">Lawn Cutting With Line Trimmers</h4>
-                                        <p class="mb-4">Precise grass cutting using professional line trimmers,
-                                            Ideal for small yards, edges, and hard-to-reach areas,
-                                            Clean and even finish</p>
+                                        <h4 class="font-weight-bold text-5 mb-2">Lawn Cutting with Line Trimmers in
+                                            Phoenix Park Village</h4>
+                                        <p class="mb-4">
+                                            Professional grass cutting using line trimmers for small yards, edges, and
+                                            hard-to-reach areas.
+                                            Clean, precise, and even finish for residential and commercial lawns in
+                                            Kingston and Phoenix Park Village.
+                                        </p>
                                     </div>
                                 </div>
+
+                                <!-- Full Lawn Cutting & Bagging -->
                                 <div class="d-flex my-3">
                                     <img width="65" height="65"
                                         src="img/demos/one-page-agency/icons/seo-notebook.svg" alt=""
                                         data-icon
                                         data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-primary'}" />
                                     <div class="ms-4">
-                                        <h4 class="font-weight-bold text-5 mb-2">Cutting and Bagging</h4>
-                                        <p class="mb-4">Full lawn cutting service, Grass clippings neatly bagged,
-                                            Property left clean and tidy</p>
+                                        <h4 class="font-weight-bold text-5 mb-2">Complete Lawn Cutting & Bagging
+                                            Services</h4>
+                                        <p class="mb-4">
+                                            Full-service lawn mowing with clippings neatly bagged.
+                                            Ideal for residential yards and commercial properties in Kingston and
+                                            surrounding areas.
+                                            Property left clean, tidy, and ready to enjoy.
+                                        </p>
                                     </div>
                                 </div>
+
+                                <!-- Grass Cutting, Bagging & Disposal -->
                                 <div class="d-flex">
                                     <img width="65" height="65"
                                         src="img/demos/one-page-agency/icons/seo-phone-tablet.svg" alt=""
                                         data-icon
                                         data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-primary'}" />
                                     <div class="ms-4">
-                                        <h4 class="font-weight-bold text-5 mb-2">Cutting, Bagging, and Disposal</h4>
-                                        <p class="mb-4">Grass cut, bagged, and responsibly disposed of. No mess, no
-                                            hassle.
+                                        <h4 class="font-weight-bold text-5 mb-2">Grass Cutting, Bagging & Responsible
+                                            Disposal</h4>
+                                        <p class="mb-4">
+                                            Grass is cut, bagged, and disposed of responsibly — no mess, no hassle.
+                                            Perfect for after DIY lawn work or regular scheduled maintenance in Phoenix
+                                            Park Village.
                                         </p>
                                     </div>
                                 </div>
+
+                                <!-- Yard Clean Up -->
                                 <div class="d-flex my-3">
                                     <img width="65" height="65"
                                         src="img/demos/one-page-agency/icons/seo-notebook.svg" alt=""
                                         data-icon
                                         data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-primary'}" />
                                     <div class="ms-4">
-                                        <h4 class="font-weight-bold text-5 mb-2">Bagging and Disposal of Grass Cuttings
+                                        <h4 class="font-weight-bold text-5 mb-2">Yard Clean Up & Garden Maintenance
                                         </h4>
-                                        <p class="mb-4">* Removal of pre-cut grass clippings, Safe and responsible
-                                            disposal. Ideal after DIY lawn maintenance</p>
+                                        <p class="mb-4">
+                                            Removal of debris, pre-cut grass, and waste. Safe and responsible disposal
+                                            ensures your yard looks neat and healthy.
+                                            Ideal for small and large properties across Kingston and Phoenix Park
+                                            Village.
+                                        </p>
                                     </div>
                                 </div>
+
                                 <a href="#googlemaps"
                                     class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none custom-link-effect-1"
                                     data-hash>
-                                    Contact Us
+                                    Contact Us for Lawn Care in Phoenix Park Village
                                     <img width="15" height="15"
                                         src="img/demos/one-page-agency/icons/arrow-down.svg" alt="" data-icon
                                         data-plugin-options="{'onlySVG': true, 'removeClassAfterInit': 'fadeIn', 'extraClass': 'svg-fill-color-primary ms-2'}" />
                                 </a>
                             </div>
                         </div>
+
+                        <!-- Images -->
                         <div class="col-lg-5 col-xl-7 ps-0 ps-sm-5 pe-0 pt-lg-5 pt-xl-0 mt-lg-5 mt-xl-0">
                             <div class="position-relative">
                                 <div class="position-absolute top-50pct transform3dy-n50 z-index-1"
@@ -1081,30 +1140,31 @@
                             <div class="col-md-4 col-lg-6">
                                 <div class="overflow-hidden">
                                     <h2 class="text-color-primary font-weight-semibold text-3 line-height-7 positive-ls-2 mb-0 appear-animation"
-                                        data-appear-animation="maskUp">BOOK YOUR LAWN SERVICE TODAY</h2>
+                                        data-appear-animation="maskUp">BOOK YOUR LAWN SERVICE IN PHOENIX PARK VILLAGE
+                                        TODAY</h2>
                                 </div>
                                 <div class="overflow-hidden mb-3">
                                     <h3 class="text-color-dark font-weight-bold text-transform-none line-height-1 text-10 mb-0 appear-animation"
                                         data-appear-animation="maskUp" data-appear-animation-delay="200">Fast,
-                                        Reliable Lawn Care</h3>
+                                        Reliable Lawn Care in Kingston</h3>
                                 </div>
                                 <p class="text-color-dark custom-font-secondary text-5-5 line-height-4 appear-animation"
                                     data-appear-animation="fadeInUpShorter" data-appear-animation-delay="400">
-                                    Grass Roots is your trusted landscaping partner, offering precision lawn care that
-                                    keeps your yard
-                                    looking its best. We specialize in clean, professional grass bagging and disposal
-                                    services to ensure
-                                    your lawn is pristine and hassle-free.
+                                    Grass Roots JM Limited is your trusted landscaping partner, offering professional
+                                    lawn cutting, trimming,
+                                    bagging, and disposal services. We ensure your yard in Phoenix Park Village and
+                                    Kingston stays clean,
+                                    healthy, and pristine — hassle-free.
                                 </p>
                                 <p class="text-3-5 appear-animation" data-appear-animation="fadeInUpShorter"
                                     data-appear-animation-delay="600">
-                                    More services—including complete lawn cutting, trimming, and other premium
-                                    options—will be rolled out soon.
-                                    Book now to take advantage of our current bagging and disposal service and secure
-                                    your spot!
+                                    Current services include precise lawn cutting with line trimmers, full bagging, and
+                                    responsible disposal.
+                                    Additional premium services such as complete yard maintenance, seasonal care, and
+                                    organic lawn fertilization
+                                    are coming soon. Book now to secure your spot and experience top-notch local lawn
+                                    care!
                                 </p>
-
-
                             </div>
                         </div>
                     </div>
@@ -1334,4 +1394,5 @@
         });
     </script>
 </body>
+
 </html>
