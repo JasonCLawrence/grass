@@ -118,7 +118,7 @@
     ]
   },
   "telephone": "+1-876-419-8266",
-  "email": "info@grassrootsjm.com",
+  "email": "hello@grassrootsjm.com",
   "image": "https://grassrootsjm.com/img/logo.png",
   "priceRange": "$$"
 }
