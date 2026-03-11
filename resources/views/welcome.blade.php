@@ -260,7 +260,7 @@
                                                     </li>
                                                 @else
                                                     <li>
-                                                        <a class="nav-link" href="#googlemaps" data-hash>
+                                                        <a class="nav-link" href="#contact-form" data-hash>
                                                             Contact Us
                                                         </a>
                                                     </li>
@@ -645,7 +645,7 @@
                                     </div>
                                 </div>
 
-                                <a href="#googlemaps"
+                                <a href="#contact-form"
                                     class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none custom-link-effect-1"
                                     data-hash>
                                     Contact Us for Lawn Care in Phoenix Park Village
