@@ -74,6 +74,35 @@
     <link id="skinCSS" rel="stylesheet" href="css/skins/skin-one-page-agency.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Theme Custom CSS -->
+    <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LocalBusiness",
+ "name": "Grass Roots Limited",
+ "url": "https://grassrootsjm.com",
+ "description": Grass Roots Limited provides reliable lawn cutting, yard maintenance, grass trimming, and scheduled monthly lawn care services across Jamaica. Affordable, professional, and hassle-free recurring service for homes and businesses.",
+ "areaServed": "Jamaica: Pheonix Park Village 1",
+ "service": [
+  {
+   "@type": "Service",
+   "name": "Lawn Cutting"
+  },
+  {
+   "@type": "Service",
+   "name": "Grass Raking"
+  },
+  {
+   "@type": "Service",
+   "name": "Trimmings Removal"
+  },
+  {
+   "@type": "Service",
+   "name": "Monthly Lawn Maintenance"
+  }
+ ]
+}
+</script>
+
     <link rel="stylesheet" href="/css/custom.css">
     <style>
         input,
@@ -1329,26 +1358,26 @@
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
-                                                                                                                                                                                                                                                                                    <a
-                                                                                                                                                                                                                                                                                        href="{{ url('/dashboard') }}"
-                                                                                                                                                                                                                                                                                        class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                                                                                                                    >
-                                                                                                                                                                                                                                                                                        Dashboard
-                                                                                                                                                                                                                                                                                    </a>
+                                                                                                                                                                                                                                                                                        <a
+                                                                                                                                                                                                                                                                                            href="{{ url('/dashboard') }}"
+                                                                                                                                                                                                                                                                                            class=z"inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                                        >
+                                                                                                                                                                                                                                                                                            Dashboard
+                                                                                                                                                                                                                                                                                        </a>
 @else
     <a
-                                                                                                                                                                                                                                                                                        href="{{ route('login') }}"
-                                                                                                                                                                                                                                                                                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                                                                                                                                                                                                                                                                                    >
-                                                                                                                                                                                                                                                                                        Log in
-                                                                                                                                                                                                                                                                                    </a>
-
-                                                                                                                                                                                                                                                                                    @if (Route::has('register'))
-    <a
-                                                                                                                                                                                                                                                                                            href="{{ route('register') }}"
-                                                                                                                                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                                                                                                                                                                                                                                                                            Register
+                                                                                                                                                                                                                                                                                            href="{{ route('login') }}"
+                                                                                                                                                                                                                                                                                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                                                                                                                                                                                                                                                                                        >
+                                                                                                                                                                                                                                                                                            Log in
                                                                                                                                                                                                                                                                                         </a>
+
+                                                                                                                                                                                                                                                                                        @if (Route::has('register'))
+    <a
+                                                                                                                                                                                                                                                                                                href="{{ route('register') }}"
+                                                                                                                                                                                                                                                                                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                                                                                                                                                                                                                                                                                Register
+                                                                                                                                                                                                                                                                                            </a>
     @endif
                     @endauth
                 </nav>
