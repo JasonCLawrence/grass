@@ -6,10 +6,11 @@
         "laravel/fortify"
     ],
     "skills": [
+        "cashier-stripe-development",
         "fluxui-development",
         "volt-development",
         "tailwindcss-development",
-        "developing-with-fortify",
+        "fortify-development",
         "laravel-specialist"
     ]
 }

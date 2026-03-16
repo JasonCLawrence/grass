@@ -91,6 +91,18 @@
     <link id="skinCSS" rel="stylesheet" href="css/skins/skin-one-page-agency.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Theme Custom CSS -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MSFF0G5S77"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-MSFF0G5S77');
+    </script>
 
     @verbatim
         <script type="application/ld+json">
