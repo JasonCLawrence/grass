@@ -976,20 +976,41 @@
                                     <div class="row">
                                         <div class="form-group col">
                                             <label for="services">Select a Service</label>
-                                            <div class="dropdown">
+                                            {{-- <div class="dropdown">
                                                 <button
                                                     class="btn btn-gradient custom-btn-effect-1 custom-border-radius-1 dropdown-toggle w-100 text-start"
                                                     type="button" id="servicesDropdown" data-bs-toggle="dropdown">
-                                                    Choose Services
+                                                    Select A Service
                                                 </button>
                                                 <ul class="dropdown-menu w-100 p-3"
                                                     aria-labelledby="servicesDropdown">
-                                                    <li class="text-muted">
+                                                    <li>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" disabled>
-                                                            <label class="form-check-label">
-                                                                🌱 Lawn Cutting with Line Trimmers <strong>(Coming
-                                                                    Soon)</strong>
+                                                            <input class="form-check-input service-checkbox"
+                                                                type="checkbox" name="services[]"
+                                                                value="cutting-line-trimmers" id="service1">
+                                                            <label class="form-check-label" for="service1">
+                                                                🌱 Grass Cutting Only
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input service-checkbox"
+                                                                type="checkbox" name="services[]"
+                                                                value="cutting-bagging" id="service1">
+                                                            <label class="form-check-label" for="service2">
+                                                                🌱 Grass Cutting & Bagging Only
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input service-checkbox"
+                                                                type="checkbox" name="services[]"
+                                                                value="cutting-bagging-disposal" id="service1">
+                                                            <label class="form-check-label" for="service3">
+                                                                🌱 Grass Cutting And Disposal Only
                                                             </label>
                                                         </div>
                                                     </li>
@@ -998,14 +1019,35 @@
                                                             <input class="form-check-input service-checkbox"
                                                                 type="checkbox" name="services[]"
                                                                 value="bagging-disposal" id="service1">
-                                                            <label class="form-check-label" for="service1">
-                                                                🌱 Bagging & Disposal
+                                                            <label class="form-check-label" for="service4">
+                                                                🌱 Bagging & Disposal Only
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input service-checkbox"
+                                                                type="checkbox" name="services[]"
+                                                                value="disposal" id="service1">
+                                                            <label class="form-check-label" for="service5">
+                                                                🌱 Disposal Only
                                                             </label>
                                                         </div>
                                                     </li>
                                                 </ul>
-                                            </div>
-
+                                            </div> --}}
+                                            <select class="form-control" id="services" name="services">
+                                                <option value="" selected disabled>Select A Service</option>
+                                                <option value="cutting-line-trimmers">🌱 Grass Cutting Only
+                                                </option>
+                                                <option value="cutting-bagging">🌱 Grass Cutting & Bagging Only
+                                                </option>
+                                                <option value="cutting-bagging-disposal">🌱 Grass Cutting And
+                                                    Disposal Only</option>
+                                                <option value="bagging-disposal">🌱 Bagging & Disposal Only
+                                                </option>
+                                                <option value="disposal">🌱 Disposal Only</option>
+                                            </select>
                                             @error('services')
                                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                                             @enderror
@@ -1064,7 +1106,6 @@
                                 <script
                                     src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
                                 </script> --}}
-
                                 <script>
                                     // Prevent default form submit
                                     document.getElementById('service-form').addEventListener('submit', function(e) {
@@ -1082,13 +1123,14 @@
 
                                     function createPayPalOrder(submitBtn, originalText) {
                                         const form = document.getElementById('service-form');
-                                        const selectedServices = Array.from(form.querySelectorAll('.service-checkbox:checked'))
-                                            .map(input => input.value);
+
+                                        // Get selected service from the dropdown
+                                        const selectedService = form.querySelector('#services').value;
 
                                         const data = {
                                             customer_name: form.customer_name.value,
                                             customer_email: form.customer_email.value,
-                                            services: selectedServices,
+                                            services: selectedService, // Now a single value instead of an array
                                             latitude: form.latitude.value,
                                             longitude: form.longitude.value,
                                             lot_number: form.lot_number.value,
@@ -1207,6 +1249,7 @@
                                     }
                                 </script>
 
+
                                 {{-- </div> --}}
                             </div>
                             <div class="col-md-4 col-lg-6">
@@ -1304,68 +1347,50 @@
         });
     </script>
 
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
-            const checkboxes = document.querySelectorAll(".service-checkbox");
+            const dropdown = document.getElementById("services");
             const costField = document.getElementById("total-cost");
-            const dropdownButton = document.getElementById("servicesDropdown");
 
             const prices = {
-                "cutting-line-trimmers": 20,
-                "cutting-bagging": 25,
-                "cutting-bagging-disposal": 60,
-                "bagging-disposal": 10
+                "cutting-line-trimmers": 60.00,
+                "cutting-bagging": 68.99,
+                "cutting-bagging-disposal": 74.99,
+                "bagging-disposal": 45.99,
+                "disposal" : 25.88,
             };
 
             function calculateTotalCost() {
+                const selectedValue = dropdown.value;
+
                 let totalCost = 0;
-                let selectedNames = [];
-
-                document.querySelectorAll(".service-checkbox:checked").forEach(cb => {
-                    const value = cb.value;
-                    const label = cb.nextElementSibling.innerText;
-
-                    selectedNames.push(label);
-
-                    if (value === "bagging-disposal") {
-                        totalCost = 50; // Fixed cost
-                    } else {
-                        // Random number between 80 and 95 for all other services
-                        totalCost = Math.floor(Math.random() * (95 - 80 + 1)) + 80;
-                    }
-                });
-
-                // If no checkbox selected, default to 0
-                if (selectedNames.length === 0) totalCost = 0;
+                // Calculate total cost based on the selected value
+                if (selectedValue) {
+                    totalCost = prices[selectedValue] || 0; // Fallback to 0 if no matching price
+                }
 
                 // Update cost field
-                const costField = document.getElementById('total-cost');
                 costField.value = totalCost.toFixed(2);
 
                 // Update dropdown button text
                 const dropdownButton = document.getElementById('servicesDropdown');
-                if (selectedNames.length > 0) {
-                    dropdownButton.innerText = selectedNames.join(", ");
+                if (selectedValue) {
+                    dropdownButton.innerText = dropdown.options[dropdown.selectedIndex]
+                    .innerText; // Show selected service
                 } else {
-                    dropdownButton.innerText = "Choose Services";
+                    dropdownButton.innerText = "Select A Service";
                 }
             }
 
-            // Add event listeners to checkboxes
-            document.querySelectorAll(".service-checkbox").forEach(cb => {
-                cb.addEventListener('change', calculateTotalCost);
-            });
+            // Add event listener to dropdown
+            dropdown.addEventListener('change', calculateTotalCost);
 
             // Initial calculation
-            // calculateTotalCost();
-            checkboxes.forEach(cb => {
-                cb.addEventListener("change", calculateTotalCost);
-            });
-
+            calculateTotalCost();
         });
     </script>
+
     <!-- Vendor -->
     <script src="vendor/plugins/js/plugins.min.js"></script>
 
