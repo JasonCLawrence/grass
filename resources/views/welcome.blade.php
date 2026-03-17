@@ -1270,7 +1270,7 @@
                                             Swal.fire({
                                                 icon: 'success',
                                                 title: 'Booking Completed',
-                                                text: 'Your booking has been confirmed. An email will be sent with your booking details. Thanks for chosing your Grass Roots JM',
+                                                text: 'Your booking has been confirmed. An email will be sent with your booking details. Thanks for choosing Grass Roots',
                                                 footer: response.orderID,
                                                 confirmButtonText: 'OK'
                                             }).then(() => {
