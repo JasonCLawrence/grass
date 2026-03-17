@@ -1069,15 +1069,17 @@
                                             <input type="number" class="form-control" id="total-cost"
                                                 name="total_cost" readonly>
                                         </div>
+
                                         <div class="form-group col">
                                             <label for="job_date">Preferred Job Date:</label>
                                             <input type="date"
                                                 class="form-control @error('job_date') is-invalid @enderror"
-                                                id="job_date" name="job_date" min="{{ date('Y-m-d') }}"
+                                                id="job_date" name="job_date" min="" max=""
                                                 value="{{ old('job_date') }}">
                                             @error('job_date')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
+
                                         </div>
                                     </div>
 
@@ -1106,6 +1108,70 @@
                                 <script
                                     src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
                                 </script> --}}
+                                {{-- Job Date --}}
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        const jobDateInput = document.getElementById("job_date");
+
+                                        // List of blocked dates (example dates)
+                                        const blockedDates = [
+                                            '2026-03-21',
+                                            '2026-03-22',
+                                            '2026-03-23',
+                                            '2026-03-24',
+                                            '2026-03-25',
+                                            '2026-03-26',
+                                            '2026-03-27',
+                                            '2026-03-30'
+
+                                        ];
+
+                                        // Function to check if a date is blocked
+                                        function isBlocked(date) {
+                                            return blockedDates.includes(date);
+                                        }
+
+                                        // Function to set restrictions on the date input
+                                        function updateDateInput() {
+                                            const today = new Date();
+                                            today.setHours(0, 0, 0, 0); // Reset time part for accurate comparison
+
+                                            // Set min to today (or next Monday)
+                                            const nextMonday = new Date(today);
+                                            const daysUntilMonday = (1 + 7 - today.getDay()) % 7; // How many days until next Monday
+                                            nextMonday.setDate(today.getDate() + daysUntilMonday);
+
+                                            jobDateInput.min = nextMonday.toISOString().split('T')[0]; // Min set to next available Monday
+
+                                            // Clear blocked dates by setting an empty list of options
+                                            jobDateInput.value = ""; // Reset the selection
+                                        }
+
+                                        // Function to dynamically disable blocked dates
+                                        function blockDates() {
+                                            // Clear the invalid options if they exist
+                                            jobDateInput.setCustomValidity(''); // Clear any validity set
+
+                                            if (jobDateInput.value) {
+                                                const selectedDate = new Date(jobDateInput.value);
+                                                selectedDate.setHours(0, 0, 0, 0);
+                                                if (isBlocked(selectedDate.toISOString().split('T')[0])) {
+                                                    jobDateInput.setCustomValidity("Selected date is not available.");
+                                                    alert("Selected date is not available.");
+                                                    jobDateInput.value = "";
+                                                }
+                                            }
+                                        }
+
+                                        // Initialize date restrictions and check for blocked dates
+                                        updateDateInput();
+
+                                        // Event listener to handle changes on the date input
+                                        jobDateInput.addEventListener('change', blockDates);
+                                    });
+                                </script>
+
+
                                 <script>
                                     // Prevent default form submit
                                     document.getElementById('service-form').addEventListener('submit', function(e) {
@@ -1358,7 +1424,7 @@
                 "cutting-bagging": 68.99,
                 "cutting-bagging-disposal": 74.99,
                 "bagging-disposal": 45.99,
-                "disposal" : 25.88,
+                "disposal": 25.88,
             };
 
             function calculateTotalCost() {
@@ -1377,7 +1443,7 @@
                 const dropdownButton = document.getElementById('servicesDropdown');
                 if (selectedValue) {
                     dropdownButton.innerText = dropdown.options[dropdown.selectedIndex]
-                    .innerText; // Show selected service
+                        .innerText; // Show selected service
                 } else {
                     dropdownButton.innerText = "Select A Service";
                 }
