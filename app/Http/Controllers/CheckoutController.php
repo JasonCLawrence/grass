@@ -96,7 +96,7 @@ class CheckoutController extends Controller
             $booking->paypal_order_id = $order['id'];
         } else {
             // Generate a unique payment ID    
-            $booking->paypal_order_id = 'PAY-' . strtoupper(Str::random(10)); // Generates a random string like "PAY-ABCDE12345"
+            $booking->paypal_order_id = 'GRJM-' . strtoupper(Str::random(12)); // Generates a random string like "PAY-ABCDE12345"
             $orderID = $booking->paypal_order_id;
         }
         $booking->save();
