@@ -1065,7 +1065,7 @@
                                     <!-- Total cost and job date -->
                                     <div class="row mt-3">
                                         <div class="form-group col">
-                                            <label for="total-cost">Total (USD) :</label>
+                                            <label for="total-cost">Total (JMD) :</label>
                                             <input type="number" class="form-control" id="total-cost"
                                                 name="total_cost" readonly>
                                         </div>
@@ -1429,11 +1429,11 @@
             const costField = document.getElementById("total-cost");
 
             const prices = {
-                "cutting-line-trimmers": 60.00,
-                "cutting-bagging": 68.99,
-                "cutting-bagging-disposal": 74.99,
-                "bagging-disposal": 45.99,
-                "disposal": 25.88,
+                "cutting-line-trimmers": 6500.00,
+                "cutting-bagging": 12000.00,
+                "cutting-bagging-disposal": 10000.00,
+                "bagging-disposal": 4599.99,
+                "disposal": 2599.99,
             };
 
             function calculateTotalCost() {
