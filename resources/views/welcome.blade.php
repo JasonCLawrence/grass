@@ -1100,14 +1100,14 @@
                                 </form>
 
                                 <!-- PayPal JS SDK -->
-                                <script
+                                {{-- <script
                                     src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_LIVE_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
-                                </script>
+                                </script> --}}
 
-                                {{-- Paypal Dev
+                                {{-- Paypal Dev --}}
                                 <script
                                     src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_SANDBOX_CLIENT_ID') }}&currency={{ env('PAYPAL_CURRENCY') }}">
-                                </script> --}}
+                                </script>
                                 {{-- Job Date --}}
                                 <script>
                                     document.addEventListener("DOMContentLoaded", function() {
@@ -1121,7 +1121,7 @@
                                             '2026-03-24',
                                             '2026-03-25',
                                             '2026-03-26',
-                                            '2026-03-27',
+                                            '2026-03-27 ',
                                             '2026-03-30'
 
                                         ];
