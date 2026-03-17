@@ -1267,44 +1267,53 @@
                                         if (response.orderID) {
                                             // Hide original submit button
                                             document.querySelector('#service-form button[type="submit"]').style.display = 'none';
+                                            Swal.fire({
+                                                icon: 'info',
+                                                title: 'Booking Completed',
+                                                text: 'Your booking has been confirmed: Invoice ID is: ' + response.orderID +
+                                                    ' .An email will be sent with booking details. Thanks for chosing your Grass Roots JM',
+                                                confirmButtonText: 'OK'
+                                            }).then(() => {
+                                                location.reload(); // Or redirect to confirmation page
+                                            });
 
-                                            paypal.Buttons({
-                                                createOrder: () => response.orderID,
-                                                onApprove: (details) => {
-                                                    return fetch('/checkout/capture-order', {
-                                                            method: 'POST',
-                                                            headers: {
-                                                                'Content-Type': 'application/json',
-                                                                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                                                            },
-                                                            body: JSON.stringify({
-                                                                orderID: response.orderID
-                                                            })
-                                                        })
-                                                        .then(res => res.json())
-                                                        .then(res => {
-                                                            if (res.status === 'success') {
-                                                                Swal.fire({
-                                                                    icon: 'success',
-                                                                    title: 'Payment Completed',
-                                                                    text: 'Your booking (ID: ' + res.booking_id +
-                                                                        ') is confirmed!',
-                                                                    confirmButtonText: 'OK'
-                                                                }).then(() => {
-                                                                    location.reload(); // Or redirect to confirmation page
-                                                                });
-                                                            } else {
-                                                                Swal.fire({
-                                                                    icon: 'error',
-                                                                    title: 'Payment Failed',
-                                                                    text: 'Something went wrong. Please try again later.',
-                                                                }).then(() => {
-                                                                    location.reload(); // Or redirect to confirmation page
-                                                                });
-                                                            }
-                                                        });
-                                                }
-                                            }).render('#paypal-button-container');
+                                            // paypal.Buttons({
+                                            //     createOrder: () => response.orderID,
+                                            //     onApprove: (details) => {
+                                            //         return fetch('/checkout/capture-order', {
+                                            //                 method: 'POST',
+                                            //                 headers: {
+                                            //                     'Content-Type': 'application/json',
+                                            //                     'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                                            //                 },
+                                            //                 body: JSON.stringify({
+                                            //                     orderID: response.orderID
+                                            //                 })
+                                            //             })
+                                            //             .then(res => res.json())
+                                            //             .then(res => {
+                                            //                 if (res.status === 'success') {
+                                            //                     Swal.fire({
+                                            //                         icon: 'success',
+                                            //                         title: 'Payment Completed',
+                                            //                         text: 'Your booking (ID: ' + res.booking_id +
+                                            //                             ') is confirmed!',
+                                            //                         confirmButtonText: 'OK'
+                                            //                     }).then(() => {
+                                            //                         location.reload(); // Or redirect to confirmation page
+                                            //                     });
+                                            //                 } else {
+                                            //                     Swal.fire({
+                                            //                         icon: 'error',
+                                            //                         title: 'Payment Failed',
+                                            //                         text: 'Something went wrong. Please try again later.',
+                                            //                     }).then(() => {
+                                            //                         location.reload(); // Or redirect to confirmation page
+                                            //                     });
+                                            //                 }
+                                            //             });
+                                            //     }
+                                            // }).render('#paypal-button-container');
                                         } else {
                                             Swal.fire({
                                                 icon: 'error',
@@ -1445,7 +1454,7 @@
                     dropdownButton.innerText = dropdown.options[dropdown.selectedIndex]
                         .innerText; // Show selected service
                 } else {
-                    dropdownButton.innerText = "Select A Service";
+                    // dropdownButton.innerText = "Select A Service";
                 }
             }
 

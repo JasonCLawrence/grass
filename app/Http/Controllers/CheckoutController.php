@@ -68,34 +68,44 @@ class CheckoutController extends Controller
         ]);
 
         // Create PayPal order
-        $provider = new PayPalClient;
-        $provider->getAccessToken();
+        // $provider = new PayPalClient;
+        // $provider->getAccessToken();
 
-        $order = $provider->createOrder([
-            'intent' => 'CAPTURE',
-            'purchase_units' => [[
-                'amount' => [
-                    'currency_code' => config('paypal.currency'),
-                    // 'value' => number_format($booking->total_cost, 2, '.', '')
-                    "value" => number_format('1.00', 2, '.', '')
-                ]
-            ]]
-        ]);
-        \Log::info(json_encode($order, JSON_PRETTY_PRINT));
+        // $order = $provider->createOrder([
+        //     'intent' => 'CAPTURE',
+        //     'purchase_units' => [[
+        //         'amount' => [
+        //             'currency_code' => config('paypal.currency'),
+        //             // 'value' => number_format($booking->total_cost, 2, '.', '')
+        //             "value" => number_format('1.00', 2, '.', '')
+        //         ]
+        //     ]]
+        // ]);
+        // \Log::info(json_encode($order, JSON_PRETTY_PRINT));
 
-        if (!isset($order['id'])) {
-            return response()->json([
-                'error' => 'PayPal order creation failed',
-                'details' => $order
-            ], 500);
-        }
+        // if (!isset($order['id'])) {
+        //     return response()->json([
+        //         'error' => 'PayPal order creation failed',
+        //         'details' => $order
+        //     ], 500);
+        // }
 
         // Save order ID
-        $booking->paypal_order_id = $order['id'];
+        // Assuming $order['id'] is the PayPal order ID
+        if (isset($order['id']) && !empty($order['id'])) {
+            $booking->paypal_order_id = $order['id'];
+        } else {
+            // Generate a unique payment ID    
+            $booking->paypal_order_id = 'PAY-' . strtoupper(Str::random(10)); // Generates a random string like "PAY-ABCDE12345"
+            $orderID = $booking->paypal_order_id;
+        }
         $booking->save();
 
+        Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking)); //Email confirmation to customer
+        //Email confirmation to admin
+
         return response()->json([
-            'orderID' => $order['id'],
+            'orderID' => $orderID,
             'booking_id' => $booking->id
         ]);
     }

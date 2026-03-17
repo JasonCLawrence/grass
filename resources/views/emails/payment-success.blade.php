@@ -19,7 +19,7 @@
 
                             <p>
                                 Thank you for choosing <strong>Grass Roots Limited</strong>.
-                                Your booking has been successfully confirmed and payment has been received.
+                                Your booking has been successfully confirmed and payment is pending upon arrival of workers.
                             </p>
 
                             <hr>
@@ -32,7 +32,7 @@
                             </p>
 
                             <p>
-                                Our team will arrive as scheduled. If you need to make changes or have questions,
+                                Our team will arrive as scheduled. If you need to make changes or have questions surrounding this booking,
                                 just reply to this email.
                             </p>
 
