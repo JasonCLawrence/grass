@@ -1268,10 +1268,10 @@
                                             // Hide original submit button
                                             document.querySelector('#service-form button[type="submit"]').style.display = 'none';
                                             Swal.fire({
-                                                icon: 'info',
+                                                icon: 'success',
                                                 title: 'Booking Completed',
-                                                text: 'Your booking has been confirmed: Invoice ID is: ' + response.orderID +
-                                                    ' .An email will be sent with booking details. Thanks for chosing your Grass Roots JM',
+                                                text: 'Your booking has been confirmed. An email will be sent with your booking details. Thanks for chosing your Grass Roots JM',
+                                                footer: response.orderID,
                                                 confirmButtonText: 'OK'
                                             }).then(() => {
                                                 location.reload(); // Or redirect to confirmation page
@@ -1448,14 +1448,6 @@
                 // Update cost field
                 costField.value = totalCost.toFixed(2);
 
-                // Update dropdown button text
-                const dropdownButton = document.getElementById('servicesDropdown');
-                if (selectedValue) {
-                    dropdownButton.innerText = dropdown.options[dropdown.selectedIndex]
-                        .innerText; // Show selected service
-                } else {
-                    // dropdownButton.innerText = "Select A Service";
-                }
             }
 
             // Add event listener to dropdown

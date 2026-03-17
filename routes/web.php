@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\QuoteController;
-
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\LandMeasurementController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Booking;
@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 
 use App\Models\House;
+use Spatie\Permission\Traits\HasRoles;
 
 Route::get('/api/houses', function () {
     $orderID = '5X754616U3843204Y';
@@ -43,6 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/houses/upload', [HouseController::class, 'uploadGeoJson']);
 });
 
+// Admin routes
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
 Route::get('/select-house', function () {
     return view('select-house');
@@ -78,15 +83,13 @@ Route::get('/', function () {
 
 Route::get('dashboard', function () {
 
-    // Short Term Permission Fix
-    // only admin has access to dashboard
-    $user = Auth::getUser();
-    if (!$user->email == 'test@gmail.com') {;
-        // return view('welcome');
-        return redirect('/#contact-form');
+    $user = Auth::user();
+    if ($user && $user->hasRole('admin')) {
+        return view('admindashboard');
+    } else {
+        return view('coming-soon');
     }
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+})->name('dashboard');
 
 
 

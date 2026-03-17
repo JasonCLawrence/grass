@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminBookingNotification;
 use App\Mail\PaymentSuccessMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,7 @@ class CheckoutController extends Controller
             'customer_name'   => ['required', 'string', 'max:255'],
             'customer_email'  => ['required', 'email', 'max:255'],
             'service_type'    => ['required', Rule::in(['monthly', 'one_time'])],
+            'services'    => ['required', Rule::in(['cutting-line-trimmers','cutting-bagging','cutting-bagging-disposal','bagging-disposal','disposal'])],
             'job_date'        => ['required', 'date', 'after_or_equal:today'],
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
@@ -60,7 +62,7 @@ class CheckoutController extends Controller
             'latitude' => $data['latitude'],
             'longitude' => $data['longitude'],
             'lot_number' => $data['lot_number'],
-            'service' => $data['services'][0],
+            'service' => $data['services'],
             'frequency' => $data['service_type'],
             'job_date' => $data['job_date'],
             'payment_status' => 'pending',
@@ -100,9 +102,10 @@ class CheckoutController extends Controller
             $orderID = $booking->paypal_order_id;
         }
         $booking->save();
-
+        // After the booking is saved
+        Mail::to('jasonclawrence1991@gmail.com')->send(new AdminBookingNotification($booking)); //Email confirmation to admin
         Mail::to($booking->customer_email)->send(new PaymentSuccessMail($booking)); //Email confirmation to customer
-        //Email confirmation to admin
+        
 
         return response()->json([
             'orderID' => $orderID,

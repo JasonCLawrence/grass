@@ -1,7 +1,7 @@
 <div class="p-6">
 
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold">Client Bookings</h2>
+        <h2 class="text-xl font-bold">All Client Bookings</h2>
    <input
     type="text"
     wire:model.live="search"
@@ -22,7 +22,8 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($bookings as $booking)
+               {{  dd($bookings) }}
+                {{-- @forelse($bookings as $booking)
                     <tr class="border-t border-neutral-200 dark:border-neutral-700">
                         <td class="px-4 py-3">{{ $booking->customer_name }}</td>
                         <td class="px-4 py-3">{{ ucfirst($booking->service) }}</td>
@@ -43,13 +44,13 @@
                             No bookings found.
                         </td>
                     </tr>
-                @endforelse
+                @endforelse --}}
             </tbody>
         </table>
     </div>
 
     <div class="mt-4">
-        {{ $bookings->links() }}
+        {{-- {{ $bookings->links() }} --}}
     </div>
 
 </div>

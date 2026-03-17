@@ -14,8 +14,17 @@ class DashboardBookingsTable extends Component
 
     public function render()
     {
+        $user = auth()->user();
+
         $bookings = Booking::query()
-            ->when($this->search, function ($query) {
+            ->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->orWhere(function ($legacyBookingQuery) use ($user) {
+                        $legacyBookingQuery->whereNull('user_id')
+                            ->where('customer_email', $user->email);
+                    });
+            })
+            ->where(function ($query) {
                 $query->where('customer_name', 'like', '%' . $this->search . '%')
                     ->orWhere('service', 'like', '%' . $this->search . '%')
                     ->orWhere('payment_status', 'like', '%' . $this->search . '%');
@@ -23,6 +32,6 @@ class DashboardBookingsTable extends Component
             ->latest('job_date')
             ->paginate(10);
 
-        return view('livewire.dashboard-bookings-table', compact('bookings'));
+        return view('livewire.admindashboard-bookings-table', compact('bookings'));
     }
 }
