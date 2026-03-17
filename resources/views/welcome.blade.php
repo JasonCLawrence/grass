@@ -337,7 +337,7 @@
                                                         </a>
                                                     </li>
                                                 @endif
-                                                @if (Route::has('login'))
+                                                {{-- @if (Route::has('login'))
                                                     @auth
                                                         <li>
                                                             <a href="{{ url('#contact-form') }}" class="nav-link">
@@ -351,16 +351,16 @@
                                                             </a>
                                                         </li>
 
-                                                        {{-- @if (Route::has('register'))
+                                                        @if (Route::has('register'))
                                                             <li> <a href="{{ route('register') }}" data-hash
                                                                     data-hash-offset="0" data-hash-offset-lg="32"
                                                                     class="nav-link">
                                                                     Register
                                                                 </a>
                                                             </li>
-                                                        @endif --}}
+                                                        @endif
                                                     @endauth
-                                                @endif
+                                                @endif --}}
                                             </ul>
                                         </nav>
                                     </div>
