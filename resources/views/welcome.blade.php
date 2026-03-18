@@ -393,7 +393,7 @@
                     <ul
                         class="d-flex flex-column social-icons social-icons-clean social-icons-icon-light social-icons-medium">
                         <li class="social-icons-instagram">
-                            <a href="http://www.instagram.com/" class="text-color-quaternary" target="_blank"
+                            <a href="http://www.instagram.com/grassrootsjm" class="text-color-quaternary" target="_blank"
                                 title="Instagram">
                                 <i class="fab fa-instagram"></i>
                             </a>
