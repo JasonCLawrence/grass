@@ -883,9 +883,9 @@
                                     <div id="fullMap" style="height:100%; width:100%;"></div>
                                 </div>
                                 <a href="#booking" id="selectLocationBtn"
-                                    class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none custom-link-effect-1 appear-animation"
+                                    class="d-inline-flex align-items-center text-color-primary font-weight-bold text-4 text-decoration-none"
                                     data-hash data-hash-offset="0" data-hash-offset-lg="32"
-                                    data-appear-animation="fadeInUpShorter" data-appear-animation-delay="800">
+                                    data-appear-animation="bounce" data-appear-animation-delay="800">
                                     Choose Your Location
                                 </a>
                                 <form class="contact-form form-fields-size-md form-style-3 form-errors-light mb-2"
