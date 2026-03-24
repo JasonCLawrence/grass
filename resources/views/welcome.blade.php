@@ -393,8 +393,8 @@
                     <ul
                         class="d-flex flex-column social-icons social-icons-clean social-icons-icon-light social-icons-medium">
                         <li class="social-icons-instagram">
-                            <a href="http://www.instagram.com/grassrootsjm" class="text-color-quaternary" target="_blank"
-                                title="Instagram">
+                            <a href="http://www.instagram.com/grassrootsjm" class="text-color-quaternary"
+                                target="_blank" title="Instagram">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </li>
@@ -536,13 +536,15 @@
                             </div>
                             <p class="text-color-dark custom-font-secondary text-5-5 line-height-4 appear-animation"
                                 data-appear-animation="fadeInUpShorter" data-appear-animation-delay="400">
-                                Grass Roots JM Limited is a trusted landscaping company serving Phoenix Park Village. We provide professional lawn care services including
+                                Grass Roots JM Limited is a trusted landscaping company serving Phoenix Park Village. We
+                                provide professional lawn care services including
                                 precise grass cutting, trimming, bagging, and responsible disposal. Our goal is to keep
                                 residential and commercial lawns healthy, clean, and beautifully maintained.
                             </p>
                             <p class="text-3-5 appear-animation" data-appear-animation="fadeInUpShorter"
                                 data-appear-animation-delay="600">
-                                Our services are designed for all needs — from regular yard maintenance bagging, and disposal solutions. With GrassRootsJM, you get
+                                Our services are designed for all needs — from regular yard maintenance bagging, and
+                                disposal solutions. With GrassRootsJM, you get
                                 reliable,
                                 affordable, and professional service that makes a lasting impression.
                             </p>
@@ -649,12 +651,14 @@
                                         src="img/demos/one-page-agency/icons/icon-finger.svg" data-icon
                                         data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-primary'}" />
                                     <div class="ms-4">
-                                        <h4 class="font-weight-bold text-5 mb-2">Lawn / Grass Cutting with Line Trimmers in
+                                        <h4 class="font-weight-bold text-5 mb-2">Lawn / Grass Cutting with Line
+                                            Trimmers in
                                             Phoenix Park Village</h4>
                                         <p class="mb-4">
                                             Professional grass cutting using line trimmers for small yards, edges, and
                                             hard-to-reach areas.
-                                            Clean, precise, and even finish for residential and commercial lawns in Phoenix Park Village.
+                                            Clean, precise, and even finish for residential and commercial lawns in
+                                            Phoenix Park Village.
                                         </p>
                                     </div>
                                 </div>
@@ -662,8 +666,7 @@
                                 <!-- Full Lawn Cutting & Bagging -->
                                 <div class="d-flex my-3">
                                     <img width="65" height="65"
-                                        src="img/demos/one-page-agency/icons/icon-finger.svg"
-                                        data-icon
+                                        src="img/demos/one-page-agency/icons/icon-finger.svg" data-icon
                                         data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-primary'}" />
                                     <div class="ms-4">
                                         <h4 class="font-weight-bold text-5 mb-2">Lawn / Grass Cutting & Bagging
@@ -679,8 +682,7 @@
                                 <!-- Grass Cutting, Bagging & Disposal -->
                                 <div class="d-flex">
                                     <img width="65" height="65"
-                                        src="img/demos/one-page-agency/icons/icon-finger.svg"
-                                        data-icon
+                                        src="img/demos/one-page-agency/icons/icon-finger.svg" data-icon
                                         data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-primary'}" />
                                     <div class="ms-4">
                                         <h4 class="font-weight-bold text-5 mb-2">Grass Cutting, Bagging & Responsible
@@ -696,8 +698,7 @@
                                 <!-- Yard Clean Up -->
                                 <div class="d-flex my-3">
                                     <img width="65" height="65"
-                                        src="img/demos/one-page-agency/icons/icon-finger.svg"
-                                        data-icon
+                                        src="img/demos/one-page-agency/icons/icon-finger.svg" data-icon
                                         data-plugin-options="{'onlySVG': true, 'extraClass': 'svg-fill-color-primary'}" />
                                     <div class="ms-4">
                                         <h4 class="font-weight-bold text-5 mb-2">Bagging And Responsible Disposal
@@ -1336,7 +1337,8 @@
                                     data-appear-animation="fadeInUpShorter" data-appear-animation-delay="400">
                                     Grass Roots JM Limited is your trusted landscaping partner, offering professional
                                     lawn cutting, trimming,
-                                    bagging, and disposal services. We ensure your yard in Phoenix Park Village stays clean,
+                                    bagging, and disposal services. We ensure your yard in Phoenix Park Village stays
+                                    clean,
                                     healthy, and pristine — hassle-free.
                                 </p>
                                 <p class="text-3-5 appear-animation" data-appear-animation="fadeInUpShorter"
@@ -1528,25 +1530,35 @@
                 }).addTo(fullMap);
 
                 // Click handler
+                // Click handler
                 fullMap.on('click', function(e) {
                     const latlng = e.latlng;
                     if (turf.booleanPointInPolygon([latlng.lng, latlng.lat], phoenixParkBoundary)) {
-                        if (marker) marker.setLatLng(latlng);
-                        else marker = L.marker(latlng).addTo(map); // marker stays synced to small map
+                        // Ensure marker exists on the small map and move it
+                        if (!marker) {
+                            marker = L.marker(latlng).addTo(map);
+                        } else {
+                            marker.setLatLng(latlng);
+                        }
 
                         // Update form fields
                         document.getElementById('latitude').value = latlng.lat.toFixed(6);
                         document.getElementById('longitude').value = latlng.lng.toFixed(6);
 
-                        // Sync small map marker
-                        if (map.hasLayer(marker)) marker.setLatLng(latlng);
-                        else marker.addTo(map);
+                        // Center small map on selected point and keep a reasonable zoom
+                        const targetZoom = Math.max(map.getZoom(),
+                        15); // choose minimum zoom 15 so it's visible
+                        map.setView([latlng.lat, latlng.lng], targetZoom, {
+                            animate: true
+                        });
 
+                        alert("Zone Selected!");
                         fullscreenMapDiv.style.display = 'none'; // close fullscreen after selection
                     } else {
                         alert("Please select a location within our service zone!");
                     }
                 });
+
             }
         });
     </script>
